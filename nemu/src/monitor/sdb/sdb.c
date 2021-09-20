@@ -62,9 +62,7 @@ static int cmd_si(char* args){
   if (args != NULL)
     instr_num = atoi(args);
     //excute instructions for instr_num times
-  while(instr_num--){
-
-  }
+  cpu_exec(instr_num);
   return 0;
 }
 
