@@ -44,6 +44,8 @@ static int cmd_si(char* args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -54,6 +56,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single instruction excuted", cmd_si},
   { "info", "Print the state of program", cmd_info},
+  { "x", "Examine the memory", cmd_x},
   /* TODO: Add more commands */
 
 };
@@ -81,6 +84,10 @@ static int cmd_info(char *args){
     return 0;
 }
 
+static int cmd_x(char *args){
+  // TODO: need to examine memory
+  return 0;
+}
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
