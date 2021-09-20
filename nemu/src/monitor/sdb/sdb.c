@@ -34,10 +34,13 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  
   return -1;
 }
 
 static int cmd_help(char *args);
+
+static int cmd_si(char* args);
 
 static struct {
   const char *name;
@@ -47,12 +50,23 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Single instruction excuted", cmd_si},
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_si(char* args){
+  static int instr_num = 1;
+  if (args != NULL)
+    instr_num = atoi(args);
+    //excute instructions for instr_num times
+  while(instr_num--){
+
+  }
+  return 0;
+}
 
 static int cmd_help(char *args) {
   /* extract the first argument */
