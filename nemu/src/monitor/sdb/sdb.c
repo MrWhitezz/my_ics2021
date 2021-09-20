@@ -73,6 +73,11 @@ static int cmd_info(char *args){
     assert(args != NULL);
     if (args[0] == 'r')
       isa_reg_display();
+    else if (args[0] == 'w'){
+      //TODO: print watch point info
+
+    }
+    else assert(0);
     return 0;
 }
 
