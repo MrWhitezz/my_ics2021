@@ -42,6 +42,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char* args);
 
+static int cmd_info(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -51,6 +53,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single instruction excuted", cmd_si},
+  { "info", "Print the state of program", cmd_info},
   /* TODO: Add more commands */
 
 };
@@ -64,6 +67,13 @@ static int cmd_si(char* args){
     //excute instructions for instr_num times
   cpu_exec(instr_num);
   return 0;
+}
+
+static int cmd_info(char *args){
+    assert(args != NULL);
+    if (args[0] == 'r')
+      isa_reg_display();
+    return 0;
 }
 
 static int cmd_help(char *args) {
