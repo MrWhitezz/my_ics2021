@@ -68,11 +68,11 @@ static struct {
 #define NR_CMD ARRLEN(cmd_table)
 
 static int cmd_si(char* args){
-  static int instr_num = 1;
-  if (args != NULL)
-    instr_num = atoi(args);
+  // static int instr_num = 1;
+  // if (args != NULL)
+  //   instr_num = atoi(args);
     //excute instructions for instr_num times
-  cpu_exec(instr_num);
+  cpu_exec(atoi(args));
   return 0;
 }
 
