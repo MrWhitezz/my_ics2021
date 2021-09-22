@@ -94,8 +94,8 @@ static int cmd_x(char *args){
   char *cmd = strtok(args, " ");
   char *mem_num = strtok(NULL, " ");
   char *mem_expr = strtok(NULL, " ");
-
-  assert(!strcmp(cmd, "x"));
+  printf("cmd = %s\n", cmd);
+  //assert(!strcmp(cmd, "x"));
   int num = atoi(mem_num);
   paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
   for (int i = 0; i < num; ++i){
