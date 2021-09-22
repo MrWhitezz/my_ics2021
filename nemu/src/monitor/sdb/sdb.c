@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "memory/paddr.h"
 
 static int is_batch_mode = false;
 
@@ -109,7 +110,7 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   //TODO
-    return atoi(args);
+    return atoi(args + 2);
 }
 
 static int cmd_help(char *args) {
