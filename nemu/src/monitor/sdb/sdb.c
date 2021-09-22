@@ -3,7 +3,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
-// add paddr
 
 static int is_batch_mode = false;
 
@@ -90,18 +89,20 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   // TODO: need to examine memory
-  
-  // char *args_end = args + strlen(args);
-  // char *cmd = strtok(args, " ");
-  // char *mem_num = strtok(NULL, " ");
-  // char *mem_expr = strtok(NULL, " ");
 
-  // assert(cmd = "x");
-  // int num = atoi(mem_num);
-  // paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
-  // for (int i = 0; i < num; ++i){
+  //char *args_end = args + strlen(args);
+  char *cmd = strtok(args, " ");
+  char *mem_num = strtok(NULL, " ");
+  char *mem_expr = strtok(NULL, " ");
 
-  // }
+  assert(cmd == (char*)"x");
+  int num = atoi(mem_num);
+  paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
+  for (int i = 0; i < num; ++i){
+    paddr_t mem_visit = mem_addr + (paddr_t)i;
+    //printf("0x%8x: %8x\n", mem_visit, paddr_read(mem_visit, 4));
+    printf("mem_read %d times with location: %8x\n", i, mem_visit);
+  }
   
   
 
