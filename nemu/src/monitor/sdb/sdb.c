@@ -96,11 +96,12 @@ static int cmd_x(char *args){
 
   assert(strcmp(mem_expr, ""));
   int num = atoi(mem_num);
-  paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
+  paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);//cmd_p must be ensured correct
+
   for (int i = 0; i < num; ++i){
     paddr_t mem_visit = mem_addr + (paddr_t)i * 4;
     //word_t mem_val = paddr_read(mem_visit, 4);
-    printf("0x%8x:  ", mem_visit);
+    printf("0x%8x:\t", mem_visit);
     for (int j = 0; j < 4; ++j)
       printf("%02x ", paddr_read(mem_visit + j, 1));
     printf("\n");
