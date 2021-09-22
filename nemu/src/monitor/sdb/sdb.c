@@ -98,7 +98,7 @@ static int cmd_x(char *args){
   int num = atoi(mem_num);
   paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
   for (int i = 0; i < num; ++i){
-    paddr_t mem_visit = mem_addr + (paddr_t)i;
+    paddr_t mem_visit = mem_addr + (paddr_t)i * 4;
     printf("0x%8x: %8x\n", mem_visit, paddr_read(mem_visit, 4));
     //printf("mem_read %d times with location: %8x\n", i, mem_visit);
   }
