@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+// add paddr
 
 static int is_batch_mode = false;
 
@@ -46,6 +47,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -57,6 +60,7 @@ static struct {
   { "si", "Single instruction excuted", cmd_si},
   { "info", "Print the state of program", cmd_info},
   { "x", "Examine the memory", cmd_x},
+  { "p", "Calculate the expression", cmd_p},
   /* TODO: Add more commands */
 
 };
@@ -86,8 +90,29 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   // TODO: need to examine memory
+  
+  // char *args_end = args + strlen(args);
+  // char *cmd = strtok(args, " ");
+  // char *mem_num = strtok(NULL, " ");
+  // char *mem_expr = strtok(NULL, " ");
+
+  // assert(cmd = "x");
+  // int num = atoi(mem_num);
+  // paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);
+  // for (int i = 0; i < num; ++i){
+
+  // }
+  
+  
+
   return 0;
 }
+
+static int cmd_p(char *args){
+  //TODO
+    return atoi(args);
+}
+
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
