@@ -133,5 +133,13 @@ word_t expr(char *e, bool *success) {
 }
 
 word_t eval (int p, int q){
+    if (p > q){
+      Log("This expression is bad");
+      return 0;
+    }
+    else if (p == q){
+      assert(tokens[p].type == TK_NUM);
+      return atoi(tokens[p].str);
+    }
     return 0;
 }
