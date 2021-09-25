@@ -4,9 +4,10 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-
+// add string operation
+#include <string.h>
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, TK_EQ, TK_NUM
 
   /* TODO: Add more token types */
 
@@ -19,10 +20,17 @@ static struct rule {
 
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
+   * but why?
    */
 
   {" +", TK_NOTYPE},    // spaces
+  {"\\(", '('},
+  {"\\)", ')'},
+  {"[1-9][0-9]*", TK_NUM}, // num  
   {"\\+", '+'},         // plus
+  {"\\-", '-'},         // minus
+  {"\\*", '*'},         // multiply
+  {"\\/", '/'} ,        // divide
   {"==", TK_EQ},        // equal
 };
 
@@ -61,6 +69,7 @@ static bool make_token(char *e) {
   regmatch_t pmatch;
 
   nr_token = 0;
+  //char* dest;
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
@@ -78,8 +87,10 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+        //strncpy(dest, substr_start, substr_len);
         switch (rules[i].token_type) {
+          case '+': tokens[nr_token].type = '+'; 
+                    strncpy(tokens[nr_token].str, substr_start, substr_len); break;
           default: TODO();
         }
 
