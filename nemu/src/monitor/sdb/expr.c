@@ -23,9 +23,9 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
+  {"[1-9][0-9]*", TK_NUM}, // num  
   {"\\(", '('},
   {"\\)", ')'},
-  {"[1-9][0-9]*", TK_NUM}, // num  
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
   {"\\*", '*'},         // multiply
@@ -98,7 +98,7 @@ static bool make_token(char *e) {
           case ')': tokens[nr_token++].type = ')'; break;
           case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
           case TK_NOTYPE: break;
-          default: TODO();
+          default: TODO(); assert(0);
         }
 
         break;
@@ -114,15 +114,24 @@ static bool make_token(char *e) {
   return true;
 }
 
+word_t eval (int p, int q);
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+  if (nr_token == 1 && tokens[0].type == TK_NOTYPE){
+    Log("String with only spaces found");
+    return 0;
+  }
 
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
 
-  return 0;
+  return eval(0, nr_token - 1);
+}
+
+word_t eval (int p, int q){
+    return 0;
 }
