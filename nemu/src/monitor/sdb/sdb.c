@@ -114,6 +114,8 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   //TODO
+    bool is_success = true;
+    printf("%d", expr(args, &is_success));
     return strtol(args + 2, NULL, 16);
 }
 
