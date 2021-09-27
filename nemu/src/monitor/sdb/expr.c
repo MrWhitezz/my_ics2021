@@ -141,14 +141,14 @@ bool check_parentheses(int p, int q){
       return false;
       
     int parenthese_num = 1;
-    for (int i = p + 1; i <= q; ++i){
+    for (int i = p + 1; i <= q - 1; ++i){
       if (tokens[i].type == '(') ++parenthese_num;
       else if (tokens[i].type == ')') --parenthese_num;
       
       if (parenthese_num == 0)
         return false;
     }
-    if (parenthese_num != 0){
+    if (parenthese_num != 1){
       Log("Very Bad Expression");
       return false;
     }
