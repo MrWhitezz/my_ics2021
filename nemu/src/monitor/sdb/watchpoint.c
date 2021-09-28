@@ -40,4 +40,15 @@ void free_wp(WP *wp){
   return;
 }
 /* TODO: Implement the functionality of watchpoint */
+int cmd_w(char *args){
+  WP* wp_1 = new_wp();
+  assert(strlen(args) < NR_WP_EXPR);
+  strcpy(wp_1->_expr, args);
+  return 0;
+}
 
+int cmd_d(char *args){
+  int wp_num = atoi(args);
+  free_wp(&wp_pool[wp_num]);
+  return 0;
+}

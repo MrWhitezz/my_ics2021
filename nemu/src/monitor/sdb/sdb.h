@@ -5,4 +5,8 @@
 
 word_t expr(char *e, bool *success);
 
+int cmd_w(char *args);
+
+int cmd_d(char *args);
+
 #endif
