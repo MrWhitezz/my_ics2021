@@ -4,9 +4,10 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-// add string operation
+#include "memory/paddr.h"
+
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_HEX, TK_REG, TK_NEQ, TK_AND, TK_DEREF,
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_HEX, TK_REG, TK_NEQ, TK_AND, TK_DEREF, TK_NEG,
 
   /* TODO: Add more token types */
 
@@ -34,7 +35,8 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"!=", TK_NEQ},       // not equal
   {"&&", TK_AND},       // and
-  {"\\*", TK_DEREF}     // dereference
+  {"\\*", TK_DEREF},     // dereference
+  {"\\-", TK_NEG}       // negative numbers
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -124,6 +126,10 @@ static bool make_token(char *e) {
 
 word_t eval (int p, int q);
 
+bool is_bi_op(int type){
+    return type == '+' || type == '-' || type == '*' || type == '/' 
+            || type == TK_EQ || type == TK_NEQ || type == TK_AND;
+}
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -138,11 +144,15 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   //test for dereference
-  // for (int i = 0; i < nr_token; i++) {
-  //     if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == certain type) ) {
-  //       tokens[i].type = TK_DEREF;
-  //   }
-  // }
+  for (int i = 0; i < nr_token; i++) {
+      
+      if (tokens[i].type == '*' && (i == 0 || is_bi_op(tokens[i - 1].type))) {
+        tokens[i].type = TK_DEREF;
+      }
+      if (tokens[i].type == '-' && (i == 0 || is_bi_op(tokens[i - 1].type))){
+        tokens[i].type = TK_NEG;
+      }
+  }
 
   /* TODO: Insert codes to evaluate the expression. */
 
@@ -169,16 +179,19 @@ bool check_parentheses(int p, int q){
     return true;
 }
 int find_op(int p, int q){
-  enum {P_NUM = 1, P_MUL_OR_DIV, P_ADD_OR_SUB};
+  enum {P_DEREF = 1, P_NUM, P_MUL_OR_DIV, P_ADD_OR_SUB, P_EQ, P_AND};
   int parentheses_num = 0; int cur_precedence = 0; int cur_op = p;
   for (int i = p; i <= q; ++i){
     if (tokens[i].type == '(') ++parentheses_num;
     else if (tokens[i].type == ')') --parentheses_num;
     else if (parentheses_num == 0){
       int i_precedence = 0;
+      if (tokens[i].type == TK_DEREF) i_precedence = P_DEREF;
       if (tokens[i].type == TK_NUM) i_precedence = P_NUM;
-      if (tokens[i].type == '+' || tokens[i].type == '-') i_precedence = P_ADD_OR_SUB;
       if (tokens[i].type == '*' || tokens[i].type == '/') i_precedence = P_MUL_OR_DIV;
+      if (tokens[i].type == '+' || tokens[i].type == '-') i_precedence = P_ADD_OR_SUB;
+      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEG) i_precedence = P_EQ;
+      if (tokens[i].type == TK_AND) i_precedence = P_AND;
 
       if (i_precedence >= cur_precedence){
         cur_precedence = i_precedence;
@@ -202,12 +215,12 @@ word_t eval (int p, int q){
       else if (tokens[p].type == TK_HEX)
         return strtol(tokens[p].str + 2, NULL, 16);
       else if (tokens[p].type == TK_REG){
-        bool is_success;
-        if (strcmp(tokens[p].str, "$0") == 0)
-          return isa_reg_str2val("$0", &is_success);
-        else return isa_reg_str2val(tokens[p].str + 1, &is_success);
-      }
-
+          bool is_success;
+          if (strcmp(tokens[p].str, "$0") == 0)
+            return isa_reg_str2val("$0", &is_success);
+          else return isa_reg_str2val(tokens[p].str + 1, &is_success);
+        }
+      // TODO: other types value
       Log("This expression is bad and strange");
         return 0;
     }
@@ -215,6 +228,7 @@ word_t eval (int p, int q){
         return eval(p + 1, q - 1);
     else{
       int op = find_op(p ,q);
+      if (tokens[op].type == TK_DEREF) return paddr_read((eval(op + 1, q)), 4);
       int val1 = eval(p, op - 1);
       int val2 = eval(op + 1, q);
       switch (tokens[op].type)
@@ -223,7 +237,9 @@ word_t eval (int p, int q){
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': return val1 / val2;
-      
+      case TK_EQ: return val1 == val2;
+      case TK_NEG: return val1 != val2;
+      case TK_AND: return val1 && val2;
       default: Log("Bad op"); break;
       }
     }
