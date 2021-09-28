@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
-  FILE *fp = fopen("$NEMU_HOME/tools/input", "r");
+  FILE *fp = fopen("$NEMU_HOME/tools/gen-expr/input", "r");
   assert(fp != NULL);
   char  buff[500] = {}; unsigned res = 0; bool success = true;
   while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
