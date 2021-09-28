@@ -6,6 +6,8 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
   char _expr[NR_WP_EXPR];
+  word_t _val;
+  bool is_used;
   /* TODO: Add more members if necessary */
 
 } WP;
@@ -18,6 +20,8 @@ void init_wp_pool() {
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = &wp_pool[i + 1];
+    wp_pool[i]._val = 0;
+    wp_pool[i].is_used = false;
   }
   wp_pool[NR_WP - 1].next = NULL;
 
@@ -27,6 +31,7 @@ void init_wp_pool() {
 WP* new_wp(){
   if (free_ == NULL) {Log("No free watch point\n"); assert(0);}
   WP* wp_ = free_;
+  wp_->is_used = true;
   free_ = free_->next;
   return wp_;
 }
@@ -35,6 +40,7 @@ void free_wp(WP *wp){
     Log("No watchpoint to free\n");
     return;
   }
+  wp->is_used = false;
   wp->next = free_;
   free_ = wp;
   return;
