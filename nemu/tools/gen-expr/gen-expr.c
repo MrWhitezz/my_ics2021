@@ -29,7 +29,13 @@ static void gen(char ch){
     assert(pos_buf < 65536);
     buf[pos_buf++] = ch; buf[pos_buf] = '\0';
 }
-
+static void gen_rand_space(){
+    int space_len = choose(3);
+    assert(pos_buf + space_len < 65536);
+    while(space_len--){
+      gen(' ');
+    }
+}
 static void gen_rand_op(){
     switch(choose(4)){
       case 0: assert(pos_buf < 65536); buf[pos_buf++] = '+'; break; 
@@ -43,8 +49,8 @@ static void gen_rand_op(){
 static void gen_rand_expr() {
   switch (choose(3)) {
     case 0: {int num_size = choose(4) + 1; while(num_size--) gen_num(); break;}
-    case 1: gen('('); gen_rand_expr(); gen(')'); break;
-    default: if (recursive_level++ <= 8) {gen_rand_expr(); gen_rand_op();} gen_rand_expr(); break;
+    case 1: gen('('); gen_rand_space(); gen_rand_expr(); gen_rand_space(); gen(')'); break;
+    default: if (recursive_level++ <= 8) {gen_rand_expr(); gen_rand_space(); gen_rand_op(); gen_rand_space();} gen_rand_expr(); break;
   }
 }
 
