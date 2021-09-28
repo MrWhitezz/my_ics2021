@@ -58,8 +58,8 @@ typedef struct token {
   int type;
   char str[32];
 } Token;
-
-static Token tokens[32] __attribute__((used)) = {};
+#define Tok_Size 500
+static Token tokens[Tok_Size] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -86,7 +86,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         if (rules[i].token_type != TK_NOTYPE){
-          assert(substr_len < 32);
+          assert(substr_len < Tok_Size);
           strncpy(tokens[nr_token].str, substr_start, substr_len);
         }
         switch (rules[i].token_type) {
@@ -125,7 +125,7 @@ word_t expr(char *e, bool *success) {
     Log("String with only spaces found");
     return 0;
   }
-  if (nr_token >= 32){
+  if (nr_token >= Tok_Size){
     Log("The expression is too long");
     return 0;
   }
@@ -136,7 +136,7 @@ word_t expr(char *e, bool *success) {
 }
 
 bool check_parentheses(int p, int q){
-    assert(p < q && q < 32 && p >= 0);
+    assert(p < q && q < Tok_Size && p >= 0);
     if (tokens[p].type != '(' || tokens[q].type != ')')
       return false;
       
