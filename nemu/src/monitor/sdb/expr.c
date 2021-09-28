@@ -86,8 +86,10 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         if (rules[i].token_type != TK_NOTYPE){
-          assert(substr_len < Tok_Size);
+          assert(substr_len < 32);
           strncpy(tokens[nr_token].str, substr_start, substr_len);
+          tokens[nr_token].str[substr_len] = '\0';
+          
         }
         switch (rules[i].token_type) {
           case '+': tokens[nr_token++].type = '+'; break;
