@@ -13,17 +13,17 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
   // here is code to test expr()
-  FILE *fp = fopen("/home/xyq/ics2021/nemu/tools/gen-expr/input", "r");
-  assert(fp != NULL);
-  char  buff[500] = {}; unsigned res = 0, times = 0; bool success = true;
-  while (fscanf(fp, "%u", &res) != EOF && fscanf(fp, "%[^\n]", buff) != EOF){
-    printf("Correct %d times\n", times);
-    unsigned my_res = expr(buff, &success);
-    if (my_res != res)
-      Log("Wrong found! res = %u\tmy_res = %u\texpr = %s", res, my_res, buff);
-    else ++times;
-    memset(buff, 0, sizeof(buff));
-  }
+  // FILE *fp = fopen("/home/xyq/ics2021/nemu/tools/gen-expr/input", "r");
+  // assert(fp != NULL);
+  // char  buff[500] = {}; unsigned res = 0, times = 0; bool success = true;
+  // while (fscanf(fp, "%u", &res) != EOF && fscanf(fp, "%[^\n]", buff) != EOF){
+  //   printf("Correct %d times\n", times);
+  //   unsigned my_res = expr(buff, &success);
+  //   if (my_res != res)
+  //     Log("Wrong found! res = %u\tmy_res = %u\texpr = %s", res, my_res, buff);
+  //   else ++times;
+  //   memset(buff, 0, sizeof(buff));
+  // }
 
   /* Start engine. */
   engine_start();
