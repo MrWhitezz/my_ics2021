@@ -95,18 +95,19 @@ static bool make_token(char *e) {
           strncat(tokens[nr_token].str, substr_start, substr_len);
           //strncpy(tokens[nr_token].str, substr_start, substr_len);  strncpy is something dangerous
           // so instead, I use strncat
+          tokens[nr_token++].type = rules[i].token_type;
         }
-        switch (rules[i].token_type) {
-          case '+': tokens[nr_token++].type = '+'; break;
-          case '-': tokens[nr_token++].type = '-'; break;
-          case '*': tokens[nr_token++].type = '*'; break;
-          case '/': tokens[nr_token++].type = '/'; break;
-          case '(': tokens[nr_token++].type = '('; break;
-          case ')': tokens[nr_token++].type = ')'; break;
-          case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
-          case TK_NOTYPE: break;
-          default: TODO(); assert(0);
-        }
+        // switch (rules[i].token_type) {
+        //   case '+': tokens[nr_token++].type = '+'; break;
+        //   case '-': tokens[nr_token++].type = '-'; break;
+        //   case '*': tokens[nr_token++].type = '*'; break;
+        //   case '/': tokens[nr_token++].type = '/'; break;
+        //   case '(': tokens[nr_token++].type = '('; break;
+        //   case ')': tokens[nr_token++].type = ')'; break;
+        //   case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
+        //   case TK_NOTYPE: break;
+        //   default: TODO(); assert(0);
+        // }
 
         break;
       }
@@ -136,6 +137,12 @@ word_t expr(char *e, bool *success) {
     Log("The expression is too long");
     return 0;
   }
+  //test for dereference
+  // for (int i = 0; i < nr_token; i++) {
+  //     if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == certain type) ) {
+  //       tokens[i].type = TK_DEREF;
+  //   }
+  // }
 
   /* TODO: Insert codes to evaluate the expression. */
 
