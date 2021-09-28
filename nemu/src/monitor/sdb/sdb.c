@@ -115,8 +115,9 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
   //TODO
     bool is_success = true;
-    printf("%u\n", expr(args, &is_success));
-    return strtol(args + 2, NULL, 16);
+    unsigned res = expr(args, &is_success); 
+    printf("%u\n", res);
+    return res;
 }
 
 static int cmd_help(char *args) {
