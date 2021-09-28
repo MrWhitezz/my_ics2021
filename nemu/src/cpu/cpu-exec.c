@@ -3,7 +3,6 @@
 #include <cpu/difftest.h>
 #include <isa-all-instr.h>
 #include <locale.h>
-
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -19,12 +18,13 @@ const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 
 void device_update();
+void debug();
 
 #ifdef CONFIG_DEBUG
 static void debug_hook(vaddr_t pc, const char *asmbuf) {
   log_write("%s\n", asmbuf);
   if (g_print_step) { puts(asmbuf); }
-  
+  debug();
 }
 #endif
 

@@ -60,3 +60,7 @@ int cmd_d(char *args){
   free_wp(&wp_pool[wp_num]);
   return 0;
 }
+
+void debug(){
+  printf("debug\n");
+}
