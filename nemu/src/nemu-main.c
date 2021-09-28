@@ -16,9 +16,11 @@ int main(int argc, char *argv[]) {
   assert(fp != NULL);
   char  buff[5000] = {}; unsigned res = 0, times = 0; bool success = true;
   while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
-    if (expr(buff, &success) != res)
-      Log("Wrong found! res = %u\tmy_res = %u\texpr = %s", res, expr(buff, &success), buff);
+    unsigned my_res = expr(buff, &success);
+    if (my_res != res)
+      Log("Wrong found! res = %u\tmy_res = %u\texpr = %s", res, my_res, buff);
     else printf("Correct %d times\n", ++times);
+    memset(buff, 0, sizeof(buff));
   }
 
   /* Start engine. */
