@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
+  // here is code to test expr()
   FILE *fp = fopen("/home/xyq/ics2021/nemu/tools/gen-expr/input", "r");
   assert(fp != NULL);
   char  buff[500] = {}; unsigned res = 0, times = 0; bool success = true;

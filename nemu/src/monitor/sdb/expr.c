@@ -6,7 +6,7 @@
 #include <regex.h>
 // add string operation
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_HEX, TK_REG, TK_NEQ, TK_AND
 
   /* TODO: Add more token types */
 
@@ -21,7 +21,8 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    * but why?
    */
-
+  {"0x[0-9]+", TK_HEX}, //hexadecimal-number
+  {"$[a-z][0-9]", TK_REG},  // registers
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+", TK_NUM}, // num  
   {"\\(", '('},
