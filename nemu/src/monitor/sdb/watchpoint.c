@@ -50,6 +50,8 @@ int cmd_w(char *args){
   WP* wp_1 = new_wp();
   assert(strlen(args) < NR_WP_EXPR);
   strcpy(wp_1->_expr, args);
+  bool is_success = true;
+  wp_1->_val = expr(wp_1->_expr, &is_success);
   return 0;
 }
 
