@@ -87,8 +87,9 @@ static bool make_token(char *e) {
          */
         if (rules[i].token_type != TK_NOTYPE){
           assert(substr_len < 32);
-          strncpy(tokens[nr_token].str, substr_start, substr_len);
-          tokens[nr_token].str[substr_len] = '\0';
+          memset(tokens[nr_token].str, 0, 32);
+          strncat(tokens[nr_token].str, substr_start, substr_len);
+          //strncpy(tokens[nr_token].str, substr_start, substr_len);
           
         }
         switch (rules[i].token_type) {
