@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   char  buff[5000] = {}; unsigned res = 0, times = 0; bool success = true;
   while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
     if (expr(buff, &success) != res)
-      Log("Wrong found! res = %u expr = %s", res, buff);
+      Log("Wrong found! res = %u my_res = %u expr = %s", expr(buff, &success), res, buff);
     else printf("Correct %d times\n", ++times);
   }
 
