@@ -89,8 +89,8 @@ static bool make_token(char *e) {
           assert(substr_len < 32);
           tokens[nr_token].str[0] = '\0';
           strncat(tokens[nr_token].str, substr_start, substr_len);
-          //strncpy(tokens[nr_token].str, substr_start, substr_len);
-          
+          //strncpy(tokens[nr_token].str, substr_start, substr_len);  strncpy is something dangerous
+          // so instead, I use strncat
         }
         switch (rules[i].token_type) {
           case '+': tokens[nr_token++].type = '+'; break;

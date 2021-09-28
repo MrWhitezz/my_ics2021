@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen("/home/xyq/ics2021/nemu/tools/gen-expr/input", "r");
   assert(fp != NULL);
   char  buff[500] = {}; unsigned res = 0, times = 0; bool success = true;
-  while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
+  while (fscanf(fp, "%u", &res) != EOF && fscanf(fp, "%s", buff) != EOF){
     if (buff[0] == '\0') {printf("Correct %d times\n", times);break;}
     unsigned my_res = expr(buff, &success);
     if (my_res != res)
