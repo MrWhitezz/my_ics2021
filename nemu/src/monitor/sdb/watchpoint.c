@@ -1,11 +1,11 @@
 #include "sdb.h"
 
 #define NR_WP 32
-
+#define NR_WP_EXPR 100
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
-
+  char _expr[NR_WP_EXPR];
   /* TODO: Add more members if necessary */
 
 } WP;
@@ -35,9 +35,7 @@ void free_wp(WP *wp){
     Log("No watchpoint to free\n");
     return;
   }
-  WP *wp_pos = wp;
-  while (wp_pos->next != NULL) wp_pos = wp_pos->next;
-  wp_pos->next = free_;
+  wp->next = free_;
   free_ = wp;
   return;
 }

@@ -4,6 +4,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include "memory/paddr.h"
+#include "watchpoint.c"
 
 static int is_batch_mode = false;
 
@@ -49,6 +50,10 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
+static int cmd_d(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -61,6 +66,8 @@ static struct {
   { "info", "Print the state of program", cmd_info},
   { "x", "Examine the memory", cmd_x},
   { "p", "Calculate the expression", cmd_p},
+  { "w", "Set watchpoints of expr", cmd_w},
+  { "d", "Delete watchpoints", cmd_d},
   /* TODO: Add more commands */
 
 };
@@ -119,6 +126,19 @@ static int cmd_p(char *args){
     unsigned res = expr(args, &is_success); 
     printf("%u\n", res);
     return res;
+}
+
+static int cmd_w(char *args){
+  WP* wp_1 = new_wp();
+  assert(strlen(args) < NR_WP_EXPR);
+  strcpy(wp_1->_expr, args);
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int wp_num = atoi(args);
+  free_wp(&wp_pool[wp_num]);
+  return 0;
 }
 
 static int cmd_help(char *args) {
