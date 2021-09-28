@@ -96,7 +96,8 @@ static int cmd_x(char *args){
 
   assert(strcmp(mem_expr, ""));
   int num = atoi(mem_num);
-  paddr_t mem_addr = (paddr_t)cmd_p(mem_expr);//cmd_p must be ensured correct
+  bool is_success = true;
+  paddr_t mem_addr = (paddr_t)expr(mem_expr, &is_success);//cmd_p must be ensured correct
 
   for (int i = 0; i < num; ++i){
     paddr_t mem_visit = mem_addr + (paddr_t)i * 4;
