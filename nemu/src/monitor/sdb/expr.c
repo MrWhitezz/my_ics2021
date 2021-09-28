@@ -97,17 +97,17 @@ static bool make_token(char *e) {
           // so instead, I use strncat
           tokens[nr_token++].type = rules[i].token_type;
         }
-        // switch (rules[i].token_type) {
-        //   case '+': break;
-        //   case '-': break;
-        //   case '*': break;
-        //   case '/': break;
-        //   case '(': break;
-        //   case ')': break;
-        //   case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
-        //   case TK_NOTYPE: break;
-        //   default: TODO(); assert(0);
-        // }
+        switch (rules[i].token_type) {
+          case TK_HEX: break;
+          case TK_REG: break;
+          case '*': break;
+          case '/': break;
+          case '(': break;
+          case ')': break;
+          case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
+          case TK_NOTYPE: break;
+          default: break;//TODO(); assert(0); 
+        }
 
         break;
       }
@@ -196,11 +196,20 @@ word_t eval (int p, int q){
       return 0;
     }
     else if (p == q){
-      if (tokens[p].type != TK_NUM){
-        Log("This expression is bad and strange");
-        return 0;
+      if (tokens[p].type == TK_NUM){
+        return atoi(tokens[p].str);
       }
-      return atoi(tokens[p].str);
+      else if (tokens[p].type == TK_HEX)
+        return strtol(tokens[p].str + 2, NULL, 16);
+      else if (tokens[p].type == TK_REG){
+        bool is_success;
+        if (strcmp(tokens[p].str, "$0") == 0)
+          return isa_reg_str2val("$0", &is_success);
+        else return isa_reg_str2val(tokens[p].str + 1, &is_success);
+      }
+
+      Log("This expression is bad and strange");
+        return 0;
     }
     else if (check_parentheses(p ,q))
         return eval(p + 1, q - 1);
