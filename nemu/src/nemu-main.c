@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
   assert(fp != NULL);
   char  buff[500] = {}; unsigned res = 0, times = 0; bool success = true;
   while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
+    if (buff[0] == '\0') break;
     unsigned my_res = expr(buff, &success);
     if (my_res != res)
       Log("Wrong found! res = %u\tmy_res = %u\texpr = %s", res, my_res, buff);
