@@ -18,13 +18,19 @@ const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 
 void device_update();
-void debug();
+bool examine_wp();
+void sdb_mainloop();
 
 #ifdef CONFIG_DEBUG
 static void debug_hook(vaddr_t pc, const char *asmbuf) {
   log_write("%s\n", asmbuf);
   if (g_print_step) { puts(asmbuf); }
-  debug();
+  if (examine_wp()){
+    nemu_state.state = NEMU_STOP;
+    Log("there's watchpoint changing\n");
+    sdb_mainloop();
+    // TODO: jump to sdb_main
+  }
 }
 #endif
 

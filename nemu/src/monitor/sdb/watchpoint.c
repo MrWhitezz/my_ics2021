@@ -61,6 +61,17 @@ int cmd_d(char *args){
   return 0;
 }
 
-void debug(){
-  printf("debug\n");
+bool examine_wp(){
+  for (int i = 0; i < NR_WP; ++i){
+    if (wp_pool[i].is_used == true){
+      bool is_success = true;
+      word_t val = expr(wp_pool[i]._expr, &is_success);
+      if (val != wp_pool[i]._val){
+        wp_pool[i]._val = val;
+        printf("%s has new value %u", wp_pool[i]._expr, wp_pool[i]._val);
+        return true;
+      }
+    }
+  }
+  return false;
 }
