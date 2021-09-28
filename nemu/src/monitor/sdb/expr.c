@@ -98,12 +98,12 @@ static bool make_token(char *e) {
           tokens[nr_token++].type = rules[i].token_type;
         }
         // switch (rules[i].token_type) {
-        //   case '+': tokens[nr_token++].type = '+'; break;
-        //   case '-': tokens[nr_token++].type = '-'; break;
-        //   case '*': tokens[nr_token++].type = '*'; break;
-        //   case '/': tokens[nr_token++].type = '/'; break;
-        //   case '(': tokens[nr_token++].type = '('; break;
-        //   case ')': tokens[nr_token++].type = ')'; break;
+        //   case '+': break;
+        //   case '-': break;
+        //   case '*': break;
+        //   case '/': break;
+        //   case '(': break;
+        //   case ')': break;
         //   case TK_NUM: tokens[nr_token++].type = TK_NUM; break;
         //   case TK_NOTYPE: break;
         //   default: TODO(); assert(0);
