@@ -1,5 +1,5 @@
 #include <common.h>
-
+#include "monitor/sdb/sdb.h"
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
@@ -12,6 +12,13 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
+  FILE *fp = fopen("$NEMU_HOME/tools/input", "r");
+  assert(fp != NULL);
+  char  buff[500] = {}; unsigned res = 0; bool success = true;
+  while (fscanf(fp, "%u", &res) && fscanf(fp, "%s", buff)){
+    if (expr(buff, &success) != res)
+      Log("Wrong found! res = %u expr = %s", res, buff);
+  }
 
   /* Start engine. */
   //engine_start();
