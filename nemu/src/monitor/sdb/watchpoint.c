@@ -68,8 +68,8 @@ int cmd_info(char *args){
       isa_reg_display();
     else if (args[0] == 'w'){
       //TODO: print watch point info
+      printf("Num\tExpr\tValue\n");
       for (int i = 0; i < NR_WP; ++i){
-        printf("Num\tExpr\tValue\n");
         if (wp_pool[i].is_used == true){
           bool is_success = true;
           wp_pool[i]._val = expr(wp_pool[i]._expr, &is_success);
