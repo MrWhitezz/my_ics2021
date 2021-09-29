@@ -99,10 +99,8 @@ static int cmd_x(char *args){
       printf("%02x ", paddr_read(mem_visit + j, 1));
     printf("\n");
   }
-  
-  
 
-  return 0;
+  return is_success ? 0 : -1;
 }
 
 static int cmd_p(char *args){
@@ -110,7 +108,7 @@ static int cmd_p(char *args){
     bool is_success = true;
     unsigned res = expr(args, &is_success); 
     printf("%u\n", res);
-    return res;
+    return is_success ? 0 : -1;
 }
 
 static int cmd_help(char *args) {
