@@ -192,7 +192,7 @@ int find_op(int p, int q){
       if (tokens[i].type == TK_NUM) i_precedence = P_NUM;
       if (tokens[i].type == '*' || tokens[i].type == '/') i_precedence = P_MUL_OR_DIV;
       if (tokens[i].type == '+' || tokens[i].type == '-') i_precedence = P_ADD_OR_SUB;
-      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEG) i_precedence = P_EQ;
+      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ) i_precedence = P_EQ;
       if (tokens[i].type == TK_AND) i_precedence = P_AND;
 
       if (i_precedence >= cur_precedence){
@@ -241,7 +241,7 @@ word_t eval (int p, int q){
       case '*': return val1 * val2;
       case '/': return val1 / val2;
       case TK_EQ: return val1 == val2;
-      case TK_NEG: return val1 != val2;
+      case TK_NEQ: return val1 != val2;
       case TK_AND: return val1 && val2;
       default: Log("Bad op"); break;
       }
