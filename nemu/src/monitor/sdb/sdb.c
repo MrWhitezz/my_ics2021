@@ -43,8 +43,6 @@ static int cmd_help(char *args);
 
 static int cmd_si(char* args);
 
-static int cmd_info(char *args);
-
 static int cmd_x(char *args);
 
 static int cmd_p(char *args);
@@ -80,17 +78,7 @@ static int cmd_si(char* args){
   return 0;
 }
 
-static int cmd_info(char *args){
-    assert(args != NULL);
-    if (args[0] == 'r')
-      isa_reg_display();
-    else if (args[0] == 'w'){
-      //TODO: print watch point info
 
-    }
-    else assert(0);
-    return 0;
-}
 
 static int cmd_x(char *args){
   // TODO: need to examine memory

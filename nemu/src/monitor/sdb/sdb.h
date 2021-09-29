@@ -10,4 +10,6 @@ int cmd_w(char *args);
 
 int cmd_d(char *args);
 
+int cmd_info(char *args);
+
 #endif
