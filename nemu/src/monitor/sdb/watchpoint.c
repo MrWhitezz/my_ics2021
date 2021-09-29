@@ -52,6 +52,7 @@ int cmd_w(char *args){
   strcpy(wp_1->_expr, args);
   bool is_success = true;
   wp_1->_val = expr(wp_1->_expr, &is_success);
+  wp_1->is_used = true;// not need?
   return 0;
 }
 
