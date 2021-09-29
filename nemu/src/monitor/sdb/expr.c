@@ -127,8 +127,9 @@ static bool make_token(char *e) {
 word_t eval (int p, int q);
 
 bool is_bi_op(int type){
+    // actually it is binary or '('
     return type == '+' || type == '-' || type == '*' || type == '/' 
-            || type == TK_EQ || type == TK_NEQ || type == TK_AND;
+            || type == TK_EQ || type == TK_NEQ || type == TK_AND || type == '(';
 }
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
