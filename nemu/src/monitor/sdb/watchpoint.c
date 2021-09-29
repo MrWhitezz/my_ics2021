@@ -67,9 +67,16 @@ int cmd_info(char *args){
       isa_reg_display();
     else if (args[0] == 'w'){
       //TODO: print watch point info
-
+      for (int i = 0; i < NR_WP; ++i){
+        printf("Num\tExpr\tValue\n");
+        if (wp_pool[i].is_used == true){
+          bool is_success = true;
+          wp_pool[i]._val = expr(wp_pool[i]._expr, &is_success);
+          printf("%d\t%s\t%u", wp_pool[i].NO, wp_pool[i]._expr, wp_pool[i]._val);
+        }
+      }
     }
-    else assert(0);
+    else Log("info args not found\n");
     return 0;
 }
 
