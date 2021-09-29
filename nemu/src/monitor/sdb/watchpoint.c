@@ -61,6 +61,18 @@ int cmd_d(char *args){
   return 0;
 }
 
+int cmd_info(char *args){
+    assert(args != NULL);
+    if (args[0] == 'r')
+      isa_reg_display();
+    else if (args[0] == 'w'){
+      //TODO: print watch point info
+
+    }
+    else assert(0);
+    return 0;
+}
+
 bool examine_wp(){
   for (int i = 0; i < NR_WP; ++i){
     if (wp_pool[i].is_used == true){

@@ -2,6 +2,7 @@
 #define __SDB_H__
 
 #include <common.h>
+#include <isa.h>
 
 word_t expr(char *e, bool *success);
 
