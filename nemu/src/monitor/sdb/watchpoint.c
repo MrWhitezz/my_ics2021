@@ -73,7 +73,7 @@ int cmd_info(char *args){
         if (wp_pool[i].is_used == true){
           bool is_success = true;
           wp_pool[i]._val = expr(wp_pool[i]._expr, &is_success);
-          printf("%d\t%s\t%u", wp_pool[i].NO, wp_pool[i]._expr, wp_pool[i]._val);
+          printf("%d\t%s\t%u\n", wp_pool[i].NO, wp_pool[i]._expr, wp_pool[i]._val);
         }
       }
     }
