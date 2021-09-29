@@ -180,7 +180,7 @@ bool check_parentheses(int p, int q){
     return true;
 }
 int find_op(int p, int q){
-  enum {P_NEG = 1, P_DEREF, P_NUM, P_MUL_OR_DIV, P_ADD_OR_SUB, P_EQ, P_AND};
+  enum {P_NEG = 1, P_DEREF, P_MUL_OR_DIV, P_ADD_OR_SUB, P_EQ, P_AND};
   int parentheses_num = 0; int cur_precedence = 0; int cur_op = p;
   for (int i = p; i <= q; ++i){
     if (tokens[i].type == '(') ++parentheses_num;
@@ -189,7 +189,6 @@ int find_op(int p, int q){
       int i_precedence = 0;
       if (tokens[i].type == TK_NEG) i_precedence = P_NEG;
       if (tokens[i].type == TK_DEREF) i_precedence = P_DEREF;
-      if (tokens[i].type == TK_NUM) i_precedence = P_NUM;
       if (tokens[i].type == '*' || tokens[i].type == '/') i_precedence = P_MUL_OR_DIV;
       if (tokens[i].type == '+' || tokens[i].type == '-') i_precedence = P_ADD_OR_SUB;
       if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ) i_precedence = P_EQ;
