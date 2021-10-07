@@ -33,8 +33,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     Log("there's watchpoint changing\n");
     sdb_mainloop();
   }
-    // TODO: jump to sdb_main
-  
 }
 
 
