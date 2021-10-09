@@ -45,5 +45,6 @@ else
 include $(NEMU_HOME)/scripts/native.mk
 endif
 
+# count the number of lines in our codes
 count:
 	@find $(NEMU_HOME) -name "*.c" -o -name "*.h" | xargs cat | wc -l
