@@ -41,10 +41,11 @@ static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
 static inline def_rtl(msb, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
+  // I am very very very not sure about this function
+  TODO();
   assert(width <= 4 && width >= 1);
-  int shift_num = 
+  int mask_msb = (0x1 << (width * 8 - 1)) ^ (0x1 << ((width - 1) * 8 - 1));
   if (width == 1) rtl_andi(s, dest, src1, 0xff);
-  
-  else rtl_andi(s, dest, src1, )
+  else rtl_andi(s, dest, src1, mask_msb);
 }
 #endif
