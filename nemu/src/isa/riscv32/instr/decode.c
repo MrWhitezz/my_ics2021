@@ -46,7 +46,8 @@ static def_DHelper(J) {
                | (s->isa.instr.j.imm11 << 11)
                | (s->isa.instr.j.imm19_12 << 12)
                | (s->isa.instr.j.imm20 << 20);
-  decode_op_i(s, id_src1, simm, false);
+  word_t imm_signext = (s->isa.instr.j.imm20) ? 0xfff00000 | simm : simm;
+  decode_op_i(s, id_src1, imm_signext, false);
 }
 
 def_THelper(computeI){
