@@ -4,3 +4,8 @@ def_EHelper(jal) {
     rtl_j(s, id_src1->imm + s->pc);
     rtl_addi(s, ddest, rz, s->snpc);
 }
+
+def_EHelper(jalr) {
+   TODO();
+   rtl_addi(s, ddest, rz, s->snpc); 
+}

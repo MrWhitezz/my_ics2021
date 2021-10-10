@@ -27,16 +27,24 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  assert(width <= 4 && width >= 1);
+  rtl_slli(s, dest, src1, (32 - width * 8));
+  rtl_srai(s, dest, dest, (32 - width * 8));
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- zeroext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  assert(width <= 4 && width >= 1);
+  rtl_slli(s, dest, src1, (32 - width * 8));
+  rtl_srli(s, dest, dest, (32 - width * 8));
 }
 
 static inline def_rtl(msb, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  TODO();
+  assert(width <= 4 && width >= 1);
+  int shift_num = 
+  if (width == 1) rtl_andi(s, dest, src1, 0xff);
+  
+  else rtl_andi(s, dest, src1, )
 }
 #endif
