@@ -5,6 +5,7 @@ def_EHelper(jal) {
 }
 
 def_EHelper(jalr) {
+    // using s0 for temporiry register
     rtl_addi(s, ddest, rz, s->snpc); 
     word_t imm_12_sext = (id_src2->imm >> 11) ?
                         0xfffff000 | id_src2->imm : id_src2->imm;
