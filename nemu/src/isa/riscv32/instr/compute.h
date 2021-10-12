@@ -1,3 +1,7 @@
+def_EHelper(add) {
+  rtl_add(s, ddest, dsrc1, dsrc2);
+}
+
 def_EHelper(lui) {
   rtl_li(s, ddest, id_src1->imm);
 }
