@@ -20,6 +20,15 @@ typedef struct {
       uint32_t rd        : 5;
       uint32_t funct3    : 3;
       uint32_t rs1       : 5;
+      uint32_t rs2       : 5;
+      uint32_t  funct7    : 7;
+    } r;
+    struct {
+      uint32_t opcode1_0 : 2;
+      uint32_t opcode6_2 : 5;
+      uint32_t rd        : 5;
+      uint32_t funct3    : 3;
+      uint32_t rs1       : 5;
       int32_t  simm11_0  :12;
     } i;
     struct {
@@ -34,13 +43,14 @@ typedef struct {
     struct {
       uint32_t opcode1_0 : 2;
       uint32_t opcode6_2 : 5;
-      uint32_t rd        : 5;
+      uint32_t imm11    : 1;
+      uint32_t imm4_1    : 4;
       uint32_t funct3    : 3;
       uint32_t rs1       : 5;
       uint32_t rs2       : 5;
-      int32_t  funct7    : 7;
-    } r;
-
+      int32_t  imm10_5  : 6;
+      int32_t  imm12    : 1;
+    } b; // attenion!!! I don't understand the meaning of using int32_t and uint32_t, why can't all imm be int32_t???
     struct {
       uint32_t opcode1_0 : 2;
       uint32_t opcode6_2 : 5;

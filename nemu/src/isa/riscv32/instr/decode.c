@@ -13,7 +13,7 @@ static uint32_t get_instr(Decode *s) {
   void concat(decode_op_, name) (Decode *s, Operand *op, word_t val, bool flag)
 
 static def_DopHelper(i) {
-  op->imm = val;
+  op->imm = val;// but when do we need signed imm?
 }
 
 static def_DopHelper(r) {
@@ -30,7 +30,9 @@ static def_DHelper(R) {
 
 static def_DHelper(I) {
   decode_op_r(s, id_src1, s->isa.instr.i.rs1, false);
-  decode_op_i(s, id_src2, s->isa.instr.i.simm11_0, false);
+  sword_t simm_signext = (s->isa.instr.i.simm11_0 >> 11) ? 
+                  s->isa.instr.i.simm11_0 | 0xfffff000 : s->isa.instr.i.simm11_0;
+  decode_op_i(s, id_src2, simm_signext, false);
   decode_op_r(s, id_dest, s->isa.instr.i.rd, true);
 }
 
@@ -46,13 +48,24 @@ static def_DHelper(S) {
   decode_op_r(s, id_dest, s->isa.instr.s.rs2, false);
 }
 
+static def_DHelper(B) {// we should compare src1 and dest
+  decode_op_r(s, id_src1, s->isa.instr.b.rs1, false);
+  decode_op_r(s, id_dest, s->isa.instr.b.rs2, false);// to keep concurrency with S
+  sword_t simm = (s->isa.instr.b.imm4_1 << 1) 
+               | (s->isa.instr.b.imm10_5 << 5)
+               | (s->isa.instr.b.imm11 << 11)
+               | (s->isa.instr.b.imm12 << 12);
+  sword_t simm_signext = (s->isa.instr.b.imm12) ? 0xfffff000 | simm : simm;
+  decode_op_i(s, id_src2, simm_signext, false);
+}
+
 static def_DHelper(J) {
   decode_op_r(s, id_dest, s->isa.instr.j.rd, true);
   sword_t simm = (s->isa.instr.j.imm10_1 << 1)
                | (s->isa.instr.j.imm11 << 11)
                | (s->isa.instr.j.imm19_12 << 12)
                | (s->isa.instr.j.imm20 << 20);
-  word_t imm_signext = (s->isa.instr.j.imm20) ? 0xfff00000 | simm : simm;
+  sword_t imm_signext = (s->isa.instr.j.imm20) ? 0xfff00000 | simm : simm;
   decode_op_i(s, id_src1, imm_signext, false);
 }
 
@@ -77,11 +90,17 @@ def_THelper(store) {
   return EXEC_ID_inv;
 }
 
+def_THelper(branch) {
+  def_INSTR_TAB("??????? ????? ????? 001 ????? ????? ??", bne);
+  return EXEC_ID_inv;
+}
+
 def_THelper(main) {
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 01100 11", R     , computeR);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 00100 11", I     , computeI);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 00000 11", I     , load);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 01000 11", S     , store);
+  def_INSTR_IDTAB("??????? ????? ????? ??? ????? 11000 11", B     , branch);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 01101 11", U     , lui);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 00101 11", U     , auipc);
   def_INSTR_IDTAB("??????? ????? ????? ??? ????? 11011 11", J     , jal);
