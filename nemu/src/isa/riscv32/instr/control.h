@@ -1,3 +1,7 @@
+def_EHelper(beq) {
+    rtl_jrelop(s, RELOP_EQ, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+}
+
 def_EHelper(bne) {
    rtl_jrelop(s, RELOP_NE, id_src1->preg, id_dest->preg, s->pc + id_src2->imm); // here use dest as src2, due to the decode of B 
 }
