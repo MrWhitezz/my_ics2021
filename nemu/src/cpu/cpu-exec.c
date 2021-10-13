@@ -23,9 +23,10 @@ void sdb_mainloop();
 void fetch_decode(Decode *s, vaddr_t pc);
 // I don't whether this trace_and_difftest is right or not
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-#ifdef CONFIG_ITRACE_COND
-  if (ITRACE_COND) log_write("%s\n", _this->logbuf);
-#endif
+   // I think no need to print twice
+// #ifdef CONFIG_ITRACE_COND
+//   if (ITRACE_COND) log_write("%s\n", _this->logbuf);
+// #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
   if (examine_wp()){
@@ -93,7 +94,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   memset(p, ' ', space_len);
   p += space_len;
 
-  void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
+  void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte); // I don't understand the principle
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.instr.val, ilen);
 #endif
