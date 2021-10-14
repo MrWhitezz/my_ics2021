@@ -29,3 +29,7 @@ def_EHelper(andi) {
 def_EHelper(sltiu) {
   rtl_setrelopi(s, RELOP_LTU, ddest, id_src1->preg, id_src2->imm);
 }
+
+def_EHelper(mul) {
+  rtl_mulu_lo(s, ddest, dsrc1, dsrc2);
+}
