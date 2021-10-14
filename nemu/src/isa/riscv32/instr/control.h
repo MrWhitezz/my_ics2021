@@ -6,6 +6,10 @@ def_EHelper(bne) {
    rtl_jrelop(s, RELOP_NE, id_src1->preg, id_dest->preg, s->pc + id_src2->imm); // here use dest as src2, due to the decode of B 
 }
 
+def_EHelper(blt) {
+    rtl_jrelop(s, RELOP_LT, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+}
+
 def_EHelper(jal) {
     //TODO();
     rtl_addi(s, ddest, rz, s->snpc);
