@@ -18,6 +18,10 @@ def_EHelper(xor) {
   rtl_xor(s, ddest, dsrc1, dsrc2);
 }
 
+def_EHelper(or) {
+  rtl_or(s, ddest, dsrc1, dsrc2);
+}
+
 def_EHelper(lui) {
   rtl_li(s, ddest, id_src1->imm);
 }
