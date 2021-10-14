@@ -22,6 +22,10 @@ def_EHelper(xor) {
   rtl_xor(s, ddest, dsrc1, dsrc2);
 }
 
+def_EHelper(srl) {
+  rtl_srl(s, ddest, dsrc1, dsrc2);
+}
+
 def_EHelper(sra) {
   rtl_sra(s, ddest, dsrc1, dsrc2);
 }
