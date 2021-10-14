@@ -58,6 +58,10 @@ def_EHelper(slli) {
   rtl_slli(s, ddest, dsrc1, id_src2->imm & 0x1f);
 }
 
+def_EHelper(srli) {
+  rtl_srli(s, ddest, dsrc1, id_src2->imm & 0x1f);
+}
+
 def_EHelper(srai) {
   rtl_srai(s, ddest, dsrc1, id_src2->imm & 0x1f); // here to get shamt(5 bits) we need to & 0b11111
 }
