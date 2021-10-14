@@ -10,6 +10,10 @@ def_EHelper(blt) {
     rtl_jrelop(s, RELOP_LT, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
 }
 
+def_EHelper(bge) {
+    rtl_jrelop(s, RELOP_GE, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+}
+
 def_EHelper(bltu) {
     rtl_jrelop(s, RELOP_LTU, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
 }
