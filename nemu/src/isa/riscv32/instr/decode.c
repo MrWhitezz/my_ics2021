@@ -45,7 +45,8 @@ static def_DHelper(U) {
 static def_DHelper(S) {
   decode_op_r(s, id_src1, s->isa.instr.s.rs1, false);
   sword_t simm = (s->isa.instr.s.simm11_5 << 5) | s->isa.instr.s.imm4_0;
-  decode_op_i(s, id_src2, simm, false);
+  sword_t simm_signext = (s->isa.instr.s.simm11_5 >> 6) ? 0xfffff000 | simm : simm;
+  decode_op_i(s, id_src2, simm_signext, false);
   decode_op_r(s, id_dest, s->isa.instr.s.rs2, false);
 }
 
@@ -106,6 +107,7 @@ def_THelper(load) {
 }
 
 def_THelper(store) {
+  def_INSTR_TAB("??????? ????? ????? 000 ????? ????? ??", sb);
   def_INSTR_TAB("??????? ????? ????? 010 ????? ????? ??", sw);
   return EXEC_ID_inv;
 }
