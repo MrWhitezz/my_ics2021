@@ -54,6 +54,10 @@ def_EHelper(mul) {
   rtl_mulu_lo(s, ddest, dsrc1, dsrc2);
 }
 
+def_EHelper(mulu) {
+  rtl_muls_hi(s, ddest, dsrc1, dsrc2);
+}
+
 def_EHelper(div) {
   rtl_divs_q(s, ddest, dsrc1, dsrc2);
 }
