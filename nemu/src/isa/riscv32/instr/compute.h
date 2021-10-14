@@ -42,6 +42,10 @@ def_EHelper(sltiu) {
   rtl_setrelopi(s, RELOP_LTU, ddest, id_src1->preg, id_src2->imm);
 }
 
+def_EHelper(slli) {
+  rtl_slli(s, ddest, dsrc1, id_src2->imm & 0x1f);
+}
+
 def_EHelper(srai) {
   rtl_srai(s, ddest, dsrc1, id_src2->imm & 0x1f); // here to get shamt(5 bits) we need to & 0b11111
 }
