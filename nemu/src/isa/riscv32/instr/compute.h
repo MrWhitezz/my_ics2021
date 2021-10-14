@@ -6,6 +6,10 @@ def_EHelper(sub) {
   rtl_sub(s, ddest, dsrc1, dsrc2);
 }
 
+def_EHelper(slt) {
+  rtl_setrelop(s, RELOP_LT, ddest, id_src1->preg, id_src2->preg);
+}
+
 def_EHelper(lui) {
   rtl_li(s, ddest, id_src1->imm);
 }
