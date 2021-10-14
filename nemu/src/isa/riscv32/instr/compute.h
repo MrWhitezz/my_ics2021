@@ -39,15 +39,19 @@ def_EHelper(auipc) {
 }
 
 def_EHelper(addi) {
-  rtl_addi(s, ddest, id_src1->preg, id_src2->imm);
-}
-
-def_EHelper(andi) {
-  rtl_andi(s, ddest, id_src1->preg, id_src2->imm);
+  rtl_addi(s, ddest, dsrc1, id_src2->imm);
 }
 
 def_EHelper(sltiu) {
-  rtl_setrelopi(s, RELOP_LTU, ddest, id_src1->preg, id_src2->imm);
+  rtl_setrelopi(s, RELOP_LTU, ddest, dsrc1, id_src2->imm);
+}
+
+def_EHelper(xori) {
+  rtl_xori(s, ddest, dsrc1, id_src2->imm);
+}
+
+def_EHelper(andi) {
+  rtl_andi(s, ddest, dsrc1, id_src2->imm);
 }
 
 def_EHelper(slli) {
