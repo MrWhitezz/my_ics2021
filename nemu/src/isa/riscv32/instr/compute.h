@@ -22,6 +22,10 @@ def_EHelper(addi) {
   rtl_addi(s, ddest, id_src1->preg, id_src2->imm);
 }
 
+def_EHelper(andi) {
+  rtl_andi(s, ddest, id_src1->preg, id_src2->imm);
+}
+
 def_EHelper(sltiu) {
   rtl_setrelopi(s, RELOP_LTU, ddest, id_src1->preg, id_src2->imm);
 }
