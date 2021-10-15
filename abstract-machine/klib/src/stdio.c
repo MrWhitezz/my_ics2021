@@ -92,17 +92,17 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                     *(out++) = *(p++);
             }
             break;
-        case 'm':; // I don't know what is m for;
-            const uint8_t *m  = va_arg(ap, const uint8_t *);
-            width = width < 64 ? width : 64; // buffer limited to 256!
-            if (m)
-                for (;;) {
-                    out = sitoa(out, *(m++), 2, FILL_ZERO);
-                    if (--width <= 0)
-                        break;
-                    *(out++) = ':';
-                }
-            break;
+        // case 'm':; // I don't know what is m for;
+        //     const uint8_t *m  = va_arg(ap, const uint8_t *);
+        //     width = width < 64 ? width : 64; // buffer limited to 256!
+        //     if (m)
+        //         for (;;) {
+        //             out = sitoa(out, *(m++), 2, FILL_ZERO);
+        //             if (--width <= 0)
+        //                 break;
+        //             *(out++) = ':';
+        //         }
+        //     break;
         case '0':
             if (!width)
                 flags |= FILL_ZERO;
@@ -110,15 +110,15 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         case '1'...'9':
             width = width * 10 + c - '0';
             goto redo_spec;
-        case '*':
-            width = va_arg(ap, unsigned int);
-            goto redo_spec;
+        // case '*':
+        //     width = va_arg(ap, unsigned int); // don't know this * for
+        //     goto redo_spec;
         case '+':
             flags |= PUT_PLUS;
             goto redo_spec;
         case '\0':
         default:
-            *(out++) = '?';
+            *(out++) = '?'; // bad res
         }
         width = 0;
     }
