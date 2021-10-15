@@ -30,10 +30,10 @@ static def_DHelper(R) {
 
 static def_DHelper(I) {
   decode_op_r(s, id_src1, s->isa.instr.i.rs1, false);
-  // sword_t simm_signext = (s->isa.instr.i.simm11_0 >> 11) ? 
-  //                 s->isa.instr.i.simm11_0 | 0xfffff000 : s->isa.instr.i.simm11_0;
-  // decode_op_i(s, id_src2, simm_signext, false);
-  decode_op_i(s, id_src2, s->isa.instr.i.simm11_0, false);
+  sword_t simm_signext = (s->isa.instr.i.simm11_0 >> 11) ? 
+                  s->isa.instr.i.simm11_0 | 0xfffff000 : s->isa.instr.i.simm11_0;
+  decode_op_i(s, id_src2, simm_signext, false);
+  // decode_op_i(s, id_src2, s->isa.instr.i.simm11_0, false);
   decode_op_r(s, id_dest, s->isa.instr.i.rd, true);
 }
 
