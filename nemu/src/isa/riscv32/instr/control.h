@@ -1,25 +1,28 @@
 def_EHelper(beq) {
-    rtl_jrelop(s, RELOP_EQ, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+    rtl_jrelop(s, RELOP_EQ, dsrc1, ddest, s->pc + id_src2->imm);
 }
 
 def_EHelper(bne) {
-   rtl_jrelop(s, RELOP_NE, id_src1->preg, id_dest->preg, s->pc + id_src2->imm); // here use dest as src2, due to the decode of B 
+   rtl_jrelop(s, RELOP_NE, dsrc1, ddest, s->pc + id_src2->imm); // here use dest as src2, due to the decode of B 
 }
 
 def_EHelper(blt) {
-    rtl_jrelop(s, RELOP_LT, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+    rtl_jrelop(s, RELOP_LT, dsrc1, ddest, s->pc + id_src2->imm);
 }
 
 def_EHelper(bge) {
-    rtl_jrelop(s, RELOP_GE, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+    rtl_jrelop(s, RELOP_GE, dsrc1, ddest, s->pc + id_src2->imm);
 }
 
 def_EHelper(bltu) {
-    rtl_jrelop(s, RELOP_LTU, id_src1->preg, id_dest->preg, s->pc + id_src2->imm);
+    rtl_jrelop(s, RELOP_LTU, dsrc1, ddest, s->pc + id_src2->imm);
+}
+
+def_EHelper(bgeu) {
+    rtl_jrelop(s, RELOP_GEU, dsrc1, ddest, s->pc + id_src2->imm);
 }
 
 def_EHelper(jal) {
-    //TODO();
     rtl_addi(s, ddest, rz, s->snpc);
     rtl_j(s, id_src1->imm + s->pc);
 }
