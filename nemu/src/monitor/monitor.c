@@ -27,8 +27,7 @@ void sdb_set_batch_mode();
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
-static char *img_file = NULL;
-#include<string.h>
+static char *img_file = "/home/xyq/ics2021/am-kernels/tests/cpu-tests/build/dummy-riscv32-nemu.bin";
 static int difftest_port = 1234;
 
 static long load_img() {
