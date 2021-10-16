@@ -18,18 +18,29 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 char iring_buf [MAX_IRING_BUF][128];
-int iring_pos = 0;
+int iring_pos = 0; bool iring_is_full = false;
 
 void device_update();
 bool examine_wp();
 void sdb_mainloop();
 void fetch_decode(Decode *s, vaddr_t pc);
+
+void iring_trace_print(){ // I think there is a bug here
+  int iring_beg = iring_pos; 
+  for (int i = 0; i < MAX_IRING_BUF; ++i, iring_beg = (iring_beg + 1) % MAX_IRING_BUF){
+    if ((iring_beg + 1) % MAX_IRING_BUF == iring_pos) {putchar('-'); putchar('-'); putchar('>');}
+    putchar('\t');
+    puts(iring_buf[iring_beg]);
+    if ((iring_beg + 1) % MAX_IRING_BUF == iring_pos) break;
+  }
+}
 // I don't whether this trace_and_difftest is right or not
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) log_write("%s\n", _this->logbuf);
-  iring_pos = (iring_pos + 1) % MAX_IRING_BUF;
+  if (iring_pos == 0) iring_is_full = true;
   strcpy(iring_buf[iring_pos], _this->logbuf);
+  iring_pos = (iring_pos + 1) % MAX_IRING_BUF;
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));

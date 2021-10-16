@@ -4,5 +4,6 @@
 #include <common.h>
 
 void cpu_exec(uint64_t n);
+void iring_trace_print();
 
 #endif
