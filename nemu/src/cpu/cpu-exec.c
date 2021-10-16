@@ -9,6 +9,7 @@
  * You can modify this value as you want.
  */
 #define MAX_INSTR_TO_PRINT 10
+#define MAX_IRING_BUF 20
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_instr = 0;
@@ -16,6 +17,8 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
+char iring_buf [MAX_IRING_BUF][128];
+int iring_pos = 0;
 
 void device_update();
 bool examine_wp();
@@ -23,9 +26,10 @@ void sdb_mainloop();
 void fetch_decode(Decode *s, vaddr_t pc);
 // I don't whether this trace_and_difftest is right or not
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-   // I think no need to print twice
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) log_write("%s\n", _this->logbuf);
+  iring_pos = (iring_pos + 1) % MAX_IRING_BUF;
+  strcpy(iring_buf[iring_pos], _this->logbuf);
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
