@@ -28,6 +28,7 @@ void sdb_set_batch_mode();
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL; //"/home/xyq/ics2021/am-kernels/tests/cpu-tests/build/dummy-riscv32-nemu.bin";
+static char *trace_file_elf = NULL;
 static int difftest_port = 1234;
 
 static long load_img() {
@@ -60,16 +61,18 @@ static int parse_args(int argc, char *argv[]) {
     {"port"     , required_argument, NULL, 'p'},
     {"help"     , no_argument      , NULL, 'h'},
     {"img"      , required_argument, NULL, 'i'},
+    {"ftrace"   , required_argument, NULL, 'f'},
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:i:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:i:f:", table, NULL)) != -1) {
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
       case 'i': img_file = optarg; return optind - 1;
+      case 'f': trace_file_elf = optarg; break; 
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
         printf("\t-b,--batch              run with batch mode\n");
