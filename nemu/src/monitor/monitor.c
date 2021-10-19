@@ -117,6 +117,7 @@ void init_monitor(int argc, char *argv[]) {
   #ifdef CONFIG_FTRACE
   init_ftrace(trace_file_elf);
   #endif
+  
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
