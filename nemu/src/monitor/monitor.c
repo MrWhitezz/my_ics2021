@@ -114,8 +114,9 @@ void init_monitor(int argc, char *argv[]) {
   long img_size = load_img();
 
   /* Initialize function trace, this will explain elf file*/
+  #ifdef CONFIG_FTRACE
   init_ftrace(trace_file_elf);
-
+  #endif
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
