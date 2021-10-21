@@ -74,14 +74,32 @@ void init_ftrace(const char *trace_file){
         }
     }
 
+
+}
+
+int call_times = 0;
+char func_name[64];
+void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
     enum{STT_FUNC = 0x12}; // I don't know why???
-    for (int i = 0; i < SYM_num; ++i){
-        st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 4);
-        if (st_info == STT_FUNC){
-            st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
-            st_value = buff_read(buffer + SYM_off + i * SYM_size + 0x4, 4);
-            st_size = buff_read(buffer + SYM_off + i * SYM_size + 0x8, 4);
-            TODO(); // load the func into table
-        }
+    if (is_call){
+        for (int i = 0; i < SYM_num; ++i){
+            st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 4);
+            if (st_info == STT_FUNC){
+                st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
+                st_value = buff_read(buffer + SYM_off + i * SYM_size + 0x4, 4);
+                st_size = buff_read(buffer + SYM_off + i * SYM_size + 0x8, 4);
+                if (addr_to >= st_value && addr_to < st_value + st_size){
+                    strcpy(func_name, buffer + STR_off + st_name);
+                }
+            }
+        }    
     }
+    if (is_call) ++call_times; else --call_times;
+    printf("0x%08x: ", addr_caller);
+    for (int i = 0; i < call_times; ++i) {putchar(' ');}
+    if (is_call)
+        printf("call %s@0x%08x\n", func_name, addr_to); 
+    else
+        printf("ret %s@0x%08x\n", func_name, addr_to); 
+
 }

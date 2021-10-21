@@ -1,3 +1,4 @@
+void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call);
 def_EHelper(beq) {
     rtl_jrelop(s, RELOP_EQ, dsrc1, ddest, s->pc + id_src2->imm);
 }
@@ -24,6 +25,7 @@ def_EHelper(bgeu) {
 
 def_EHelper(jal) {
     rtl_addi(s, ddest, rz, s->snpc);
+    if (ddest == &cpu.gpr[1]._32) {ftrace_print(s->pc, id_src1->imm + s->pc, 1);}
     rtl_j(s, id_src1->imm + s->pc);
 }
 
