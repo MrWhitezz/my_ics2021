@@ -87,10 +87,11 @@ void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
             st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 4);
             if (st_info == STT_FUNC){
                 st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
+                    printf("st_name = %x", st_name);// not be executed
                 st_value = buff_read(buffer + SYM_off + i * SYM_size + 0x4, 4);
                 st_size = buff_read(buffer + SYM_off + i * SYM_size + 0x8, 4);
                 if (addr_to >= st_value && addr_to < st_value + st_size){
-                    printf("st_name = %x", st_name);
+                    printf("st_name = %x", st_name);// not be executed
                     strcpy(func_name, buffer + STR_off + st_name);
                 }
             }
