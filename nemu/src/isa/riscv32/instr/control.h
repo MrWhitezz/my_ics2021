@@ -37,6 +37,6 @@ def_EHelper(jalr) {
     rtl_addi(s, s0, id_src1->preg, id_src2->imm);
     rtl_andi(s, s0, s0, 0xfffffffe); // set the least-significant bit to 0    
     if (ddest == &cpu.gpr[1]._32) {ftrace_print(s->pc, *s0, 1);}
-    if (id_src1->preg == &cpu.gpr[1]._32) {ftrace_print(s->pc, *s0, 1);}
+    if (id_src1->preg == &cpu.gpr[1]._32) {ftrace_print(s->pc, *s0, 0);}
     rtl_jr(s, s0);
 }
