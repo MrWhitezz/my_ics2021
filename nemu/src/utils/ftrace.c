@@ -103,6 +103,6 @@ void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
     if (is_call)
         printf("call %s@0x%08x\n", func_name, addr_to); 
     else
-        printf("ret %s@0x%08x\n", func_name, addr_to); 
+        printf("ret @0x%08x\n", addr_to); 
 
 }
