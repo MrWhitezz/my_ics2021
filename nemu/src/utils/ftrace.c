@@ -30,6 +30,7 @@ static inline word_t buff_read(void *addr, int len) {
 void init_ftrace(const char *trace_file){
     if (trace_file == NULL){
         Log("No function trace elf file is given");
+        assert(0);
     }
     FILE* fp = fopen(trace_file, "rb");
     Assert(fp, "Cannot open '%s'", trace_file);
