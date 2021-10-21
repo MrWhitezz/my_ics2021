@@ -84,7 +84,7 @@ void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
     enum{STT_FUNC = 0x12}; // I don't know why???
     if (is_call){
         for (int i = 0; i < SYM_num; ++i){
-            st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 4);
+            st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 1);
                     printf("st_info = %x\n", st_info);// not be executed
             if (st_info == STT_FUNC){
                 st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
