@@ -67,6 +67,7 @@ void init_ftrace(const char *trace_file){
            SYM_off = buff_read(buffer + shoff + i * shentsize + 0x10, 4);
            SYM_size = buff_read(buffer + shoff + i * shentsize + 0x14, 4);
            SYM_num = SYM_size / SYM_entsize;
+           //printf("SYM_off = %x\n", SYM_off);
         }
         if (sh_type == SHT_STRTAB && !is_find_STR){
            is_find_STR = true;
@@ -84,13 +85,13 @@ void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
     enum{STT_FUNC = 0x12}; // I don't know why???
     if (is_call){
         for (int i = 0; i < SYM_num; ++i){
-            st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 1);
+            st_info = buff_read(buffer + SYM_off + i * SYM_entsize + 0xc, 1);
                     printf("st_info = %x\n", st_info);// not be executed
             if (st_info == STT_FUNC){
-                st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
+                st_name = buff_read(buffer + SYM_off + i * SYM_entsize + 0x0, 4);
                     printf("st_name = %x", st_name);// not be executed
-                st_value = buff_read(buffer + SYM_off + i * SYM_size + 0x4, 4);
-                st_size = buff_read(buffer + SYM_off + i * SYM_size + 0x8, 4);
+                st_value = buff_read(buffer + SYM_off + i * SYM_entsize + 0x4, 4);
+                st_size = buff_read(buffer + SYM_off + i * SYM_entsize + 0x8, 4);
                 if (addr_to >= st_value && addr_to < st_value + st_size){
                     printf("st_name = %x", st_name);// not be executed
                     strcpy(func_name, buffer + STR_off + st_name);
