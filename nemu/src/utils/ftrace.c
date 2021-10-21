@@ -1,5 +1,32 @@
 #include<common.h>
 static char *buffer;
+uint32_t shoff = 0;
+uint16_t shentsize = 0;
+uint16_t shnum = 0;
+
+uint32_t sh_type = 0;
+uint32_t SYM_off = 0;
+uint32_t SYM_size = 0;
+uint32_t SYM_entsize = 0x10;
+uint32_t SYM_num = 0;
+uint32_t STR_off = 0;
+uint32_t STR_size = 0;
+bool is_find_STR = false;
+
+uint32_t st_name = 0;
+uint32_t st_value = 0;
+uint32_t st_size = 0;
+uint8_t st_info = 0;
+
+static inline word_t buff_read(void *addr, int len) {
+  switch (len) {
+    case 1: return *(uint8_t  *)addr;
+    case 2: return *(uint16_t *)addr;
+    case 4: return *(uint32_t *)addr;
+    default: assert(0); 
+  }
+}
+
 void init_ftrace(const char *trace_file){
     if (trace_file == NULL){
         Log("No function trace elf file is given");
@@ -27,4 +54,34 @@ void init_ftrace(const char *trace_file){
 
     fclose(fp);
 
+    shoff = buff_read(buffer + 0x20, 4);
+    shentsize = buff_read(buffer + 0x2e, 2); // normally shentsize = 0x28
+    shnum = buff_read(buffer + 0x30, 2); 
+
+    // search for offset of STR_TAB, SYM_TAB
+    enum{SHT_SYMTAB = 2, SHT_STRTAB};
+    for (int i = 0; i < shnum; ++i){
+        sh_type = buff_read(buffer + shoff + i * shentsize + 0x4, 4);
+        if (sh_type == SHT_SYMTAB){
+           SYM_off = buff_read(buffer + shoff + i * shentsize + 0x10, 4);
+           SYM_size = buff_read(buffer + shoff + i * shentsize + 0x14, 4);
+           SYM_num = SYM_size / SYM_entsize;
+        }
+        if (sh_type == SHT_STRTAB && !is_find_STR){
+           is_find_STR = true;
+           STR_off = buff_read(buffer + shoff + i * shentsize + 0x10, 4);
+           STR_size = buff_read(buffer + shoff + i * shentsize + 0x14, 4); 
+        }
+    }
+
+    enum{STT_FUNC = 0x12}; // I don't know why???
+    for (int i = 0; i < SYM_num; ++i){
+        st_info = buff_read(buffer + SYM_off + i * SYM_size + 0xc, 4);
+        if (st_info == STT_FUNC){
+            st_name = buff_read(buffer + SYM_off + i * SYM_size + 0x0, 4);
+            st_value = buff_read(buffer + SYM_off + i * SYM_size + 0x4, 4);
+            st_size = buff_read(buffer + SYM_off + i * SYM_size + 0x8, 4);
+            TODO(); // load the func into table
+        }
+    }
 }
