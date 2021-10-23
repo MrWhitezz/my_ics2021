@@ -44,9 +44,6 @@ static char * sitoa(char * buf, unsigned int num, int width, enum flag_itoa flag
     return buf;
 }
 
-int printf(const char *fmt, ...) {
-  panic("Not implemented");
-}
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
     char c;
@@ -132,6 +129,17 @@ int sprintf(char *out, const char *fmt, ...) {
   int ret = vsprintf(out, fmt, ap);
   va_end(ap); 
   return ret;
+}
+
+int printf(const char *fmt, ...) {
+    char buff[256]; // the output should not be longer than 256
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vsprintf(buff, fmt, ap);
+    va_end(ap); 
+    char* p = buff;
+    while (*p != '\0') putch(*p++); 
+    return ret;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
