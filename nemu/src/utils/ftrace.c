@@ -1,4 +1,3 @@
-#ifdef CONFIG_FTRACE
 #include<common.h>
 static char *buffer;
 uint32_t shoff = 0;
@@ -107,4 +106,3 @@ void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call){
         printf("ret @0x%08x\n", addr_to); 
 
 }
-#endif
