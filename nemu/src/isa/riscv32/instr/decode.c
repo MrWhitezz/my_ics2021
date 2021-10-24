@@ -53,11 +53,11 @@ static def_DHelper(S) {
 static def_DHelper(B) {// we should compare src1 and dest
   decode_op_r(s, id_src1, s->isa.instr.b.rs1, false);
   decode_op_r(s, id_dest, s->isa.instr.b.rs2, false);// to k;eep concurrency with S
-  sword_t simm = (s->isa.instr.b.imm4_1 << 1) 
+  word_t simm = (s->isa.instr.b.imm4_1 << 1) 
                | (s->isa.instr.b.imm10_5 << 5)
                | (s->isa.instr.b.imm11 << 11)
                | (s->isa.instr.b.imm12 << 12);
-  sword_t simm_signext = (s->isa.instr.b.imm12) ? 0xfffff000 | simm : simm;
+  word_t simm_signext = (s->isa.instr.b.imm12) ? 0xfffff000 | simm : simm;
   simm_signext = simm;//wrong
   decode_op_i(s, id_src2, simm_signext, false);
 }
