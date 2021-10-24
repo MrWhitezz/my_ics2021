@@ -58,7 +58,6 @@ static def_DHelper(B) {// we should compare src1 and dest
                | (s->isa.instr.b.imm11 << 11)
                | (s->isa.instr.b.imm12 << 12);
   word_t simm_signext = (s->isa.instr.b.imm12) ? 0xfffff000 | simm : simm;
-  simm_signext = simm;//wrong
   decode_op_i(s, id_src2, simm_signext, false);
 }
 
