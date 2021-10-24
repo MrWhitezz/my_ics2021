@@ -1,6 +1,6 @@
 void ftrace_print(word_t addr_caller, word_t addr_to, bool is_call);
 def_EHelper(beq) {
-    rtl_jrelop(s, RELOP_EQ, dsrc1, ddest, s->pc + id_src2->imm);
+    rtl_jrelop(s, RELOP_EQ, dsrc1, ddest, s->snpc + id_src2->imm);
 }
 
 def_EHelper(bne) {
