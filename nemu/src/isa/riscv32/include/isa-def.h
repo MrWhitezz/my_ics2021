@@ -48,8 +48,8 @@ typedef struct {
       uint32_t funct3    : 3;
       uint32_t rs1       : 5;
       uint32_t rs2       : 5;
-      uint32_t  imm10_5   : 6;
-      uint32_t  imm12     : 1;
+      int32_t  imm10_5   : 6;
+      int32_t  imm12     : 1;
     } b; // attenion!!! I don't understand the meaning of using int32_t and uint32_t, why can't all imm be int32_t???
     struct {
       uint32_t opcode1_0 : 2;
