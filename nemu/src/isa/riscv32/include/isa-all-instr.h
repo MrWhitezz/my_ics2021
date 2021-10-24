@@ -5,7 +5,7 @@
 f(mul) f(mulu) f(mulhu) f(div) f(divu) f(rem) f(remu) \
 f(addi) f(sltiu) f(xori) f(ori) f(andi) f(slli) f(srli) f(srai) f(lui) f(auipc) \
 f(jal) f(jalr) \
-f(lh) f(lbu) f(lw) f(lhu) f(sb) f(sh) f(sw) \
+f(lb) f(lh) f(lbu) f(lw) f(lhu) f(sb) f(sh) f(sw) \
 f(beq) f(bne) f(blt) f(bge) f(bltu) f(bgeu) \
 f(inv) f(nemu_trap)
 
