@@ -1,11 +1,14 @@
 #include <am.h>
 #include <nemu.h>
 
+extern uint32_t *rtc_port_base;
+
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uptime->us = 10000000;
+  
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
