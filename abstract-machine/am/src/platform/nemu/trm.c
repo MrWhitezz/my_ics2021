@@ -12,7 +12,6 @@ static const char mainargs[] = MAINARGS;
 
 void putch(char ch) {
   outb(SERIAL_PORT, ch);
-  outb(SERIAL_PORT, ch);
 }
 
 void halt(int code) {
