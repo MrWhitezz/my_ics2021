@@ -154,6 +154,11 @@ config FTRACE
   bool "Used to trace function"
   default n
 
+config DTRACE
+  depends on TRACE
+  bool "Used to trace Device"
+  default n 
+
 config DIFFTEST
   depends on TARGET_NATIVE_ELF
   bool "Enable differential testing"
