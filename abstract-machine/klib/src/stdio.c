@@ -132,14 +132,15 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int printf(const char *fmt, ...) {
-    char buff[256]; // the output should not be longer than 256
-    va_list ap;
-    va_start(ap, fmt);
-    int ret = vsprintf(buff, fmt, ap);
-    va_end(ap); 
-    char* p = buff;
-    while (*p != '\0') putch(*p++); 
-    return ret;
+    // char buff[256]; // the output should not be longer than 256
+    // va_list ap;
+    // va_start(ap, fmt);
+    // int ret = vsprintf(buff, fmt, ap);
+    // va_end(ap); 
+    // char* p = buff;
+    // while (*p != '\0') putch(*p++); 
+    // return ret;
+    return 0;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
