@@ -34,7 +34,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *color_buf = (uint32_t *)ctl->pixels;
   for (int i = 0; i < w; ++i)
     for (int j = 0; j < h; ++j){
-      *(fb + (j + y) * wid + (i + x)) = color_buf[i * w + j];
+      *(fb + (j + y) * wid + (i + x)) = color_buf[i + j * h];
     }
 }
 
