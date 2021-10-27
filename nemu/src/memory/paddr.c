@@ -47,7 +47,7 @@ word_t paddr_read(paddr_t addr, int len) {
   }
   #ifdef CONFIG_DEVICE
     #ifdef CONFIG_DTRACE
-    printf("Read Device at 0x%08x:\twhich is %s", addr, fetch_mmio_map(addr)->name);
+    printf("Read Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
     #endif
   #endif
   MUXDEF(CONFIG_DEVICE, return mmio_read(addr, len),
@@ -66,7 +66,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   }
   #ifdef CONFIG_DEVICE 
     #ifdef CONFIG_DTRACE
-    printf("Write Device at 0x%08x:\twhich is %s", addr, fetch_mmio_map(addr)->name);
+    printf("Write Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
     #endif
   #endif
   MUXDEF(CONFIG_DEVICE, mmio_write(addr, len, data),
