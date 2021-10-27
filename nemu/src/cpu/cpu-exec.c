@@ -23,7 +23,7 @@ int iring_pos = 0; bool iring_is_full = false;
 void device_update();
 void sdb_mainloop();
 void fetch_decode(Decode *s, vaddr_t pc);
-#ifdef WATCHPOINT_ON
+#ifdef WATCHPOINT_ON // ATTENSION!!! this define is wrong!!!
 bool examine_wp();
 #endif
 
@@ -46,7 +46,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-#ifdef WATCHPOINT_ON
+#ifdef WATCHPOINT_ON// ATTENSION!!! this define is wrong!!!
   if (examine_wp()){
     nemu_state.state = NEMU_STOP;
     Log("there's watchpoint changing\n");
