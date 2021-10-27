@@ -23,9 +23,11 @@ int instr_cnt = 0;
 void device_update() {
   instr_cnt = (instr_cnt + 1) % UPTIME_INSTR_NUM;
   static uint64_t last = 0;
-  uint64_t now = get_time();
-  // uint64_t now = 0;
-  // if (instr_cnt == 0) now = get_time();
+  // uint64_t now = get_time();
+  static uint64_t now = 0;
+  if (instr_cnt == 0) now = get_time();
+  else now = last;
+  
   if (now - last < 1000000 / TIMER_HZ) {
     return;
   }
