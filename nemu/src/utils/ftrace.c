@@ -39,7 +39,9 @@ void init_ftrace(const char *trace_file){
     long size_elf = ftell(fp);
 
     Log("The function trace file is %s, size = %ld", trace_file, size_elf);
+    #ifdef CONFIG_FTRACE
     buffer = calloc(1, size_elf + 1);
+    #endif
     fseek(fp, 0, SEEK_SET);
     // test for open file and read
     if (!buffer) {

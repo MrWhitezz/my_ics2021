@@ -21,9 +21,11 @@ char iring_buf [MAX_IRING_BUF][128];
 int iring_pos = 0; bool iring_is_full = false;
 
 void device_update();
-bool examine_wp();
 void sdb_mainloop();
 void fetch_decode(Decode *s, vaddr_t pc);
+#ifdef WATCHPOINT_ON
+bool examine_wp();
+#endif
 
 void iring_trace_print(){ // I think there is a bug here
   int iring_beg = iring_pos; 
@@ -44,11 +46,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+#ifdef WATCHPOINT_ON
   if (examine_wp()){
     nemu_state.state = NEMU_STOP;
     Log("there's watchpoint changing\n");
     sdb_mainloop();
   }
+#endif
 }
 
 

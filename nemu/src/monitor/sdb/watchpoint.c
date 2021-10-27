@@ -1,3 +1,6 @@
+#ifndef WATCHPOINT_ON
+#define WATCHPOINT_ON
+#endif
 #include "sdb.h"
 
 #define NR_WP 32
