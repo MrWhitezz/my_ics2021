@@ -18,13 +18,18 @@ void init_alarm();
 void send_key(uint8_t, bool);
 void vga_update_screen();
 
+int instr_cnt = 0;
+#define UPTIME_INSTR_NUM 20
 void device_update() {
-  // static uint64_t last = 0;
+  instr_cnt = (instr_cnt + 1) % UPTIME_INSTR_NUM;
+  static uint64_t last = 0;
   // uint64_t now = get_time();
-  // if (now - last < 1000000 / TIMER_HZ) {
-  //   return;
-  // }
-  // last = now;
+  uint64_t now = 0;
+  if (instr_cnt == 0) now = get_time();
+  if (now - last < 1000000 / TIMER_HZ) {
+    return;
+  }
+  last = now;
 
   IFDEF(CONFIG_HAS_VGA, vga_update_screen());
 
