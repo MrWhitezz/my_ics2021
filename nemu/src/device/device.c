@@ -19,15 +19,16 @@ void send_key(uint8_t, bool);
 void vga_update_screen();
 
 int instr_cnt = 0;
-#define UPTIME_INSTR_NUM 20
+#define UPTIME_INSTR_NUM 60
 void device_update() {
   instr_cnt = (instr_cnt + 1) % UPTIME_INSTR_NUM;
   static uint64_t last = 0;
   // uint64_t now = get_time();
+  // modified this to reduce the nums of updating time
   static uint64_t now = 0;
   if (instr_cnt == 0) now = get_time();
   else now = last;
-  
+
   if (now - last < 1000000 / TIMER_HZ) {
     return;
   }
