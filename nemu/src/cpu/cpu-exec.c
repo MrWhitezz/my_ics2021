@@ -44,7 +44,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   strcpy(iring_buf[iring_pos], _this->logbuf);
   iring_pos = (iring_pos + 1) % MAX_IRING_BUF;
 #endif
-  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  // if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); } // for debug 
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 #ifdef WATCHPOINT_ON// ATTENSION!!! this define is wrong!!!
   if (examine_wp()){
