@@ -19,7 +19,7 @@ void send_key(uint8_t, bool);
 void vga_update_screen();
 
 int instr_cnt = 0;
-#define UPTIME_INSTR_NUM 2
+#define UPTIME_INSTR_NUM 1
 void device_update() {
   instr_cnt = (instr_cnt + 1) % UPTIME_INSTR_NUM;
   static uint64_t last = 0;
