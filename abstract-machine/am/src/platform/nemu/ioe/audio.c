@@ -21,7 +21,7 @@ void __am_audio_ctrl(AM_AUDIO_CTRL_T *ctrl) {
   outl(AUDIO_FREQ_ADDR, ctrl->freq);
   outl(AUDIO_CHANNELS_ADDR, ctrl->channels);
   outl(AUDIO_SAMPLES_ADDR, ctrl->samples);
-  
+
   outl(AUDIO_INIT_ADDR, 1);
 }
 
@@ -31,9 +31,10 @@ void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
 
 static void buf_write(uint8_t *buf, int len1){
   int head = inl(AUDIO_SBUF_HEAD);
+  int count = inl(AUDIO_COUNT_ADDR);
   int bufsize = inl(AUDIO_SBUF_SIZE_ADDR);
   for (int i = 0; i < len1; ++i){
-    int offset = (head + i) % bufsize;
+    int offset = (head + count + i) % bufsize;
     outl(AUDIO_SBUF_ADDR + offset, buf[i]);
   }
 }
