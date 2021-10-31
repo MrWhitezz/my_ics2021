@@ -28,6 +28,7 @@ static void audio_play(void *userdata, uint8_t *stream, int len){
   }
   audio_base[reg_sbuf_head] = (head + nread) % CONFIG_SB_SIZE;
 
+  audio_base[reg_count] -= nread;
   if (len > nread){
     memset(stream + nread, 0, len - nread);
   }
