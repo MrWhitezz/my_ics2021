@@ -37,6 +37,8 @@ void init_mem() {
       (paddr_t)CONFIG_MBASE, (paddr_t)CONFIG_MBASE + CONFIG_MSIZE);
 }
 
+const char serial_name[10] = "serial";
+
 word_t paddr_read(paddr_t addr, int len) {
   
   if (likely(in_pmem(addr))) {
@@ -47,7 +49,9 @@ word_t paddr_read(paddr_t addr, int len) {
   }
   #ifdef CONFIG_DEVICE
     #ifdef CONFIG_DTRACE
-    printf("Read Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
+    if (strcmp(fetch_mmio_map(addr)->name, serial_name) != 0) {
+      printf("Read Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
+    }
     #endif
   #endif
   MUXDEF(CONFIG_DEVICE, return mmio_read(addr, len),
@@ -66,7 +70,9 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   }
   #ifdef CONFIG_DEVICE 
     #ifdef CONFIG_DTRACE
-    printf("Write Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
+    if (strcmp(fetch_mmio_map(addr)->name, serial_name) != 0) {
+      printf("Write Device at 0x%08x:\twhich is %s\n", addr, fetch_mmio_map(addr)->name);
+    }
     #endif
   #endif
   MUXDEF(CONFIG_DEVICE, mmio_write(addr, len, data),
