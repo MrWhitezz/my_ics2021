@@ -13,7 +13,7 @@ void __am_audio_init() {
 }
 
 void __am_audio_config(AM_AUDIO_CONFIG_T *cfg) {
-  cfg->present = true;// when finish, change it to true
+  cfg->present = false;// when finish, change it to true
   cfg->bufsize = inl(AUDIO_SBUF_SIZE_ADDR);
 }
 
