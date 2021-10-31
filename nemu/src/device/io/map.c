@@ -17,8 +17,11 @@ uint8_t* new_space(int size) {
   return p;
 }
 
+void iring_trace_print(); // for debug
+
 static void check_bound(IOMap *map, paddr_t addr) {
   if (map == NULL) {
+    iring_trace_print();
     Assert(map != NULL, "address (" FMT_PADDR ") is out of bound at pc = " FMT_WORD, addr, cpu.pc);
   } else {
     Assert(addr <= map->high && addr >= map->low,
