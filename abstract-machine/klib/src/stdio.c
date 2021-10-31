@@ -132,7 +132,7 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int printf(const char *fmt, ...) {
-    char buff[10240]; // the output should not be longer than 256
+    char buff[2048]; // the output should not be longer than 256
     va_list ap;
     va_start(ap, fmt);
     int ret = vsprintf(buff, fmt, ap);
