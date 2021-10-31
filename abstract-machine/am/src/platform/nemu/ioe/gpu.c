@@ -9,7 +9,7 @@ void __am_gpu_init() {
   int w = inw(VGACTL_ADDR + 2);
   int h = inw(VGACTL_ADDR);
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < w * h; ++i) fb[i] = 0;
+  for (i = 0; i < w * h; ++i) fb[i] = 0x2a0a29;
   outl(SYNC_ADDR, 1);
 }
 
