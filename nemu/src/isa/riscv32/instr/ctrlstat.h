@@ -4,6 +4,6 @@ def_EHelper(csrrw) {
 }
 
 def_EHelper(ecall) {
-   vaddr_t target = isa_raise_intr(-1, s->dnpc);// not sure which pc
+   vaddr_t target = isa_raise_intr(-1, s->pc);// not sure which pc
    rtl_j(s, target);
 }
