@@ -12,3 +12,10 @@ def_EHelper(ecall) {
    vaddr_t target = isa_raise_intr(0x114514, s->pc);// not sure which pc
    rtl_j(s, target);
 }
+
+def_EHelper(mret) {
+
+   // omit some change to mstatus
+   rtl_j(s, cpu.mepc);
+
+}
