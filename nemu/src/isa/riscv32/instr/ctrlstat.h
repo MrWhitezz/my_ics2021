@@ -9,6 +9,9 @@ def_EHelper(csrrs) {
 }
 
 def_EHelper(ecall) {
+   #ifdef CONFIG_ETRACE
+      printf("Exception given: yield\n");
+   #endif
    vaddr_t target = isa_raise_intr(0x114514, s->pc);// not sure which pc
    rtl_j(s, target);
 }
