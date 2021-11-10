@@ -15,11 +15,12 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
   // test for Context
-  for (int i = 0; i < 32; ++i)
-      printf("R[%d] = 0x%d\t", i, c->gpr[i]);
-  printf("SR[cause] = 0x%d\n", c->mcause);
-  printf("SR[epc] = 0x%d\n", c->mepc);
-  printf("SR[status] = 0x%d\n", c->mstatus);
+  // for (int i = 0; i < 32; ++i)
+  //     printf("R[%d] = 0x%d\t", i, c->gpr[i]);
+  // printf("SR[cause] = 0x%d\n", c->mcause);
+  // printf("SR[epc] = 0x%d\n", c->mepc);
+  // printf("SR[status] = 0x%d\n", c->mstatus);
+  printf("test for __am_irq_handle\n");
 
   return c;
 }
