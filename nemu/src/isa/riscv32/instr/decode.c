@@ -22,6 +22,8 @@ static def_DopHelper(r) {
   op->preg = (is_write && val == 0) ? &zero_null : &gpr(val);
 }
 
+void iring_trace_print();
+
 static def_DopHelper(csr) {
   // ignore flag
   switch (val){
@@ -30,7 +32,7 @@ static def_DopHelper(csr) {
     case 0x305: op->preg = &cpu.mtvec;   break;
     case 0x341: op->preg = &cpu.mepc;    break;
     case 0x342: op->preg = &cpu.mcause;  break;
-    default: break; assert(0);//debug
+    default: iring_trace_print(); assert(0);//debug
   }
 }
 
