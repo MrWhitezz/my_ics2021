@@ -30,7 +30,7 @@ static def_DopHelper(csr) {
     case 0x305: op->preg = &cpu.mtvec;   break;
     case 0x341: op->preg = &cpu.mepc;    break;
     case 0x342: op->preg = &cpu.mcause;  break;
-    default: assert(0);
+    default: break; assert(0);//debug
   }
 }
 
