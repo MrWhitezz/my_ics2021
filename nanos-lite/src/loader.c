@@ -56,6 +56,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
+  printf("e_entry = 0x%08x\n", e_entry);
   return (uintptr_t)e_entry;
 }
 
