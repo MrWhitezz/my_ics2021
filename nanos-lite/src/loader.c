@@ -16,7 +16,7 @@ uint16_t phentsize, phnum;
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
   Elf_Ehdr elf;
   ramdisk_read(&elf, 0, sizeof(elf));
-  assert(*(uint32_t *)elf.e_ident == 0xBadC0de);
+  assert(*(uint32_t *)elf.e_ident == 0x464c457f);
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
   phnum= elf.e_phnum;
