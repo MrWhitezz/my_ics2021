@@ -40,7 +40,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
-  TODO();
   return 0;
 }
 
