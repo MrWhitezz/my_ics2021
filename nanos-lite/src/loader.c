@@ -26,7 +26,7 @@ char* bufp[bufsz];
 void load_tmp(){
   printf("LOAD!!!\n");
   if (e_entry != 0){
-    // ((void(*)())e_entry) ();
+    ((void(*)())e_entry) ();
   }
 }
 
