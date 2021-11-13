@@ -76,6 +76,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         case 'u':
             out = sitoa(out, va_arg(ap, unsigned int), width, flags | BASE_10);
             break;
+        case 'p':
+            out = sitoa(out, va_arg(ap, unsigned int), 16, flags | FILL_ZERO); // not sure what %p is
+            break;
         case 'x':
             out = sitoa(out, va_arg(ap, unsigned int), width, flags); // hex need no flag
             break;
