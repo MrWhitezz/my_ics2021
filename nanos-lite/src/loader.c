@@ -14,7 +14,7 @@ Elf32_Off phoff;
 Elf32_Addr vaddr;
 uint32_t filesz, memsz;
 uint16_t phentsize, phnum;
-#define bufsz 10240
+#define bufsz 102400
 char* bufp[bufsz];
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
