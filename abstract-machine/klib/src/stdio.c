@@ -115,6 +115,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
             goto redo_spec;
         case '\0':
         default:
+            assert(0);
             *(out++) = '?'; // bad res
         }
         width = 0;
