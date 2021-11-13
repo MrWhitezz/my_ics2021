@@ -11,7 +11,11 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
 Elf32_Off phoff;
+Elf32_Addr vaddr;
+uint32_t filesz, memsz;
 uint16_t phentsize, phnum;
+#define bufsz 2048
+char* bufp[bufsz];
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
   Elf_Ehdr elf;
@@ -24,8 +28,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
   assert(phnum > 0 && phnum <= PN_XNUM);
   assert(phentsize == sizeof(phdr));
   for (int i = 0; i < phnum; ++i){
-    ramdisk_read(&phdr, phoff, sizeof(phdr));
-
+    ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
+    if (phdr.p_type == PT_LOAD){
+      vaddr = phdr.p_vaddr;
+      filesz = phdr.p_filesz;
+      memsz = phdr.p_memsz;
+      assert(filesz <= memsz);
+      assert(memsz <= bufsz);
+    }
   }
   TODO();
   return 0;
