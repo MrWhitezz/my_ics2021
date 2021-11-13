@@ -57,6 +57,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
     }
   }
   printf("e_entry = 0x%08x\n", e_entry);
+  return (uintptr_t)load_tmp;
   return (uintptr_t)e_entry;
 }
 
