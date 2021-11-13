@@ -10,6 +10,7 @@
 #endif
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
+void paddr_write(uint32_t addr, int len, uint32_t data);
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
   TODO();
