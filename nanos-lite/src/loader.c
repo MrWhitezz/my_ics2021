@@ -37,7 +37,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       assert(filesz <= memsz && filesz <= bufsz);
       ramdisk_read(bufp, offp, filesz);
       memcpy((void *)vaddr, bufp, filesz);
-      if (filesz < memsz) {memcpy(((char *)vaddr) + filesz, 0, memsz - filesz);}
+      if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
   TODO();
