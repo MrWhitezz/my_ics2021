@@ -10,10 +10,16 @@
 #endif
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
-void paddr_write(uint32_t addr, int len, uint32_t data);
-void not_exist();
+Elf32_Off phoff;
+uint16_t phentsize, phnum;
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
+  Elf_Ehdr elf;
+  ramdisk_read(&elf, 0, sizeof(elf));
+  assert(*(uint32_t *)elf.e_ident == 0xBadC0de);
+  phoff = elf.e_phoff;
+  phentsize = elf.e_phentsize;
+  phnum= elf.e_phnum;
   TODO();
   return 0;
 }
