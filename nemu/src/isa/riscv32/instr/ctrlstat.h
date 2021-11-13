@@ -19,6 +19,6 @@ def_EHelper(ecall) {
 def_EHelper(mret) {
 
    // omit some change to mstatus
-   rtl_j(s, cpu.mepc);
+   rtl_j(s, cpu.mepc + 4);
 
 }
