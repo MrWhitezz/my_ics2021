@@ -23,8 +23,10 @@ uint16_t phentsize, phnum;
 #define bufsz 40960
 char* bufp[bufsz];
 
+void _start();
 void load_tmp(){
-
+  _start();
+  // call_main();
 }
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
