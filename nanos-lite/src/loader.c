@@ -10,7 +10,7 @@
 #endif
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
-Elf32_Off phoff;
+Elf32_Off phoff, offp;
 Elf32_Addr vaddr;
 uint32_t filesz, memsz;
 uint16_t phentsize, phnum;
@@ -33,8 +33,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       vaddr = phdr.p_vaddr;
       filesz = phdr.p_filesz;
       memsz = phdr.p_memsz;
-      assert(filesz <= memsz);
-      assert(memsz <= bufsz);
+      offp = phdr.p_offset;
+      assert(filesz <= memsz && filesz <= bufsz);
+      ramdisk_read(bufp, offp, filesz);
+      memcpy((void *)vaddr, bufp, filesz);
+      if (filesz < memsz) {memcpy((void *)vaddr + filesz, 0, memsz - bufsz);}
     }
   }
   TODO();
