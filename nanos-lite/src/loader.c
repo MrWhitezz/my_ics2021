@@ -15,11 +15,18 @@ uint16_t phentsize, phnum;
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
   Elf_Ehdr elf;
+  Elf_Phdr phdr;
   ramdisk_read(&elf, 0, sizeof(elf));
   assert(*(uint32_t *)elf.e_ident == 0x464c457f); // correct ELF MAGIC number
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
   phnum= elf.e_phnum;
+  assert(phnum > 0 && phnum <= PN_XNUM);
+  assert(phentsize == sizeof(phdr));
+  for (int i = 0; i < phnum; ++i){
+    ramdisk_read(&phdr, phoff, sizeof(phdr));
+
+  }
   TODO();
   return 0;
 }
