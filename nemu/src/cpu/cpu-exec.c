@@ -9,7 +9,7 @@
  * You can modify this value as you want.
  */
 #define MAX_INSTR_TO_PRINT 10
-#define MAX_IRING_BUF 20
+#define MAX_IRING_BUF 100
 
 CPU_state cpu = {.mstatus = 0x1800};
 uint64_t g_nr_guest_instr = 0;
