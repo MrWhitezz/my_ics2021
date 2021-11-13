@@ -4,18 +4,28 @@
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
+# define ElfN_off Elf64_Off
+# define ElfN_Addr Elf64_Addr
+# define Elfsz    uint64_t
 #else
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
+# define ElfN_off Elf32_Off
+# define ElfN_Addr Elf32_Addr
+# define Elfsz    uint32_t
 #endif
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
-Elf32_Off phoff, offp;
-Elf32_Addr vaddr;
-uint32_t filesz, memsz;
+ElfN_off phoff, offp;
+ElfN_Addr vaddr;
+Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
 #define bufsz 40960
 char* bufp[bufsz];
+
+void load_tmp(){
+
+}
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
   Elf_Ehdr elf;
@@ -25,8 +35,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
   phnum= elf.e_phnum;
-  assert(phnum > 0 && phnum <= PN_XNUM);
-  assert(phentsize == sizeof(phdr));
+  assert(phnum >= 0 && phnum <= PN_XNUM);
+  // printf("phentsize = %d\n", phentsize);
+  // printf("sizeof(phdr) = %d\n", sizeof(phdr));
+  assert(phentsize == sizeof(phdr) || phentsize == 0);
   for (int i = 0; i < phnum; ++i){
     ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
     if (phdr.p_type == PT_LOAD){
@@ -40,7 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
-  return 0;
+  return (uintptr_t)load_tmp;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
