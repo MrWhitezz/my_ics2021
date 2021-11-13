@@ -17,7 +17,7 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
 ElfN_off phoff, offp;
-ElfN_Addr vaddr;
+ElfN_Addr vaddr, e_entry;
 Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
 #define bufsz 40960
@@ -25,8 +25,10 @@ char* bufp[bufsz];
 
 void _start();
 void load_tmp(){
-  _start();
-  // call_main();
+  printf("LOAD!!!\n");
+  if (e_entry != 0){
+    ((void(*)())e_entry) ();
+  }
 }
 
 static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
@@ -37,6 +39,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
   phnum= elf.e_phnum;
+  e_entry = elf.e_entry;
   assert(phnum >= 0 && phnum <= PN_XNUM);
   // printf("phentsize = %d\n", phentsize);
   // printf("sizeof(phdr) = %d\n", sizeof(phdr));
