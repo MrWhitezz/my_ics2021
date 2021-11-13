@@ -22,7 +22,7 @@ Context* __am_irq_handle(Context *c) {
   // printf("SR[epc] = 0x%d\n", c->mepc);
   // printf("SR[status] = 0x%d\n", c->mstatus);
 
-  // printf("test for __am_irq_handle\n");
+  printf("test for __am_irq_handle\n");
 
   return c;
 }
