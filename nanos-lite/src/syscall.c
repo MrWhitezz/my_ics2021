@@ -7,12 +7,21 @@ static void sys_yield(Context *c){
 }
 
 static void sys_exit(Context *c){
-  halt(0);
+  halt(c->GPR2);
 }
 
+void strace(uintptr_t a7){
+  switch (a7){
+    case EVENT_NULL:  printf("System Call: exit\n");
+    case EVENT_YIELD: printf("System Call: yield\n");
+
+    default: printf("Unknown System Call\n");
+  }
+
+}
 void do_syscall(Context *c) {
   uintptr_t a[4];
-  a[0] = c->GPR1;
+  a[0] = c->GPR1; // a7
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
@@ -20,6 +29,9 @@ void do_syscall(Context *c) {
   printf("R[a0] = 0x%x\n", a[1]);
   printf("R[a1] = 0x%x\n", a[2]);
   printf("R[a2] = 0x%x\n", a[3]);
+
+  // STRACE
+  
 
   switch (a[0]) {
     case EVENT_NULL:  sys_exit(c);  break;
