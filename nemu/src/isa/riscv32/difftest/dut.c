@@ -8,6 +8,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       printf("R[%s] should be 0x%x\n", reg_name(i, 4), ref_r->gpr[i]._32);
       return false;
     }
+    assert(cpu.mepc == ref_r->mepc);
   return true;
 }
 
