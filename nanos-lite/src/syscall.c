@@ -15,7 +15,7 @@ static void sys_exit(Context *c){
 static void sys_write(Context *c, int fd, void *buf, size_t count) {
 
 
-  c->GPRx = count;
+  c->GPRx = -1;
 }
 
 void strace(uintptr_t a7){
