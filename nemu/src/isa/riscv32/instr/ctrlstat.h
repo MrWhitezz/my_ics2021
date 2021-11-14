@@ -12,7 +12,10 @@ def_EHelper(ecall) {
    #ifdef CONFIG_ETRACE
       printf("Exception given: yield\n");
    #endif
-   vaddr_t target = isa_raise_intr(0xb, s->pc);// not sure which pc
+   // vaddr_t target = isa_raise_intr(0xb, s->pc);
+   cpu.mepc = s->pc;
+   vaddr_t target = cpu.mtvec;
+
    rtl_j(s, target);
 }
 
