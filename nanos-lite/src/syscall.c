@@ -12,8 +12,10 @@ static void sys_exit(Context *c){
   halt(c->GPR2);
 }
 
-static void sys_write(int fd, void *buf, size_t count) {
+static void sys_write(Context *c, int fd, void *buf, size_t count) {
 
+
+  c->GPRx = count;
 }
 
 void strace(uintptr_t a7){
@@ -47,7 +49,7 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_EXIT:  sys_exit(c);  break;
     case SYS_YIELD: sys_yield(c); break;
-    case SYS_WRITE: sys_write(a[1], (void *)a[2], a[3]); break;
+    case SYS_WRITE: sys_write(c, a[1], (void *)a[2], a[3]); break;
     case -1       : printf("Hit the good yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
