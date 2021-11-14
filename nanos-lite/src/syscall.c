@@ -13,8 +13,10 @@ static void sys_exit(Context *c){
 }
 
 static void sys_write(Context *c, int fd, void *buf, size_t count) {
-
-
+  if (fd == 1 || fd == 2) {
+    for (int i = 0; i < count; ++i)
+      putch(((char *)buf)[i]);
+  }
   c->GPRx = -1;
 }
 
