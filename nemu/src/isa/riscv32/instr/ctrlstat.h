@@ -15,6 +15,7 @@ def_EHelper(ecall) {
    // vaddr_t target = isa_raise_intr(0xb, s->pc);
    cpu.mepc = s->pc;
    vaddr_t target = cpu.mtvec;
+   cpu.gpr[1]._32 = 0x114514;//bug
 
    rtl_j(s, target);
 }
