@@ -12,8 +12,8 @@ static void sys_exit(Context *c){
 
 void strace(uintptr_t a7){
   switch (a7){
-    case EVENT_NULL:  printf("System Call: exit\n");
-    case EVENT_YIELD: printf("System Call: yield\n");
+    case EVENT_NULL:  printf("System Call: exit\n");  break;
+    case EVENT_YIELD: printf("System Call: yield\n"); break;
 
     default: printf("Unknown System Call\n");
   }
