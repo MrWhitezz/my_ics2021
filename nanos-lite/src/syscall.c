@@ -52,7 +52,7 @@ void do_syscall(Context *c) {
     case SYS_EXIT:  sys_exit(c);  break;
     case SYS_YIELD: sys_yield(c); break;
     case SYS_WRITE: sys_write(c, a[1], (void *)a[2], a[3]); break;
-    case -1       : printf("Hit the good yield!\n"); break;
+    case -1       : printf("Hit the Strange yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
