@@ -24,7 +24,6 @@ uint16_t phentsize, phnum;
 char* bufp[bufsz];
 
 void load_tmp(){
-  // printf("LOAD!!!\n");
   if (e_entry != 0){
     ((void(*)())e_entry) ();
   }
@@ -40,8 +39,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
   phnum= elf.e_phnum;
   e_entry = elf.e_entry;
   assert(phnum >= 0 && phnum <= PN_XNUM);
-  // printf("phentsize = %d\n", phentsize);
-  // printf("sizeof(phdr) = %d\n", sizeof(phdr));
   assert(phentsize == sizeof(phdr) || phentsize == 0);
   for (int i = 0; i < phnum; ++i){
     ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
