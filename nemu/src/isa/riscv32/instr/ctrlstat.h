@@ -12,7 +12,8 @@ def_EHelper(ecall) {
    #ifdef CONFIG_ETRACE
       printf("Exception given: \n");
    #endif
-   vaddr_t target = isa_raise_intr(cpu.gpr[17]._32, s->pc);
+   // vaddr_t target = isa_raise_intr(cpu.gpr[17]._32, s->pc);
+   vaddr_t target = isa_raise_intr(0xb, s->pc); // WRONG!!!
    // cpu.mepc = s->pc;
    // vaddr_t target = cpu.mtvec;
    // cpu.gpr[1]._32 = 0x114514;//bug
