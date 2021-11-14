@@ -13,7 +13,8 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case  -1: ev.event = EVENT_YIELD;   break;
       case 0x0: 
-      case 0x1: ev.event = EVENT_SYSCALL; break;
+      case 0x1: 
+      case 0x4: ev.event = EVENT_SYSCALL; break;
       default:  ev.event = EVENT_ERROR;    break;
     }
 
