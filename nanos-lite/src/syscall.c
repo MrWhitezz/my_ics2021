@@ -17,7 +17,7 @@ static void sys_write(Context *c, int fd, void *buf, size_t count) {
     for (int i = 0; i < count; ++i)
       putch(((char *)buf)[i]);
   }
-  c->GPRx = -1;
+  c->GPRx = count;
 }
 
 void strace(uintptr_t a7){
