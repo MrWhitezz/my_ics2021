@@ -39,6 +39,7 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case EVENT_NULL:  sys_exit(c);  break;
     case EVENT_YIELD: sys_yield(c); break;
+    case -1         : printf("Hit the good yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
