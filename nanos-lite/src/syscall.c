@@ -1,6 +1,8 @@
 #include <common.h>
 #include "syscall.h"
 
+enum {SYS_EXIT = 0, SYS_YIELD, SYS_WRITE = 4};
+
 static void sys_yield(Context *c){
   yield();
   c->GPRx = 0;
@@ -10,10 +12,16 @@ static void sys_exit(Context *c){
   halt(c->GPR2);
 }
 
+static void sys_write(int fd, void *buf, size_t count) {
+
+}
+
 void strace(uintptr_t a7){
   switch (a7){
-    case EVENT_NULL:  printf("System Call: exit\n");  break;
-    case EVENT_YIELD: printf("System Call: yield\n"); break;
+    case SYS_EXIT:  printf("System Call: exit\n");  break;
+    case SYS_YIELD: printf("System Call: yield\n"); break;
+    case SYS_WRITE: printf("System Call: write\n"); break;
+    
 
     default: printf("Unknown System Call\n");
   }
@@ -37,9 +45,10 @@ void do_syscall(Context *c) {
   
 
   switch (a[0]) {
-    case EVENT_NULL:  sys_exit(c);  break;
-    case EVENT_YIELD: sys_yield(c); break;
-    case -1         : printf("Hit the good yield!\n"); break;
+    case SYS_EXIT:  sys_exit(c);  break;
+    case SYS_YIELD: sys_yield(c); break;
+    case SYS_WRITE: sys_write(a[1], (void *)a[2], a[3]); break;
+    case -1       : printf("Hit the good yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
