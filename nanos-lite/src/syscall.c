@@ -12,10 +12,13 @@ static void sys_exit(Context *c){
   halt(c->GPR2);
 }
 
-static void sys_write(Context *c, int fd, void *buf, size_t count) {
+static void sys_write(Context *c, int fd, void *buf, size_t count) { // bug here
   if (fd == 1 || fd == 2) {
+    printf("count = %d\n", count);
     for (int i = 0; i < count; ++i)
-      putch(((char *)buf)[i]);
+      {putch(((char *)buf)[i]);}
+      // putch('?');
+      // putch('j');
   }
   c->GPRx = count;
 }
