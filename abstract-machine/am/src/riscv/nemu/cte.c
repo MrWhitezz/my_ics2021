@@ -19,11 +19,6 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  // test for Context
-  // for (int i = 0; i < 32; ++i)
-  //     printf("R[%d] = 0x%x\n", i, c->gpr[i]);
-
-  printf("test for __am_irq_handle\n");
 
   return c;
 }
