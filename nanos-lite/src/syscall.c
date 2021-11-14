@@ -25,12 +25,15 @@ void do_syscall(Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[2] = c->GPR4;
+
+
   // printf("R[a7] = 0x%x\n", a[0]);
   // printf("R[a0] = 0x%x\n", a[1]);
   // printf("R[a1] = 0x%x\n", a[2]);
   // printf("R[a2] = 0x%x\n", a[3]);
 
   // STRACE
+  strace(a[0]);
   
 
   switch (a[0]) {
