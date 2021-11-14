@@ -24,7 +24,7 @@ uint16_t phentsize, phnum;
 char* bufp[bufsz];
 
 void load_tmp(){
-  printf("LOAD!!!\n");
+  // printf("LOAD!!!\n");
   if (e_entry != 0){
     ((void(*)())e_entry) ();
   }
@@ -56,9 +56,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
-  printf("e_entry = 0x%08x\n", e_entry);
+  // printf("e_entry = 0x%08x\n", e_entry);
   return (uintptr_t)load_tmp;
-  return (uintptr_t)e_entry;
+  // return (uintptr_t)e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
