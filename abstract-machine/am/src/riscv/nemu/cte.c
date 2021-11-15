@@ -5,15 +5,12 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 void ecall_judge(Context *c, Event *e){
-  enum {SYS_EXIT = 0, SYS_YIELD, SYS_WRITE = 4};
   assert(c->mcause == 0xb);
   switch (c->GPR1){
     case -1:        e->event = EVENT_YIELD;   break;
-    case SYS_EXIT:
-    case SYS_YIELD:
-    case SYS_WRITE: e->event = EVENT_SYSCALL; break;
     default:        e->event = EVENT_ERROR;   break;
   }
+  if (c->GPR1 >=0 && c->GPR1 <= 19) {e->event = EVENT_SYSCALL;}
 }
 
 Context* __am_irq_handle(Context *c) {
