@@ -17,8 +17,6 @@ static void sys_write(Context *c, int fd, void *buf, size_t count) { // bug here
     printf("count = %d\n", count);
     for (int i = 0; i < count; ++i)
       {putch(((char *)buf)[i]);}
-      // putch('?');
-      // putch('j');
   }
   c->GPRx = count;
 }
@@ -42,10 +40,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
 
-  printf("R[a7] = 0x%x\n", a[0]);
-  printf("R[a0] = 0x%x\n", a[1]);
-  printf("R[a1] = 0x%x\n", a[2]);
-  printf("R[a2] = 0x%x\n", a[3]);
+  // printf("R[a7] = 0x%x\n", a[0]);
+  // printf("R[a0] = 0x%x\n", a[1]);
+  // printf("R[a1] = 0x%x\n", a[2]);
+  // printf("R[a2] = 0x%x\n", a[3]);
 
   // STRACE
   strace(a[0]);
