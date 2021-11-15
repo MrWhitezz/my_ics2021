@@ -4,6 +4,18 @@
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+void ecall_judge(Context *c, Event *e){
+  enum {SYS_EXIT = 0, SYS_YIELD, SYS_WRITE = 4};
+  assert(c->mcause == 0xb);
+  switch (c->GPR1){
+    case -1:        e->event = EVENT_YIELD;   break;
+    case SYS_EXIT:
+    case SYS_YIELD:
+    case SYS_WRITE: e->event = EVENT_SYSCALL; break;
+    default:        e->event = EVENT_ERROR;   break;
+  }
+}
+
 Context* __am_irq_handle(Context *c) {
   printf("SR[cause] = 0x%x\n", c->mcause);
   printf("SR[epc] = 0x%x\n", c->mepc);
@@ -11,13 +23,10 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      // case  -1: ev.event = EVENT_YIELD;   break;
-      // case 0x0: 
-      // case 0x1: 
-      // case 0x4: ev.event = EVENT_SYSCALL; break;
-      case 0xb: ev.event = EVENT_SYSCALL;    break;
+      case 0xb: ecall_judge(c, &ev);       break;
       default:  ev.event = EVENT_ERROR;    break;
     }
+    
 
     c = user_handler(ev, c);
     assert(c != NULL);
