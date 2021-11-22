@@ -57,11 +57,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
 #ifdef CONFIG_DEBUG
-static void debug_hook(vaddr_t pc, const char *asmbuf) {
-  log_write("%s\n", asmbuf);
-  if (g_print_step) { puts(asmbuf); }
-
-}
+// static void debug_hook(vaddr_t pc, const char *asmbuf) {
+//   log_write("%s\n", asmbuf);
+//   if (g_print_step) { puts(asmbuf); }
+// }
 #endif
 
 #include <isa-exec.h>
