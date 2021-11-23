@@ -58,9 +58,9 @@ size_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
   if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return -1;} // not sure
 
-  printf("open_offset = %d\n", file_table[fd].open_offset);
-  printf("len = %d\n", len);
-  printf("size = %d\n", file_table[fd].size);
+  // printf("open_offset = %d\n", file_table[fd].open_offset);
+  // printf("len = %d\n", len);
+  // printf("size = %d\n", file_table[fd].size);
 
   size_t read_len = len;
   if (len > file_table[fd].size - file_table[fd].open_offset)

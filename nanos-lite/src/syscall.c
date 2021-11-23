@@ -77,7 +77,7 @@ void do_syscall(Context *c) {
   // printf("R[a2] = 0x%x\n", a[3]);
 
   // STRACE
-  strace(a[0]);
+  // strace(a[0]);
   
 
   switch (a[0]) {
