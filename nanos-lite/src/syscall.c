@@ -95,5 +95,5 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   // STRACE
-  strace(c, a[0], a[1], a[2], a[3]);
+  // strace(c, a[0], a[1], a[2], a[3]);
 }
