@@ -47,11 +47,11 @@ static void sys_brk(Context *c) {
   c->GPRx = 0;
 }
 
-void strace(uintptr_t a7){
+void strace(uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
   switch (a7){
     case SYS_exit:  printf("System Call: exit\n");  break;
     case SYS_yield: printf("System Call: yield\n"); break;
-    case SYS_open:  printf("System Call: open\n");  break;
+    case SYS_open:  printf("System Call: open %s\n", (char *) a1);  break;
     case SYS_read:  printf("System Call: read\n");  break;
     case SYS_write: printf("System Call: write\n"); break;
     case SYS_close: printf("System Call: close\n"); break;
@@ -77,7 +77,7 @@ void do_syscall(Context *c) {
   // printf("R[a2] = 0x%x\n", a[3]);
 
   // STRACE
-  // strace(a[0]);
+  strace(a[0], a[1], a[2], a[3]);
   
 
   switch (a[0]) {
