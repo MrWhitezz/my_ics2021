@@ -23,16 +23,25 @@ uint16_t phentsize, phnum;
 #define bufsz 40960
 char* bufp[bufsz];
 
+int fs_open(const char *pathname, int flags, int mode);
+int fs_close(int fd);
+size_t fs_read(int fd, void *buf, size_t len);
+size_t fs_write(int fd, const void *buf, size_t len);
+size_t fs_lseek(int fd, size_t offset, int whence);
+#include "fs.h"
+
 void load_tmp(){
   if (e_entry != 0){
     ((void(*)())e_entry) ();
   }
 }
 
-static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd and filename
+static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd
   Elf_Ehdr elf;
   Elf_Phdr phdr;
-  ramdisk_read(&elf, 0, sizeof(elf));
+  int fd = fs_open(filename, 0, 0);
+  fs_read(fd, &elf, sizeof(elf));
+  //ramdisk_read(&elf, 0, sizeof(elf));
   assert(*(uint32_t *)elf.e_ident == 0x464c457f); // correct ELF MAGIC number
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
@@ -41,14 +50,18 @@ static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore 
   assert(phnum >= 0 && phnum <= PN_XNUM);
   assert(phentsize == sizeof(phdr) || phentsize == 0);
   for (int i = 0; i < phnum; ++i){
-    ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
+    fs_lseek(fd, phoff + i * phentsize, SEEK_SET);
+    fs_read(fd, &phdr, phentsize);
+    //ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
     if (phdr.p_type == PT_LOAD){
       vaddr = phdr.p_vaddr;
       filesz = phdr.p_filesz;
       memsz = phdr.p_memsz;
       offp = phdr.p_offset;
       assert(filesz <= memsz && filesz <= bufsz);
-      ramdisk_read(bufp, offp, filesz);
+      fs_lseek(fd, offp, SEEK_SET);
+      fs_read(fd, bufp, filesz);
+      //ramdisk_read(bufp, offp, filesz);
       memcpy((void *)vaddr, bufp, filesz);
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
