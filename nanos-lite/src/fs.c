@@ -56,6 +56,8 @@ int fs_close(int fd){
 
 size_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return len;} // not sure
+
   assert(file_table[fd].open_offset + len <= file_table[fd].size);
   ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   file_table[fd].open_offset += len;
@@ -78,6 +80,8 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   assert(fd >= 0 && fd < LENGTH(file_table));
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return file_table[fd].open_offset;} // not sure
+
   switch (whence) {
   case SEEK_SET: file_table[fd].open_offset = offset;                       break;
   case SEEK_CUR: file_table[fd].open_offset += offset;                      break;
