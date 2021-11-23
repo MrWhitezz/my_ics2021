@@ -56,16 +56,18 @@ int fs_close(int fd){
 
 size_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return len;} // not sure
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return -1;} // not sure
 
   printf("open_offset = %d\n", file_table[fd].open_offset);
   printf("len = %d\n", len);
   printf("size = %d\n", file_table[fd].size);
-  
-  assert(file_table[fd].open_offset + len <= file_table[fd].size);
-  ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
-  file_table[fd].open_offset += len;
-  return len;
+
+  size_t read_len = len;
+  if (len > file_table[fd].size - file_table[fd].open_offset)
+    read_len = file_table[fd].size - file_table[fd].open_offset;
+  ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, read_len);
+  file_table[fd].open_offset += read_len;
+  return read_len;
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
