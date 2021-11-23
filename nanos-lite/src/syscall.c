@@ -50,7 +50,7 @@ static void sys_brk(Context *c) {
 char trace_filename[64];
 void get_filename(int fd, char *target);
 
-void strace(uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
+void strace(Context *c, uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
   switch (a7){
     case SYS_read:
     case SYS_write:
@@ -63,10 +63,10 @@ void strace(uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
     case SYS_exit:  printf("System Call: exit\n");  break;
     case SYS_yield: printf("System Call: yield\n"); break;
     case SYS_open:  printf("System Call: open %s\n", (char *) a1);  break;
-    case SYS_read:  printf("System Call: read %s %d bytes\n", trace_filename, a3);  break;//wrong
-    case SYS_write: printf("System Call: write %s %d bytes\n", trace_filename, a3); break;
+    case SYS_read:  printf("System Call: read %s %d bytes\n", trace_filename, c->GPRx);  break;//wrong
+    case SYS_write: printf("System Call: write %s %d bytes\n", trace_filename, c->GPRx); break;
     case SYS_close: printf("System Call: close %s\n", trace_filename); break;
-    case SYS_lseek: printf("System Call: lseek %s offset = %d\n", trace_filename, a2); break;
+    case SYS_lseek: printf("System Call: lseek %s offset = %d\n", trace_filename, c->GPRx); break;
     case SYS_brk:   printf("System Call: brk\n");   break;
     
 
@@ -82,15 +82,6 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
 
-  // printf("R[a7] = 0x%x\n", a[0]);
-  // printf("R[a0] = 0x%x\n", a[1]);
-  // printf("R[a1] = 0x%x\n", a[2]);
-  // printf("R[a2] = 0x%x\n", a[3]);
-
-  // STRACE
-  strace(a[0], a[1], a[2], a[3]);
-  
-
   switch (a[0]) {
     case SYS_exit:  sys_exit(c);  break;
     case SYS_yield: sys_yield(c); break;
@@ -103,4 +94,6 @@ void do_syscall(Context *c) {
     case -1       : printf("Hit the Strange yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+  // STRACE
+  strace(c, a[0], a[1], a[2], a[3]);
 }
