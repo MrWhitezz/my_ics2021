@@ -47,15 +47,26 @@ static void sys_brk(Context *c) {
   c->GPRx = 0;
 }
 
+char trace_filename[64];
+void get_filename(int fd, char *target);
+
 void strace(uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
+  switch (a7){
+    case SYS_read:
+    case SYS_write:
+    case SYS_close:
+    case SYS_lseek: get_filename(a1, trace_filename); break;
+    default: break; 
+  }
+
   switch (a7){
     case SYS_exit:  printf("System Call: exit\n");  break;
     case SYS_yield: printf("System Call: yield\n"); break;
     case SYS_open:  printf("System Call: open %s\n", (char *) a1);  break;
-    case SYS_read:  printf("System Call: read\n");  break;
-    case SYS_write: printf("System Call: write\n"); break;
-    case SYS_close: printf("System Call: close\n"); break;
-    case SYS_lseek: printf("System Call: lseek\n"); break;
+    case SYS_read:  printf("System Call: read %s %d bytes\n", trace_filename, a3);  break;//wrong
+    case SYS_write: printf("System Call: write %s %d bytes\n", trace_filename, a3); break;
+    case SYS_close: printf("System Call: close %s\n", trace_filename); break;
+    case SYS_lseek: printf("System Call: lseek %s offset = %d\n", trace_filename, a2); break;
     case SYS_brk:   printf("System Call: brk\n");   break;
     
 

@@ -97,3 +97,9 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   assert(file_table[fd].open_offset <= file_table[fd].size);
   return file_table[fd].open_offset;
 }
+
+// for strace
+void get_filename(int fd, char *target) {
+  assert(fd >= 0 && fd < LENGTH(file_table));
+  strcpy(target, file_table[fd].name);
+}
