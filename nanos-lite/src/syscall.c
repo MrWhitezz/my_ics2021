@@ -50,11 +50,11 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
   tv->tv_sec = 1984;
-  tv->tv_usec = 114514;
+  tv->tv_usec = 1145;
   
   printf("sec is read as %d\n", (uint32_t)tv->tv_sec);
   printf("usec is read as %d\n", (uint32_t)tv->tv_usec);
-  c->GPRx = 0;
+  c->GPRx = 119;
 }
 
 char trace_filename[64];
