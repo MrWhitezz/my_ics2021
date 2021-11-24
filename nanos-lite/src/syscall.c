@@ -43,7 +43,7 @@ static void sys_brk(Context *c) {
 }
 
 static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){
-  // not sure
+  // This is the most weird bug I have ever seen!!!
   assert(tv != NULL);
   uint64_t us =  io_read(AM_TIMER_UPTIME).us;
   uint64_t low = us / 1000000ULL;
