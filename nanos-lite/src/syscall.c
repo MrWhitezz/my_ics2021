@@ -49,11 +49,11 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   // printf("us = %x %x\n", (uint32_t)(us >> 32), (uint32_t)us);
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
-  tv->tv_sec = 1984;
+  tv->tv_sec = 0x123456789abcdad4;
   tv->tv_usec = 1145;
   
-  printf("sec is read as %d\n", (uint32_t)tv->tv_sec);
-  printf("usec is read as %d\n", (uint32_t)tv->tv_usec);
+  // printf("sec is read as %d\n", (uint32_t)tv->tv_sec);
+  // printf("usec is read as %d\n", (uint32_t)tv->tv_usec);
   c->GPRx = 119;
 }
 
