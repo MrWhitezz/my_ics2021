@@ -73,6 +73,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 size_t fs_write(int fd, const void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
   if (file_table[fd].write != NULL){
+    // This should be reached only when stdout, stderr
     return file_table[fd].write(buf, file_table[fd].open_offset, len);
   }
   else {
@@ -85,7 +86,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return file_table[fd].open_offset;} // not sure
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {assert(0); return -1;} // not sure
 
   switch (whence) {
   case SEEK_SET: file_table[fd].open_offset = offset;                       break;
