@@ -43,7 +43,12 @@ static void sys_brk(Context *c) {
 }
 
 static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){
-  // c->GPRx = gettimeofday(tv, tz);
+  // not sure
+  assert(tv != NULL);
+  uint64_t us =  io_read(AM_TIMER_UPTIME).us;
+  tv->tv_sec = us / 1000000;
+  tv->tv_usec = us % 1000000;
+  c->GPRx = 0;
 }
 
 char trace_filename[64];
