@@ -47,14 +47,13 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   assert(tv != NULL);
   uint64_t us =  io_read(AM_TIMER_UPTIME).us;
   // printf("us = %x %x\n", (uint32_t)(us >> 32), (uint32_t)us);
-  tv->tv_sec = us / 1000000ULL;
-  tv->tv_usec = us % 1000000ULL;
-  tv->tv_sec = 0xa00000009;
-  tv->tv_usec = 1145;
+  uint64_t low = us / 1000000ULL;
+  uint64_t high = (us % 1000000ULL) << 32;
+  tv->tv_sec = high + low;
   
   // printf("sec is read as %d\n", (uint32_t)tv->tv_sec);
   // printf("usec is read as %d\n", (uint32_t)tv->tv_usec);
-  c->GPRx = 119;
+  c->GPRx = 0;
 }
 
 char trace_filename[64];
