@@ -57,11 +57,10 @@ int fs_close(int fd){
 
 size_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {return -1;} // not sure
-
-  // printf("open_offset = %d\n", file_table[fd].open_offset);
-  // printf("len = %d\n", len);
-  // printf("size = %d\n", file_table[fd].size);
+  if (file_table[fd].read != NULL) {
+    // This should not be reached
+    return file_table[fd].read(buf, file_table[fd].open_offset, len);
+  }
 
   size_t read_len = len;
   if (len > file_table[fd].size - file_table[fd].open_offset)
@@ -73,10 +72,6 @@ size_t fs_read(int fd, void *buf, size_t len){
 
 size_t fs_write(int fd, const void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  // if (fd == FD_STDOUT || fd == FD_STDERR){
-  //   for (size_t i = 0; i < len; ++i)
-  //     putch(((char *)buf)[i]);
-  // }
   if (file_table[fd].write != NULL){
     return file_table[fd].write(buf, file_table[fd].open_offset, len);
   }
