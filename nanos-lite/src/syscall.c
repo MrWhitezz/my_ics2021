@@ -50,7 +50,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
   if (tv->tv_sec != 0){
-    printf("NBBBB\n");
+    printf("tv_sec is read as %d\n", (uint32_t)tv->tv_sec);
   }
   // printf("sec is read as %x\n", tv->tv_sec);
   // printf("usec is read as %x\n", tv->tv_usec);
