@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include <sys/time.h>
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_close(int fd);
@@ -26,12 +27,6 @@ static void sys_read(Context *c, int fd, void *buf, size_t len){
 }
 
 static void sys_write(Context *c, int fd, void *buf, size_t count) { // bug here
-  // if (fd == 1 || fd == 2) {
-  //   // printf("count = %d\n", count);
-  //   for (int i = 0; i < count; ++i)
-  //     {putch(((char *)buf)[i]);}
-  // }
-  // c->GPRx = count;
   c->GPRx = fs_write(fd, buf, count);
 }
 
@@ -45,6 +40,10 @@ static void sys_lseek(Context *c, int fd, size_t offset, int whence){
 
 static void sys_brk(Context *c) {
   c->GPRx = 0;
+}
+
+static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){
+  // c->GPRx = gettimeofday(tv, tz);
 }
 
 char trace_filename[64];
@@ -68,6 +67,7 @@ void strace(Context *c, uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
     case SYS_close: printf("System Call: close %s\n", trace_filename); break;
     case SYS_lseek: printf("System Call: lseek %s offset = %d\n", trace_filename, c->GPRx); break;
     case SYS_brk:   printf("System Call: brk\n");   break;
+    case SYS_gettimeofday: printf("System Call: gettimeofday\n"); break;
     
 
     default: printf("Unknown System Call\n");
@@ -91,6 +91,7 @@ void do_syscall(Context *c) {
     case SYS_close: sys_close(c, a[1]); break;
     case SYS_lseek: sys_lseek(c, a[1], a[2], a[3]); break;
     case SYS_brk:   sys_brk(c);   break;
+    case SYS_gettimeofday: sys_gettimeofday(c, (struct timeval *)a[1], (struct timezone *)a[2]); break;
     case -1       : printf("Hit the Strange yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
