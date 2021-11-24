@@ -49,6 +49,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   // printf("us = %x %x\n", (uint32_t)(us >> 32), (uint32_t)us);
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
+  tv->tv_sec = 1919810;
   tv->tv_usec = 114514;
   
   // printf("sec is read as %x\n", (uint32_t)tv->tv_sec);
