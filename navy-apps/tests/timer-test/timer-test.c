@@ -4,18 +4,19 @@
 int main() {
   int i = 0;
   struct timeval start, end;
-  gettimeofday(&start, NULL);
+  struct timezone tz;
+  gettimeofday(&start, &tz);
  
-  gettimeofday(&end, NULL);
+  gettimeofday(&end, &tz);
   while(1){
         printf("tv_sec = %d\n", end.tv_sec);
         printf("tv_usec = %d\n", end.tv_usec);
         //????????????????????????????
-    gettimeofday(&end, NULL);
+    gettimeofday(&end, &tz);
     if (((end.tv_sec * 1000000 + end.tv_usec) 
       - (start.tv_sec * 1000000 + start.tv_usec)) >= 500000){
         printf("%d * 0.5 seconds passed\n", ++i);
-        gettimeofday(&start, NULL);
+        gettimeofday(&start, &tz);
     }
   }
   return 0;
