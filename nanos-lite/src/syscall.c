@@ -48,7 +48,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   uint64_t us =  io_read(AM_TIMER_UPTIME).us;
   //printf("us = %x %x\n", (uint32_t)(us >> 32), (uint32_t)us);
   tv->tv_sec = us / 1000000;
-  tv->tv_usec = us % 1000000LL;
+  tv->tv_usec = (long int)(us % 1000000ULL);
   printf("sec is read as %d\n", tv->tv_sec);
   printf("usec is read as %d\n", tv->tv_usec);
   c->GPRx = 0;
