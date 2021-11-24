@@ -51,6 +51,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   tv->tv_usec = (long int)(us % 1000000ULL);
   printf("sec is read as %x\n", tv->tv_sec);
   printf("usec is read as %x\n", tv->tv_usec);
+  printf("size of long int is %d\n", sizeof(long int));
   c->GPRx = 0;
 }
 
