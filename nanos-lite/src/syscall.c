@@ -46,6 +46,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   // not sure
   assert(tv != NULL);
   uint64_t us =  io_read(AM_TIMER_UPTIME).us;
+  printf("us = %lld", us);
   tv->tv_sec = us / 1000000;
   tv->tv_usec = us % 1000000;
   c->GPRx = 0;
