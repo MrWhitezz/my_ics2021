@@ -6,6 +6,7 @@ typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t serial_write(const void *buf, size_t offset, size_t len);
+size_t events_read(void *buf, size_t offset, size_t len);
 
 typedef struct {
   char *name;
@@ -16,7 +17,7 @@ typedef struct {
   size_t open_offset;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB}; // add FD_EVENT
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -33,6 +34,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
+  [FD_EVENT]  = {"/dev/event", 0, 0, events_read, invalid_write},
 #include "files.h"
 };
 
@@ -58,7 +60,7 @@ int fs_close(int fd){
 size_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < LENGTH(file_table));
   if (file_table[fd].read != NULL) {
-    // This should not be reached
+    // This should only be reached by event_read()
     return file_table[fd].read(buf, file_table[fd].open_offset, len);
   }
 
@@ -86,7 +88,8 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR) {assert(0); return -1;} // not sure
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR || fd == FD_EVENT)
+    {assert(0); return -1;} // not sure
 
   switch (whence) {
   case SEEK_SET: file_table[fd].open_offset = offset;                       break;

@@ -9,6 +9,9 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+int _read(int fd, void *buf, size_t count);
+int _open(const char *path, int flags, mode_t mode);
+int _close(int fd);
 static struct timeval tv;
 uint32_t NDL_GetTicks() {
   gettimeofday(&tv, NULL); 
@@ -16,7 +19,10 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  return 0;
+  int fd = _open("/dev/event", 0, 0);
+  int real_len = _read(fd, buf, len);
+  _close(fd);
+  return real_len ? 1 : 0;
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
