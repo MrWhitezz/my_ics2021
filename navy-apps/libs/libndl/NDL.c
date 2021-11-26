@@ -34,7 +34,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     while (*pos > '9' || *pos < '0') ++pos;
     screen_w = atoi(pos);
     // printf("Test on info\n");
-    while (*pos <= '9' || *pos >= '0') ++pos;
+    while (*pos <= '9' && *pos >= '0') ++pos;
     while (*pos > '9' || *pos < '0') ++pos;
     screen_h = atoi(pos);
     printf("screen_w = %d\n", screen_w);
