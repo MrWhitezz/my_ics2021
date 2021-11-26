@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <assert.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
@@ -30,15 +31,16 @@ void NDL_OpenCanvas(int *w, int *h) {
   char info[64];
   int real_len = _read(fd_info, info, sizeof(info));
   if (real_len){
+    // ugly code
     char *pos = info;
     while (*pos > '9' || *pos < '0') ++pos;
     screen_w = atoi(pos);
-    // printf("Test on info\n");
     while (*pos <= '9' && *pos >= '0') ++pos;
     while (*pos > '9' || *pos < '0') ++pos;
     screen_h = atoi(pos);
     printf("screen_w = %d\n", screen_w);
     printf("screen_h = %d\n", screen_h);
+    assert(*w <= screen_w && *h <= screen_h);
   }
   if (getenv("NWM_APP")) {
     int fbctl = 4; // why 4 ?

@@ -43,6 +43,10 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  int last_file = LENGTH(file_table) - 1;
+  file_table[FD_FB].disk_offset = file_table[last_file].disk_offset + file_table[last_file].size;
+  AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
+  file_table[FD_FB].size = cfg.width * cfg.height;
 }
 
 int fs_open(const char *pathname, int flags, int mode){
@@ -91,7 +95,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   assert(fd >= 0 && fd < LENGTH(file_table));
-  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR || fd == FD_EVENT)
+  if (fd == FD_STDIN || fd == FD_STDOUT || fd == FD_STDERR || fd == FD_EVENT || fd == FD_DISP)
     {assert(0); return -1;} // not sure
 
   switch (whence) {
