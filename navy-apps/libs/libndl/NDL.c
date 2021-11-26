@@ -29,6 +29,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   int fd_info = _open("/proc/dispinfo", 0, 0);
   char info[64];
   int real_len = _read(fd_info, info, sizeof(info));
+  printf("Test on info\n");
   if (real_len){
     char *pos = info;
     while (*pos > '9' || *pos < '0') ++pos;
