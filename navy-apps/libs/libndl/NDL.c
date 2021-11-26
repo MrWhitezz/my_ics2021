@@ -21,7 +21,7 @@ uint32_t NDL_GetTicks() {
 int NDL_PollEvent(char *buf, int len) {
   int fd = _open("/dev/event", 0, 0);
   int real_len = _read(fd, buf, len);
-  printf("NDL_find real_len = %d\n", real_len);
+  // printf("NDL_find real_len = %d\n", real_len);
   _close(fd);
   return real_len ? 1 : 0;
 }
