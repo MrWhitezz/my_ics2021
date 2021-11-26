@@ -9,8 +9,11 @@
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
+static int canvas_w = 0, canvas_h = 0;
 
 int _read(int fd, void *buf, size_t count);
+int _write(int fd, void *buf, size_t count);
+off_t _lseek(int fd, off_t offset, int whence);
 int _open(const char *path, int flags, mode_t mode);
 int _close(int fd);
 static struct timeval tv;
@@ -41,6 +44,9 @@ void NDL_OpenCanvas(int *w, int *h) {
     // printf("screen_w = %d\n", screen_w);
     // printf("screen_h = %d\n", screen_h);
     assert(*w <= screen_w && *h <= screen_h);
+    if (*w == 0 && *h == 0){
+      *w = screen_w; *h = screen_h;
+    }
   }
   // do not know what is NWM
   if (getenv("NWM_APP")) {
@@ -60,12 +66,19 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
-  
-  printf("screen_w = %d\n", *w);
-  printf("screen_w = %d\n", *h);
+  canvas_w = *w; canvas_h = *h;
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  int fd_fb = _open("/dev/fb", 0, 0);
+  //TODO
+  // _lseek(fd_fb, 0, SEEK_SET);
+  // _write(fd_fb, pixels, w * h * sizeof(uint32_t)); 
+  for (int j = 0; j < h; ++j){
+    _lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
+    _write(fd_fb, pixels + j * w, w);
+  }
+  _close(fd_fb); 
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
