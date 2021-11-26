@@ -74,6 +74,8 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   //TODO
   // _lseek(fd_fb, 0, SEEK_SET);
   // _write(fd_fb, pixels, w * h * sizeof(uint32_t)); 
+  x += (screen_w - canvas_w) / 2;
+  y += (screen_h - canvas_h) / 2;
   for (int j = 0; j < h; ++j){
     _lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
     _write(fd_fb, pixels + j * w, w);
