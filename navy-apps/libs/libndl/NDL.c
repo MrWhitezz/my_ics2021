@@ -41,6 +41,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     printf("screen_w = %d\n", screen_w);
     printf("screen_h = %d\n", screen_h);
     assert(*w <= screen_w && *h <= screen_h);
+    assert(0);
   }
   if (getenv("NWM_APP")) {
     int fbctl = 4; // why 4 ?
