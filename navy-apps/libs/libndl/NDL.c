@@ -26,6 +26,19 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
+  int fd_info = _open("/proc/dispinfo", 0, 0);
+  char info[64];
+  int real_len = _read(fd_info, info, sizeof(info));
+  if (real_len){
+    char *pos = info;
+    while (*pos > '9' || *pos < '0') ++pos;
+    screen_w = atoi(pos);
+    while (*pos <= '0' || *pos >= '0') ++pos;
+    while (*pos > '9' || *pos < '0') ++pos;
+    screen_h = atoi(pos);
+    printf("screen_w = %d\n", screen_w);
+    printf("screen_h = %d\n", screen_h);
+  }
   if (getenv("NWM_APP")) {
     int fbctl = 4; // why 4 ?
     fbdev = 5;
