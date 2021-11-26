@@ -38,11 +38,12 @@ void NDL_OpenCanvas(int *w, int *h) {
     while (*pos <= '9' && *pos >= '0') ++pos;
     while (*pos > '9' || *pos < '0') ++pos;
     screen_h = atoi(pos);
-    printf("screen_w = %d\n", screen_w);
-    printf("screen_h = %d\n", screen_h);
+    // printf("screen_w = %d\n", screen_w);
+    // printf("screen_h = %d\n", screen_h);
     assert(*w <= screen_w && *h <= screen_h);
   }
   if (getenv("NWM_APP")) {
+    printf("Test NWM\n");
     int fbctl = 4; // why 4 ?
     fbdev = 5;
     screen_w = *w; screen_h = *h;
