@@ -11,11 +11,6 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 static int canvas_w = 0, canvas_h = 0;
 
-// int _read(int fd, void *buf, size_t count);
-// int _write(int fd, void *buf, size_t count);
-// off_t _lseek(int fd, off_t offset, int whence);
-// int _open(const char *path, int flags, mode_t mode);
-// int _close(int fd);
 static struct timeval tv;
 uint32_t NDL_GetTicks() {
   gettimeofday(&tv, NULL); 
@@ -23,21 +18,18 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  // int fd = _open("/dev/event", 0, 0);
-  // int real_len = _read(fd, buf, len);
-  // _close(fd);
-  int fd = open("/dev/event", 0, 0);
+  int fd = open("/dev/events", 0, 0);
   int real_len = read(fd, buf, len);
   close(fd);
-
-  return real_len ? 1 : 0;
+  for (int i = 0; i < real_len; ++i){
+    if (buf[i] == '\n') return 1;
+  }
+  return 0;
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  // int fd_info = _open("/proc/dispinfo", 0, 0);
   int fd_info = open("/proc/dispinfo", 0, 0);
   char info[64];
-  // int real_len = _read(fd_info, info, sizeof(info));
   int real_len = read(fd_info, info, sizeof(info));
   if (real_len){
     // ugly code
