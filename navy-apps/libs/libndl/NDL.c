@@ -11,11 +11,11 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 static int canvas_w = 0, canvas_h = 0;
 
-int _read(int fd, void *buf, size_t count);
-int _write(int fd, void *buf, size_t count);
-off_t _lseek(int fd, off_t offset, int whence);
-int _open(const char *path, int flags, mode_t mode);
-int _close(int fd);
+// int _read(int fd, void *buf, size_t count);
+// int _write(int fd, void *buf, size_t count);
+// off_t _lseek(int fd, off_t offset, int whence);
+// int _open(const char *path, int flags, mode_t mode);
+// int _close(int fd);
 static struct timeval tv;
 uint32_t NDL_GetTicks() {
   gettimeofday(&tv, NULL); 
@@ -106,7 +106,6 @@ int NDL_Init(uint32_t flags) {
   gettimeofday(&tv, NULL); // Get time for the first time
   if (getenv("NWM_APP")) {
     evtdev = 3;
-    printf("TEST NWM\n");
   }
   return 0;
 }
