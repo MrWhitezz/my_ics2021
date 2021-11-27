@@ -23,16 +23,22 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  int fd = _open("/dev/event", 0, 0);
-  int real_len = _read(fd, buf, len);
-  _close(fd);
+  // int fd = _open("/dev/event", 0, 0);
+  // int real_len = _read(fd, buf, len);
+  // _close(fd);
+  int fd = open("/dev/event", 0, 0);
+  int real_len = read(fd, buf, len);
+  close(fd);
+
   return real_len ? 1 : 0;
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  int fd_info = _open("/proc/dispinfo", 0, 0);
+  // int fd_info = _open("/proc/dispinfo", 0, 0);
+  int fd_info = open("/proc/dispinfo", 0, 0);
   char info[64];
-  int real_len = _read(fd_info, info, sizeof(info));
+  // int real_len = _read(fd_info, info, sizeof(info));
+  int real_len = read(fd_info, info, sizeof(info));
   if (real_len){
     // ugly code
     char *pos = info;
@@ -70,14 +76,18 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  int fd_fb = _open("/dev/fb", 0, 0);
-  x += (screen_w - canvas_w) / 2;
-  y += (screen_h - canvas_h) / 2;
+  // int fd_fb = _open("/dev/fb", 0, 0);
+  int fd_fb = open("/dev/fb", 0, 0);
+  // x += (screen_w - canvas_w) / 2;
+  // y += (screen_h - canvas_h) / 2;
   for (int j = 0; j < h; ++j){
-    _lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
-    _write(fd_fb, pixels + j * w, w);
+    // _lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
+    // _write(fd_fb, pixels + j * w, w);
+    lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
+    write(fd_fb, pixels + j * w, w);
   }
-  _close(fd_fb); 
+  // _close(fd_fb); 
+  close(fd_fb); 
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
