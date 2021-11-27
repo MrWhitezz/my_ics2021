@@ -47,8 +47,8 @@ void NDL_OpenCanvas(int *w, int *h) {
     while (*pos <= '9' && *pos >= '0') ++pos;
     while (*pos > '9' || *pos < '0') ++pos;
     screen_h = atoi(pos);
-    // printf("screen_w = %d\n", screen_w);
-    // printf("screen_h = %d\n", screen_h);
+    printf("screen_w = %d\n", screen_w);
+    printf("screen_h = %d\n", screen_h);
     assert(*w <= screen_w && *h <= screen_h);
     if (*w == 0 && *h == 0){
       *w = screen_w; *h = screen_h;
@@ -71,22 +71,20 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
+    printf("test on NWM\n");
   }
   canvas_w = *w; canvas_h = *h;
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  // int fd_fb = _open("/dev/fb", 0, 0);
+
   int fd_fb = open("/dev/fb", 0, 0);
   x += (screen_w - canvas_w) / 2;
   y += (screen_h - canvas_h) / 2;
   for (int j = 0; j < h; ++j){
-    // _lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
-    // _write(fd_fb, pixels + j * w, w);
-    lseek(fd_fb, ((y + j) * screen_w + x), SEEK_SET);
-    write(fd_fb, pixels + j * w, w);
+    lseek(fd_fb, ((y + j) * screen_w + x) * sizeof(uint32_t), SEEK_SET);
+    write(fd_fb, pixels + j * w, w * sizeof(uint32_t));
   }
-  // _close(fd_fb); 
   close(fd_fb); 
 }
 
@@ -108,6 +106,7 @@ int NDL_Init(uint32_t flags) {
   gettimeofday(&tv, NULL); // Get time for the first time
   if (getenv("NWM_APP")) {
     evtdev = 3;
+    printf("TEST NWM\n");
   }
   return 0;
 }
