@@ -16,8 +16,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   uint32_t *d_pix = (uint32_t *)(dst->pixels);
   int s_w = src->w;
   int d_w = dst->w;
-  // assert(src->h == dst->h);
-  // assert(src->w == dst->w);
   for (int j = 0; j < r_h; ++j){
     for (int i = 0; i < r_w; ++i) 
       *(d_pix + (d_y + j) * d_w + (d_x + i)) = *(s_pix + (s_y + j) * s_w + (s_x + i));
