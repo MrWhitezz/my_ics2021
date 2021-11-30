@@ -68,14 +68,21 @@ void NDL_OpenCanvas(int *w, int *h) {
   canvas_w = *w; canvas_h = *h;
 }
 
-int fd_fb_debug = -1;
+// why fd_fb_debug ?
+// Because there is a very strange thing.
+// That "/dev/fb" cannot be closed
+// Once you closed it (close function return 1)
+// You never succeed in opening (not sure) and writing(sure) it again
+// It seems like <close> will close it permanently!!!
+
+// int fd_fb_debug = -1;
 int fd_fb = -1;
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  // int fd_fb = open("/dev/fb", 0, 0);
-  if(fd_fb_debug == -1){  
-    fd_fb = open("/dev/fb", 0, 0);
-    fd_fb_debug = 0;
-  }
+  // if(fd_fb_debug == -1){  
+  //   fd_fb = open("/dev/fb", 0, 0);
+  //   fd_fb_debug = 0;
+  // }
+  fd_fb = open("/dev/fb", 0, 0);
   x += (screen_w - canvas_w) / 2;
   y += (screen_h - canvas_h) / 2;
 
@@ -83,7 +90,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     int l = lseek(fd_fb, ((y + j) * screen_w + x) * sizeof(uint32_t), SEEK_SET);
     int t = write(fd_fb, pixels + j * w, w * sizeof(uint32_t));
   }
-  close(fd_fb); 
+  // close(fd_fb); 
 
 }
 
