@@ -90,6 +90,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     int l = lseek(fd_fb, ((y + j) * screen_w + x) * sizeof(uint32_t), SEEK_SET);
     int t = write(fd_fb, pixels + j * w, w * sizeof(uint32_t));
   }
+  // Here is the bug source
   // close(fd_fb); 
 
 }

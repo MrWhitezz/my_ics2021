@@ -7,15 +7,50 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  int d_x, d_y, r_w, r_h, s_x, s_y;
+  if (srcrect == NULL) {r_w = src->w; r_h = src->h; s_x = 0; s_y = 0;}
+  else {r_w = srcrect->w; r_h = srcrect->h; s_x = srcrect->x; s_y = srcrect->y;}
+  if (dstrect == NULL) {d_x = 0; d_y = 0;}
+  else {d_x = dstrect->x; d_y = dstrect->y; dstrect->w = r_w; dstrect->h = r_h;}
+  uint32_t *s_pix = (uint32_t *)(src->pixels);
+  uint32_t *d_pix = (uint32_t *)(dst->pixels);
+  int s_w = src->w;
+  int d_w = dst->w;
+  // assert(src->h == dst->h);
+  // assert(src->w == dst->w);
+  for (int j = 0; j < r_h; ++j){
+    for (int i = 0; i < r_w; ++i) 
+      *(d_pix + (d_y + j) * d_w + (d_x + i)) = *(s_pix + (s_y + j) * s_w + (s_x + i));
+  }
+  
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  assert(0);
+  int r_x, r_y, r_w, r_h;
+  if (dstrect == NULL){
+    r_x = r_y = 0;
+    r_w = dst->w; r_h = dst->h;
+  }
+  else{
+    r_x = dstrect->x; r_y = dstrect->y;
+    r_w = dstrect->w; r_h = dstrect->h;
+  }
+  uint32_t *pixels = (uint32_t *)(dst->pixels);
+  int s_w = dst->w;
+  printf("The color is %x\n", color);
+  for (int j = 0; j < r_h; ++j){
+    for (int i = 0; i < r_w; ++i)
+      *(pixels + (r_y + j) * s_w + (r_x + i)) = color;
+  }
+
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   // NOT SURE!!!! what is w, h for ???
-  NDL_DrawRect(s->pixels, x, y, s->w, s->h);
+  if (x == 0 && y == 0 && w == 0 && h == 0){
+    w = s->w; h = s->h;
+  }
+  NDL_DrawRect(s->pixels, x, y, w, h);
 }
 
 // APIs below are already implemented.
