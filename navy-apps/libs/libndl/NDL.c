@@ -76,7 +76,6 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     fd_fb = open("/dev/fb", 0, 0);
     fd_fb_debug = 0;
   }
-  printf("fd_fb = %d\n", fd_fb);
   x += (screen_w - canvas_w) / 2;
   y += (screen_h - canvas_h) / 2;
 
