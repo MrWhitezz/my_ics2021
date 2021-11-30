@@ -146,6 +146,7 @@ static const char* redirect_path(char *newpath, const char *path) {
     fprintf(stderr, "Redirecting file open: %s -> %s\n", path, newpath);
     return newpath;
   }
+  
   return path;
 }
 
