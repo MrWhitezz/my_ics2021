@@ -1,6 +1,6 @@
 #ifndef _FIXEDPTC_H_
 #define _FIXEDPTC_H_
-
+#include<assert.h>
 /*
  * fixedptc.h is a 32-bit or 64-bit fixed point numeric library.
  *
@@ -151,6 +151,7 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
+	assert(0);
 	// return the largest integral value not greater than x
 	if (A >= 0)
 		return A & 0xffffff00;
@@ -161,6 +162,7 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
+	assert(0);
 	// return the smallest integral value not less than x
 	if (A >= 0){
 		if (A & FIXEDPT_FMASK == 0)

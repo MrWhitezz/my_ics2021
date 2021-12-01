@@ -18,6 +18,7 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 
 char buf_event[64];
+int debug_cnt = 0;
 int SDL_PollEvent(SDL_Event *event) {
   // copied from SDL_WaitEvent, share buf_event
   if (NDL_PollEvent(buf_event, 64)){
@@ -35,8 +36,11 @@ int SDL_PollEvent(SDL_Event *event) {
         break;
       }
     } 
+    printf("Find some event\n");
     return 1;
   }
+  // if (++debug_cnt % 10000 == 0)
+  //   printf("Find no event %d times\n", debug_cnt);
   return 0;
 }
 
