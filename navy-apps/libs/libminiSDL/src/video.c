@@ -7,6 +7,7 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  printf("BitsPerPixel = %d\n", dst->format->BitsPerPixel);
   int d_x, d_y, r_w, r_h, s_x, s_y;
   if (srcrect == NULL) {r_w = src->w; r_h = src->h; s_x = 0; s_y = 0;}
   else {r_w = srcrect->w; r_h = srcrect->h; s_x = srcrect->x; s_y = srcrect->y;}
@@ -14,13 +15,19 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   else {d_x = dstrect->x; d_y = dstrect->y; dstrect->w = r_w; dstrect->h = r_h;}
   uint32_t *s_pix = (uint32_t *)(src->pixels);
   uint32_t *d_pix = (uint32_t *)(dst->pixels);
+  if (dst->format->BitsPerPixel == 8){
+    s_pix = (uint8_t *)s_pix;
+    d_pix = (uint8_t *)d_pix;
+  }
+  else assert(dst->format->BitsPerPixel == 32);
+
   int s_w = src->w;
   int d_w = dst->w;
   for (int j = 0; j < r_h; ++j){
     for (int i = 0; i < r_w; ++i) 
       *(d_pix + (d_y + j) * d_w + (d_x + i)) = *(s_pix + (s_y + j) * s_w + (s_x + i));
   }
-  
+  printf("Success Blit\n");  
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -39,15 +46,31 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     for (int i = 0; i < r_w; ++i)
       *(pixels + (r_y + j) * s_w + (r_x + i)) = color;
   }
-
+  assert(0);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   // NOT SURE!!!! what is w, h for ???
-  if (x == 0 && y == 0 && w == 0 && h == 0){
-    w = s->w; h = s->h;
-  }
-  NDL_DrawRect(s->pixels, x, y, w, h);
+  // assert(s);
+  // if (x == 0 && y == 0 && w == 0 && h == 0){
+  //   w = s->w; h = s->h;
+  // }
+  // if (s->format->BitsPerPixel == 32){
+  //   NDL_DrawRect(s->pixels, x, y, w, h);
+  // }
+  // else if (s->format->BitsPerPixel == 8){
+  //   assert(s->pitch == s->w * s->format->BytesPerPixel);
+  //   uint32_t *pixel_draw = malloc(s->w * s->h * sizeof(uint32_t));
+  //   for (int i = 0; i < s->w * s->h; ++i){
+  //     int index = s->pixels[i];
+  //     assert(index < s->format->palette->ncolors);
+  //     pixel_draw[i] = s->format->palette->colors[index].val;
+  //   }
+  //   NDL_DrawRect(pixel_draw, x, y, w, h);
+  // }
+  // else {
+  //   assert(0);
+  // }
 }
 
 // APIs below are already implemented.
