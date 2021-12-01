@@ -116,7 +116,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       assert(index < s->format->palette->ncolors);
       pixel_draw[i] = s->format->palette->colors[index].val;
     }
-    NDL_DrawRect(pixel_draw, x, y, w, h);
+    // NDL_DrawRect(pixel_draw, x, y, w, h);
   }
   else {
     assert(0);
