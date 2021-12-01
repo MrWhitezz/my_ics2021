@@ -106,7 +106,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w; h = s->h;
   }
   if (s->format->BitsPerPixel == 32){
-    // NDL_DrawRect(s->pixels, x, y, w, h);
+    NDL_DrawRect(s->pixels, x, y, w, h);
   }
   else if (s->format->BitsPerPixel == 8){
     assert(s->pitch == s->w * s->format->BytesPerPixel);
@@ -116,7 +116,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       assert(index < s->format->palette->ncolors);
       pixel_draw[i] = s->format->palette->colors[index].val;
     }
-    // NDL_DrawRect(pixel_draw, x, y, w, h);
+    NDL_DrawRect(pixel_draw, x, y, w, h);
   }
   else {
     assert(0);
