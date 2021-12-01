@@ -51,26 +51,26 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   // NOT SURE!!!! what is w, h for ???
-  // assert(s);
-  // if (x == 0 && y == 0 && w == 0 && h == 0){
-  //   w = s->w; h = s->h;
-  // }
-  // if (s->format->BitsPerPixel == 32){
-  //   NDL_DrawRect(s->pixels, x, y, w, h);
-  // }
-  // else if (s->format->BitsPerPixel == 8){
-  //   assert(s->pitch == s->w * s->format->BytesPerPixel);
-  //   uint32_t *pixel_draw = malloc(s->w * s->h * sizeof(uint32_t));
-  //   for (int i = 0; i < s->w * s->h; ++i){
-  //     int index = s->pixels[i];
-  //     assert(index < s->format->palette->ncolors);
-  //     pixel_draw[i] = s->format->palette->colors[index].val;
-  //   }
-  //   NDL_DrawRect(pixel_draw, x, y, w, h);
-  // }
-  // else {
-  //   assert(0);
-  // }
+  assert(s);
+  if (x == 0 && y == 0 && w == 0 && h == 0){
+    w = s->w; h = s->h;
+  }
+  if (s->format->BitsPerPixel == 32){
+    NDL_DrawRect(s->pixels, x, y, w, h);
+  }
+  else if (s->format->BitsPerPixel == 8){
+    assert(s->pitch == s->w * s->format->BytesPerPixel);
+    uint32_t *pixel_draw = malloc(s->w * s->h * sizeof(uint32_t));
+    for (int i = 0; i < s->w * s->h; ++i){
+      int index = s->pixels[i];
+      assert(index < s->format->palette->ncolors);
+      pixel_draw[i] = s->format->palette->colors[index].val;
+    }
+    NDL_DrawRect(pixel_draw, x, y, w, h);
+  }
+  else {
+    assert(0);
+  }
 }
 
 // APIs below are already implemented.
