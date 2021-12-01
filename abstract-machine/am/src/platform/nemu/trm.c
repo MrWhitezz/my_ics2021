@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include <stdio.h>
 
 extern char _heap_start;
 int main(const char *args);
@@ -22,6 +23,8 @@ void halt(int code) {
 }
 
 void _trm_init() {
+  printf("heap start at %x\n", &_heap_start);
+  printf("heap end at %x\n", PMEM_END);
   int ret = main(mainargs);
   halt(ret);
 }
