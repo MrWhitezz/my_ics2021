@@ -82,14 +82,14 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   //   fd_fb = open("/dev/fb", 0, 0);
   //   fd_fb_debug = 0;
   // }
-  // fd_fb = open("/dev/fb", 0, 0);
-  // x += (screen_w - canvas_w) / 2;
-  // y += (screen_h - canvas_h) / 2;
+  fd_fb = open("/dev/fb", 0, 0);
+  x += (screen_w - canvas_w) / 2;
+  y += (screen_h - canvas_h) / 2;
 
-  // for (int j = 0; j < h; ++j){
-  //   int l = lseek(fd_fb, ((y + j) * screen_w + x) * sizeof(uint32_t), SEEK_SET);
-  //   int t = write(fd_fb, pixels + j * w, w * sizeof(uint32_t));
-  // }
+  for (int j = 0; j < h; ++j){
+    int l = lseek(fd_fb, ((y + j) * screen_w + x) * sizeof(uint32_t), SEEK_SET);
+    int t = write(fd_fb, pixels + j * w, w * sizeof(uint32_t));
+  }
   // Here is the bug source
   // close(fd_fb); 
 
@@ -118,4 +118,5 @@ int NDL_Init(uint32_t flags) {
 }
 
 void NDL_Quit() {
+  assert(0);
 }
