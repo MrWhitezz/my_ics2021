@@ -7,7 +7,6 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  printf("BitsPerPixel = %d\n", dst->format->BitsPerPixel);
   int d_x, d_y, r_w, r_h, s_x, s_y;
   if (srcrect == NULL) {r_w = src->w; r_h = src->h; s_x = 0; s_y = 0;}
   else {r_w = srcrect->w; r_h = srcrect->h; s_x = srcrect->x; s_y = srcrect->y;}
@@ -39,7 +38,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         *(d_pix_32 + (d_y + j) * d_w + (d_x + i)) = *(s_pix_32 + (s_y + j) * s_w + (s_x + i));
     }
   }
-  printf("Success Blit\n");  
 
   // This is the reference code by yzh
   // int sx = (srcrect == NULL ? 0 : srcrect->x);
