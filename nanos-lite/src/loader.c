@@ -20,7 +20,7 @@ ElfN_off phoff, offp;
 ElfN_Addr vaddr, e_entry;
 Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
-#define bufsz 102400
+#define bufsz 204800
 char* bufp[bufsz];
 
 int fs_open(const char *pathname, int flags, int mode);
