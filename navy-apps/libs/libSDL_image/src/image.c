@@ -14,13 +14,10 @@ SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
 
 SDL_Surface* IMG_Load(const char *filename) {
   //try
-  printf("filename = %s\n", filename);
   FILE *fp = fopen(filename, "r");
   
   assert(fp);
-  printf("IMG_load\n");
   fseek(fp, 0, SEEK_END);
-  printf("Successly fseek\n");
   int sz = ftell(fp);
   fseek(fp, 0, SEEK_SET);
   char *buf = malloc(sz + 1);
