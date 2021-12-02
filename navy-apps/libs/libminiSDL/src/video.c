@@ -4,6 +4,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Strong assumption that is
+// assert(screen_w == 400 && screen_h == 300)
+#define W 400
+#define H 300
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
@@ -125,18 +130,29 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
   else if (s->format->BitsPerPixel == 8){
     assert(s->pitch == s->w * s->format->BytesPerPixel);
-    uint32_t *pixel_draw = malloc(s->w * s->h * sizeof(uint32_t));
-    for (int i = 0; i < s->w * s->h; ++i){
-      int index = s->pixels[i];
-      assert(index < s->format->palette->ncolors);
-      uint32_t r = s->format->palette->colors[index].r;
-      uint32_t g = s->format->palette->colors[index].g;
-      uint32_t b = s->format->palette->colors[index].b;
-      uint32_t a = s->format->palette->colors[index].a;
-      // pixel_draw[i] = s->format->palette->colors[index].val;
-      pixel_draw[i] = b + (g << 8) + (r << 16) + (a << 24);
-      // pixel_draw[i] = b + (g << 8) + (r << 16);
+    uint32_t *pixel_draw = malloc(w * h * sizeof(uint32_t));
+    for (int j = 0; j < h; ++j){
+      for (int i = 0; i < w; ++i){
+        int index = s->pixels[(j + y) * s->w + (x + i)];
+        assert(index < s->format->palette->ncolors);
+        uint32_t r = s->format->palette->colors[index].r;
+        uint32_t g = s->format->palette->colors[index].g;
+        uint32_t b = s->format->palette->colors[index].b;
+        uint32_t a = s->format->palette->colors[index].a;
+        pixel_draw[j * w + i] = b + (g << 8) + (r << 16) + (a << 24);
+      }
     }
+    // for (int i = 0; i < s->w * s->h; ++i){
+    //   int index = s->pixels[i];
+    //   assert(index < s->format->palette->ncolors);
+    //   uint32_t r = s->format->palette->colors[index].r;
+    //   uint32_t g = s->format->palette->colors[index].g;
+    //   uint32_t b = s->format->palette->colors[index].b;
+    //   uint32_t a = s->format->palette->colors[index].a;
+    //   // pixel_draw[i] = s->format->palette->colors[index].val;
+    //   pixel_draw[i] = b + (g << 8) + (r << 16) + (a << 24);
+    //   // pixel_draw[i] = b + (g << 8) + (r << 16);
+    // }
     NDL_DrawRect(pixel_draw, x, y, w, h);
     free(pixel_draw);
   }
