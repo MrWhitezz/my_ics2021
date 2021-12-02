@@ -51,7 +51,6 @@ static void sys_execve(Context *c, const char *fname, char * const argv[], char 
   // on success no return value
   naive_uload(NULL, fname); 
   c->GPRx = -1;
-  assert(0);
 }
 
 static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){

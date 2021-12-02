@@ -58,7 +58,8 @@ int fs_open(const char *pathname, int flags, int mode){
       return i;
     } 
   }
-  assert(0);
+  printf("Fail to open file %s\n", pathname);
+  return -1;
 }
 
 int fs_close(int fd){
