@@ -41,6 +41,7 @@ static void sh_handle_cmd(const char *cmd) {
     exit(0);
   }
   const char *new_cmd = cmd_rm_endl(cmd);
+  // execve(new_cmd, NULL, NULL);
   execvp(new_cmd, NULL);
   printf("Fail to execute %s", cmd);
 }
