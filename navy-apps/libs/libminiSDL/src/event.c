@@ -10,7 +10,8 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 int keyname_len = sizeof(keyname) / sizeof(keyname[0]);
-uint8_t key_queue[96];
+#define key_queue_size 96
+uint8_t key_queue[key_queue_size];
 
 int SDL_PushEvent(SDL_Event *ev) {
   assert(0);
@@ -35,6 +36,13 @@ int SDL_PollEvent(SDL_Event *event) {
         break;
       }
     } 
+    assert(event->key.keysym.sym < key_queue_size);
+    if (event->type == SDL_KEYDOWN){
+      key_queue[event->key.keysym.sym] = 1;
+    }
+    else if (event->type == SDL_KEYUP){
+      key_queue[event->key.keysym.sym] = 0; 
+    }
     return 1;
   }
   return 0;
@@ -74,7 +82,7 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
   if (numkeys != NULL) {assert(*numkeys < keyname_len);}
-  assert(keyname_len < 96); // ensure the size of key_queue enough
+  assert(keyname_len < key_queue_size); // ensure the size of key_queue enough
   return key_queue;
   assert(0);
 }

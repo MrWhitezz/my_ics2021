@@ -28,8 +28,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 
   if (len_pix == 8){
     for (int j = 0; j < r_h; ++j){
-      for (int i = 0; i < r_w; ++i) 
+      for (int i = 0; i < r_w; ++i) {
         *(d_pix_8 + (d_y + j) * d_w + (d_x + i)) = *(s_pix_8 + (s_y + j) * s_w + (s_x + i));
+        
+      }
     }
   }
   else{
@@ -38,6 +40,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         *(d_pix_32 + (d_y + j) * d_w + (d_x + i)) = *(s_pix_32 + (s_y + j) * s_w + (s_x + i));
     }
   }
+
+  printf("BlitSurface!\n");
 
   // This is the reference code by yzh
   // int sx = (srcrect == NULL ? 0 : srcrect->x);
@@ -64,10 +68,12 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   //     uint8_t idx = src->pixels[(sx + i) + (sy + j) * src->w];
   //     dst->pixels[(dx + i) + (dy + j) * dst->w] = idx;
   //   }
+  
 
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  assert(dst);
   int r_x, r_y, r_w, r_h;
   if (dstrect == NULL){
     r_x = r_y = 0;
@@ -84,8 +90,13 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   if (dst->format->BitsPerPixel == 32){
     len_pix = 32;
   }
-  else {assert(dst->format->BitsPerPixel == 8);}
+  else {
+    assert(dst->format->BitsPerPixel == 8);
+    assert(color <= 0xff);
+  }
   if (len_pix == 8){
+    // int color_index = 0;
+
     for (int j = 0; j < r_h; ++j){
       for (int i = 0; i < r_w; ++i)
         *(pixels_8 + (r_y + j) * s_w + (r_x + i)) = color;
@@ -97,6 +108,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
         *(pixels_32 + (r_y + j) * s_w + (r_x + i)) = color;
     }
   }
+  printf("FillRect!\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
@@ -105,6 +117,9 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if (x == 0 && y == 0 && w == 0 && h == 0){
     w = s->w; h = s->h;
   }
+  assert(x + w <= s->w);
+  assert(y + h <= s->h);
+
   if (s->format->BitsPerPixel == 32){
     NDL_DrawRect(s->pixels, x, y, w, h);
   }
@@ -114,7 +129,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     for (int i = 0; i < s->w * s->h; ++i){
       int index = s->pixels[i];
       assert(index < s->format->palette->ncolors);
-      pixel_draw[i] = s->format->palette->colors[index].val;
+      uint32_t r = s->format->palette->colors[index].r;
+      uint32_t g = s->format->palette->colors[index].g;
+      uint32_t b = s->format->palette->colors[index].b;
+      uint32_t a = s->format->palette->colors[index].a;
+      // pixel_draw[i] = s->format->palette->colors[index].val;
+      pixel_draw[i] = b + (g << 8) + (r << 16) + (a << 24);
+      // pixel_draw[i] = b + (g << 8) + (r << 16);
     }
     NDL_DrawRect(pixel_draw, x, y, w, h);
     free(pixel_draw);
