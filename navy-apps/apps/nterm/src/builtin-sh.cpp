@@ -23,11 +23,25 @@ static void sh_prompt() {
 }
 
 const char *cmd_exit = "exit\n";
+static const char* cmd_rm_endl(const char *cmd){
+  char new_cmd[64];
+  for (int i = 0; i < 64; ++i){
+    new_cmd[i] = cmd[i];
+    if (cmd[i] == '\n'){
+      new_cmd[i] = '\0';
+      return new_cmd;
+    }
+  }
+  printf("The Command is TOO LONG!!!\n");
+  return NULL;
+}
+
 static void sh_handle_cmd(const char *cmd) {
   if (strcmp(cmd_exit, cmd) == 0){
     exit(0);
   }
-  execve(cmd, NULL, NULL);
+  const char *new_cmd = cmd_rm_endl(cmd);
+  execve(new_cmd, NULL, NULL);
 }
 
 void builtin_sh_run() {
