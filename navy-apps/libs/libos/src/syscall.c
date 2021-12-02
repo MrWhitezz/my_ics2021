@@ -72,7 +72,7 @@ void *_sbrk(intptr_t increment) {
     char * old_brk = program_brk;
     program_brk += increment;
     char buf[128];
-    int len = sprintf(buf, "program_brk = %p\n", program_brk);
+    int len = sprintf(buf, "program_brk = %p _end = %p\n", program_brk, &_end);
     _write(1, buf, len);
     return old_brk;
   }
