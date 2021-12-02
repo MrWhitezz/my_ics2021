@@ -41,7 +41,6 @@ static void sh_handle_cmd(const char *cmd) {
     exit(0);
   }
   const char *new_cmd = cmd_rm_endl(cmd);
-  printf("The new command is %s\n", new_cmd);
   execve(new_cmd, NULL, NULL);
 }
 
