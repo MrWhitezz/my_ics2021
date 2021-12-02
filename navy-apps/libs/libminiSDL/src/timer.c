@@ -18,5 +18,7 @@ uint32_t SDL_GetTicks() {
 }
 
 void SDL_Delay(uint32_t ms) {
-  // printf("Delay\n");
+  uint32_t old_time = SDL_GetTicks();
+  while (SDL_GetTicks() - old_time < ms)
+    ; 
 }
