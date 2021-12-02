@@ -25,10 +25,9 @@ static void sh_prompt() {
 const char *cmd_exit = "exit\n";
 static void sh_handle_cmd(const char *cmd) {
   if (strcmp(cmd_exit, cmd) == 0){
-    printf("FIND EXIT!!!\n");
+    exit(0);
   }
-  printf("%s\n", cmd);
-
+  execve(cmd, NULL, NULL);
 }
 
 void builtin_sh_run() {
