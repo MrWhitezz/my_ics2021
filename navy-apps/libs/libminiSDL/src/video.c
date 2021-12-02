@@ -30,7 +30,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for (int j = 0; j < r_h; ++j){
       for (int i = 0; i < r_w; ++i) {
         *(d_pix_8 + (d_y + j) * d_w + (d_x + i)) = *(s_pix_8 + (s_y + j) * s_w + (s_x + i));
-        
+
       }
     }
   }
@@ -41,7 +41,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     }
   }
 
-  printf("BlitSurface!\n");
+  // printf("BlitSurface!\n");
 
   // This is the reference code by yzh
   // int sx = (srcrect == NULL ? 0 : srcrect->x);
