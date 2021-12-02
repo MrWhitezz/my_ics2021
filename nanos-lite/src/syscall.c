@@ -1,12 +1,16 @@
 #include <common.h>
 #include "syscall.h"
 #include <sys/time.h>
+#include <proc.h>
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_close(int fd);
 size_t fs_read(int fd, void *buf, size_t len);
 size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
+void naive_uload(PCB *pcb, const char *filename);
+const char *fname_menu = "/bin/menu";
+static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]);
 
 static void sys_yield(Context *c){
   yield();
@@ -14,6 +18,7 @@ static void sys_yield(Context *c){
 }
 
 static void sys_exit(Context *c){
+  sys_execve(c, fname_menu, NULL, NULL); 
   halt(c->GPR2);
 }
 
@@ -40,6 +45,13 @@ static void sys_lseek(Context *c, int fd, size_t offset, int whence){
 
 static void sys_brk(Context *c) {
   c->GPRx = 0;
+}
+
+static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
+  // on success no return value
+  naive_uload(NULL, fname); 
+  c->GPRx = -1;
+  assert(0);
 }
 
 static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){
@@ -99,6 +111,7 @@ void do_syscall(Context *c) {
     case SYS_lseek: sys_lseek(c, a[1], a[2], a[3]); break;
     case SYS_brk:   sys_brk(c);   break;
     case SYS_gettimeofday: sys_gettimeofday(c, (struct timeval *)a[1], (struct timezone *)a[2]); break;
+    case SYS_execve:break;
     case -1       : printf("Hit the Strange yield!\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
