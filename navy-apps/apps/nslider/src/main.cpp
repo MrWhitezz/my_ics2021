@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_bmp.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #define W 400
@@ -38,7 +39,7 @@ void prev(int rep) {
 }
 
 void next(int rep) {
-  exit();
+  exit(0);
   if (rep == 0) rep = 1;
   cur += rep;
   if (cur >= N) cur = N - 1;
