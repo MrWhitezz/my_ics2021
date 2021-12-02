@@ -130,6 +130,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
   else if (s->format->BitsPerPixel == 8){
     assert(s->pitch == s->w * s->format->BytesPerPixel);
+    // Only the pixels needed to be draw should be loaded, to NDL_DrawRect
     uint32_t *pixel_draw = malloc(w * h * sizeof(uint32_t));
     for (int j = 0; j < h; ++j){
       for (int i = 0; i < w; ++i){
