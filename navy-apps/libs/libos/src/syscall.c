@@ -70,8 +70,7 @@ void *_sbrk(intptr_t increment) {
   intptr_t sys_ret = _syscall_(SYS_brk, increment, 0, 0);
   if (sys_ret == 0) {
     char * old_brk = program_brk;
-    int off = increment;
-    program_brk += off;
+    program_brk += increment;
     char buf[128];
     int len = sprintf(buf, "program_brk = %p _end = %p\n", program_brk, &_end);
     _write(1, buf, len);
