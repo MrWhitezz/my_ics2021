@@ -23,8 +23,8 @@ static void sh_prompt() {
 }
 
 const char *cmd_exit = "exit\n";
+char new_cmd[64];
 static const char* cmd_rm_endl(const char *cmd){
-  char new_cmd[64];
   for (int i = 0; i < 64; ++i){
     new_cmd[i] = cmd[i];
     if (cmd[i] == '\n'){
