@@ -22,7 +22,11 @@ static void sh_prompt() {
   sh_printf("sh> ");
 }
 
+const char *cmd_exit = "exit\n";
 static void sh_handle_cmd(const char *cmd) {
+  if (strcmp(cmd_exit, cmd) == 0){
+    printf("FIND EXIT!!!\n");
+  }
   printf("%s\n", cmd);
 
 }
