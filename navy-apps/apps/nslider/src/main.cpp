@@ -39,7 +39,6 @@ void prev(int rep) {
 }
 
 void next(int rep) {
-  exit(0);
   if (rep == 0) rep = 1;
   cur += rep;
   if (cur >= N) cur = N - 1;
@@ -54,6 +53,7 @@ int main() {
 
   render();
 
+  printf("This is nslider, print 'q' to quit\n");
   while (1) {
     SDL_Event e;
     SDL_WaitEvent(&e);
@@ -70,6 +70,7 @@ int main() {
         case SDLK_7: rep = rep * 10 + 7; break;
         case SDLK_8: rep = rep * 10 + 8; break;
         case SDLK_9: rep = rep * 10 + 9; break;
+        case SDLK_Q: exit(0);
         case SDLK_J:
         case SDLK_DOWN: next(rep); rep = 0; g = 0; break;
         case SDLK_K:
