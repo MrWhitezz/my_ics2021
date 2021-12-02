@@ -38,6 +38,7 @@ void prev(int rep) {
 }
 
 void next(int rep) {
+  exit();
   if (rep == 0) rep = 1;
   cur += rep;
   if (cur >= N) cur = N - 1;
