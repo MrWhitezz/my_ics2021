@@ -42,5 +42,4 @@ Context* schedule(Context *prev) {
   current = &pcb[0];
 
   return current->cp;
-  return NULL;
 }
