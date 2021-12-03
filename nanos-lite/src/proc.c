@@ -8,7 +8,8 @@ PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
 void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  kcontext(pcb_stack, func, NULL);
+  Context *c = kcontext(pcb_stack, func, NULL);
+  pcb1->cp = c;
 }
 
 void switch_boot_pcb() {
@@ -40,6 +41,7 @@ Context* schedule(Context *prev) {
   current->cp = prev;
 
   current = &pcb[0];
+  assert(current->cp != NULL);
 
   return current->cp;
 }
