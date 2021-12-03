@@ -55,7 +55,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   uint32_t *stack_p = kstack.end;
   uint32_t *heap_p  = kstack.start;
   stack_p -= CONTEXT_SIZE;
-  // *(stack_p + OFFSET_EPC) = (uintptr_t)entry - 4;
+  *(stack_p + OFFSET_EPC) = (uintptr_t)entry - 4;
+  *(stack_p + OFFSET_SP) = 0x85000000;
   
   *heap_p = (uintptr_t)stack_p;
   return (Context *)stack_p;
