@@ -46,6 +46,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
 #define OFFSET_SP     2 
+#define OFFSET_A0     10
 #define OFFSET_CAUSE  32
 #define OFFSET_STATUS 33
 #define OFFSET_EPC    34
@@ -56,6 +57,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // uint32_t *heap_p  = kstack.start;
   stack_p -= CONTEXT_SIZE;
   *(stack_p + OFFSET_EPC) = (uintptr_t)entry - 4;
+  *(stack_p + OFFSET_A0) = (uintptr_t)arg;
   *(stack_p + OFFSET_SP) = (uintptr_t)stack_p;
   
   // Context cp is set in nanos

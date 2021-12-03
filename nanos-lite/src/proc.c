@@ -8,7 +8,7 @@ PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
 void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  Context *c = kcontext(pcb_stack, func, NULL);
+  Context *c = kcontext(pcb_stack, func, arg);
   pcb1->cp = c;
 }
 
@@ -26,7 +26,8 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, NULL);
+  context_kload(&pcb[0], hello_fun, (void *)0x1);
+  context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   yield();
 
@@ -40,7 +41,8 @@ void init_proc() {
 Context* schedule(Context *prev) {
   current->cp = prev;
 
-  current = &pcb[0];
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+
   assert(current->cp != NULL);
 
   return current->cp;
