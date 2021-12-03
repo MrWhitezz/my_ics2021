@@ -233,7 +233,12 @@ ssize_t write(int fd, const void *buf, size_t count) {
   return glibc_write(fd, buf, count);
 }
 
+// static const char *redirect_exec_path(char *newpath, char *path){
+//   char prefix[256] = "";
+// }
+
 int execve(const char *filename, char *const argv[], char *const envp[]) {
+  printf("Try execve %s in native\n", filename);
   char newpath[512];
   glibc_execve(redirect_path(newpath, filename), argv, envp);
   return -1;
