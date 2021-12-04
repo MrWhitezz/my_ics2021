@@ -14,7 +14,7 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   pcb1->cp = c;
 }
 
-void context_uload(PCB *pcb1, const char *fname) {
+void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
   // tmp load
   uintptr_t entry = loader(pcb, fname);
   if (entry == -1){
@@ -26,6 +26,24 @@ void context_uload(PCB *pcb1, const char *fname) {
   c->GPRx = (uintptr_t)heap.end;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = (uintptr_t)heap.end; 
+
+  char **u_stack = heap.end;
+  int argc = 0, envc = 0;
+  while (argv[argc] != NULL) argc++;
+  while (envp[envc] != NULL) envc++;
+  int stack_off = 0;
+  *(int *)(u_stack + stack_off) = argc;
+  for (int i = 0; i < argc; ++i){
+    stack_off++;
+    *(u_stack + stack_off) = argv[i];
+  }
+  *(u_stack + (++stack_off)) = NULL;
+  for (int i = 0; i < envc; ++i){
+    stack_off++;
+    *(u_stack + stack_off) = envp[i];
+  }
+  *(u_stack + (++stack_off)) = NULL;
+
   printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
 }
@@ -46,7 +64,7 @@ void hello_fun(void *arg) {
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
-  context_uload(&pcb[1], "/bin/pal");
+  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   yield();
