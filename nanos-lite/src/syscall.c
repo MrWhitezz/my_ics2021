@@ -57,9 +57,9 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   // This is the most weird bug I have ever seen!!!
   assert(tv != NULL);
   uint64_t us =  io_read(AM_TIMER_UPTIME).us;
-  uint64_t low = us / 1000000ULL;
-  uint64_t high = (us % 1000000ULL) << 32;
-  tv->tv_sec = high + low;
+  // uint64_t low = us / 1000000ULL;
+  // uint64_t high = (us % 1000000ULL) << 32;
+  // tv->tv_sec = high + low;
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
  
