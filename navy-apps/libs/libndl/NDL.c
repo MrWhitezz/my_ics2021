@@ -14,7 +14,7 @@ static int canvas_w = 0, canvas_h = 0;
 static struct timeval tv;
 uint32_t NDL_GetTicks() {
   gettimeofday(&tv, NULL); 
-  printf("sec = %d, usec = %d\n", tv.tv_sec, tv.tv_usec);
+  // printf("sec = %d, usec = %d\n", tv.tv_sec, tv.tv_usec);
   return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
