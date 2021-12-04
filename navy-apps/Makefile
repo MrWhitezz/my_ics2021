@@ -167,7 +167,7 @@ $(CLEAN_ALL):
 
 ### Build fsimg and ramdisk for Nanos-lite
 APPS = bird pal nterm menu nslider
-TESTS = timer-test
+TESTS = timer-test hello
 #TESTS = dummy hello file-test timer-test event-test bmp-test 
 
 fsimg: $(addprefix apps/, $(APPS)) $(addprefix tests/, $(TESTS))
