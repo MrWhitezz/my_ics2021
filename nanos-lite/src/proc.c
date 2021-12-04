@@ -29,8 +29,10 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
 
   char **u_stack = heap.end;
   int argc = 0, envc = 0;
-  while (argv[argc] != NULL) argc++;
-  while (envp[envc] != NULL) envc++;
+  if (argv != NULL) 
+    while (argv[argc] != NULL) argc++;
+  if (envp != NULL)
+    while (envp[envc] != NULL) envc++;
   int stack_off = 0;
   *(int *)(u_stack + stack_off) = argc;
   for (int i = 0; i < argc; ++i){
