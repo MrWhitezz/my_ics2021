@@ -23,8 +23,9 @@ void context_uload(PCB *pcb1, const char *fname) {
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
-  // Context *c = kcontext(pcb_stack, (void *)entry, NULL); 
   c->GPRx = (uintptr_t)heap.end;
+  // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
+  c->GPR4 = (uintptr_t)heap.end; 
   printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
 }
@@ -45,7 +46,7 @@ void hello_fun(void *arg) {
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
-  context_uload(&pcb[1], "/bin/timer-test");
+  context_uload(&pcb[1], "/bin/pal");
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   yield();
