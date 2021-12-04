@@ -25,7 +25,7 @@ void context_uload(PCB *pcb1, const char *fname) {
   printf("hello uload\n");
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
   printf("hello uload\n");
-  c->GPRx = (uintptr_t)pcb_stack.end;
+  c->GPRx = (uintptr_t)heap.end;
   pcb1->cp = c;
 }
 
@@ -43,8 +43,8 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  // context_kload(&pcb[0], hello_fun, (void *)0x1);
-  context_uload(&pcb[0], "/bin/hello");
+  context_kload(&pcb[0], hello_fun, (void *)0x1);
+  // context_uload(&pcb[0], "/bin/hello");
   context_uload(&pcb[1], "/bin/pal");
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
