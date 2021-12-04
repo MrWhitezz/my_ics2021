@@ -26,8 +26,9 @@ void context_uload(PCB *pcb1, const char *fname) {
   // Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
   Context *c = kcontext(pcb_stack, (void *)entry, NULL); 
   printf("hello uload\n");
-  c->GPRx = (uintptr_t)heap.end;
+  printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
+  c->GPRx = (uintptr_t)heap.end;
 }
 
 void switch_boot_pcb() {
