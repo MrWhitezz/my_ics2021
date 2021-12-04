@@ -13,6 +13,8 @@ int main() {
         printf("%d * 0.5 seconds passed\n", ++i);
         beg = end;
     }
+    if (i == 30)
+      exit(0);
   }
   return 0;
 }
