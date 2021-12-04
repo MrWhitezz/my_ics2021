@@ -60,6 +60,8 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   // uint64_t low = us / 1000000ULL;
   // uint64_t high = (us % 1000000ULL) << 32;
   // tv->tv_sec = high + low;
+
+  //after yzh fix this bug, use normal way to get tv_usec
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
  
@@ -117,5 +119,5 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   // STRACE
-  strace(c, a[0], a[1], a[2], a[3]);
+  // strace(c, a[0], a[1], a[2], a[3]);
 }
