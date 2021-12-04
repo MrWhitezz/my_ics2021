@@ -23,7 +23,8 @@ void context_uload(PCB *pcb1, const char *fname) {
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   printf("hello uload\n");
-  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+  // Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+  Context *c = kcontext(pcb_stack, (void *)entry, NULL); 
   printf("hello uload\n");
   c->GPRx = (uintptr_t)heap.end;
   pcb1->cp = c;

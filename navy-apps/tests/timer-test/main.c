@@ -3,6 +3,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 int main() {
+  printf("Begin Time Test\n");
   NDL_Init(0);
   int i = 0;
   uint32_t beg, end;
