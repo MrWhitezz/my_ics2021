@@ -6,10 +6,17 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
+
 void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = kcontext(pcb_stack, func, arg);
   pcb1->cp = c;
+}
+
+void context_uload(PCB *pcb1, const char *fname) {
+  // Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  // Context *c = ucontext(NULL, pcb_stack, NULL); 
+
 }
 
 void switch_boot_pcb() {
