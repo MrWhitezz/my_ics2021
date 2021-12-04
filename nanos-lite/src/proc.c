@@ -34,6 +34,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   if (envp != NULL)
     while (envp[envc] != NULL) envc++;
   int stack_off = 0;
+  printf("argc debug\n");
   *(int *)(u_stack + stack_off) = argc;
   for (int i = 0; i < argc; ++i){
     stack_off++;
