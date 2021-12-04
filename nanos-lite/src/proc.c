@@ -6,6 +6,7 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 void naive_uload(PCB *pcb, const char *filename);
+uintptr_t loader(PCB *pcb, const char *filename);
 
 void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
@@ -14,9 +15,18 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 }
 
 void context_uload(PCB *pcb1, const char *fname) {
-  // Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  // Context *c = ucontext(NULL, pcb_stack, NULL); 
+  // tmp load
+  uintptr_t entry = loader(pcb, fname);
+  if (entry == -1){
+    printf("Fail to context_uload!!!\n");
+  }
 
+  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  printf("hello uload\n");
+  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+  printf("hello uload\n");
+  c->GPRx = (uintptr_t)pcb_stack.end;
+  pcb1->cp = c;
 }
 
 void switch_boot_pcb() {
@@ -34,7 +44,8 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)0x1);
-  context_kload(&pcb[1], hello_fun, (void *)0x2);
+  context_uload(&pcb[1], "/bin/pal");
+  // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   yield();
 

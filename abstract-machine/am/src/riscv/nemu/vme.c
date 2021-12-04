@@ -69,6 +69,22 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
 }
 
+#define CONTEXT_SIZE  (32 + 3 + 1)
+#define OFFSET_SP     2 
+#define OFFSET_A0     10
+#define OFFSET_CAUSE  32
+#define OFFSET_STATUS 33
+#define OFFSET_EPC    34
+
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
+  uint32_t *stack_p = kstack.end;
+  // uint32_t *heap_p  = kstack.start;
+  stack_p -= CONTEXT_SIZE;
+  *(stack_p + OFFSET_EPC) = (uintptr_t)entry - 4;
+  *(stack_p + OFFSET_SP) = (uintptr_t)stack_p;
+  
+  // Context cp is set in nanos
+  // *heap_p = (uintptr_t)stack_p;
+  return (Context *)stack_p;
   return NULL;
 }

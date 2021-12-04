@@ -36,7 +36,7 @@ void load_tmp(){
   }
 }
 
-static uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd
+uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; remove static
   Elf_Ehdr elf;
   Elf_Phdr phdr;
   int fd = fs_open(filename, 0, 0);
