@@ -129,7 +129,8 @@ Context* ucontext(AddrSpace *as, Area kstack, void *entry) {
 
   int ret = sigemptyset(&(c->uc.uc_sigmask)); // enable interrupt
   assert(ret == 0);
-  c->vm_head = as->ptr;
+  // Changed! cancelling the use of as
+  // c->vm_head = as->ptr;
 
   c->ksp = (uintptr_t)kstack.end;
 
