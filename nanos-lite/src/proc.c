@@ -36,12 +36,12 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   int stack_off = 0;
   printf("argc debug\n");
   *(int *)(u_stack + stack_off) = argc;
+  printf("argcc debug\n");
   for (int i = 0; i < argc; ++i){
     stack_off++;
     *(u_stack + stack_off) = argv[i];
   }
   *(u_stack + (++stack_off)) = NULL;
-  printf("envc debug\n");
   for (int i = 0; i < envc; ++i){
     stack_off++;
     *(u_stack + stack_off) = envp[i];
