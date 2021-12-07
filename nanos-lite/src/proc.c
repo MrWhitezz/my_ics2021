@@ -26,9 +26,11 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
-  uint8_t *u_stack = heap.end;
+  // uint8_t *u_stack = heap.end;
+  uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
   int str_area_sz = 0;
+  printf("Native debug\n");
   // calculate space for string area and argc,envc
   if (argv != NULL) 
     while (argv[argc] != NULL) {
@@ -42,14 +44,20 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     }
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
-  // give space for stack
-  u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
+  // Need not give space for stack
+  // u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
+  assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
+  printf("Native debug\n");
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
+  printf("ustack = %p\n",u_stack);
+  printf("heap.end = %p\n", heap.end);
   *(int *)(u_stack) = argc;
+  printf("Native debug\n");
   int stack_off = 0;
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
 
+  printf("Native debug\n");
 
 
   // assign string
@@ -88,7 +96,6 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
-  printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
 }
 
