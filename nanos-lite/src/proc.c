@@ -40,6 +40,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
       envc++;
     }
   u_stack -= UNSIPICIED_SZ + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
+  uintptr_t u_sp_ret = (uintptr_t)u_stack;
   int stack_off = 0;
   printf("argc debug\n");
   *(int *)(u_stack + stack_off) = argc;
@@ -57,9 +58,9 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   }
   *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
 
-  c->GPRx = (uintptr_t)heap.end;
+  c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
-  c->GPR4 = (uintptr_t)heap.end; 
+  c->GPR4 = u_sp_ret;
   printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
 }
