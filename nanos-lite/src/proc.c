@@ -1,7 +1,7 @@
 #include <proc.h>
 
 #define MAX_NR_PROC 4
-#define UNSIPICIED_SZ 0 // 256 < 8 * 4096
+#define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
 #define POINTER_BYTES 4
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
@@ -43,10 +43,10 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
   // give space for stack
-  u_stack -= UNSIPICIED_SZ + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
+  u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
+  *(int *)(u_stack) = argc;
   int stack_off = 0;
-  *(int *)(u_stack + stack_off) = argc;
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
 
@@ -54,7 +54,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
 
 
   // assign string
-  u_stack += stack_off * POINTER_BYTES;
+  u_stack += stack_off * POINTER_BYTES + UNSIPICIED_SZ;
   for (int i = 0; i < argc; ++i) {
     u_argv[i] = (char *)u_stack;
     strcpy((char *)u_stack, argv[i]);
@@ -83,6 +83,8 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     stack_off++;
   }
   printf("Native debug\n");
+  printf("stack_off = %d\n", stack_off);
+  printf("u_stack = %p\n", u_stack + stack_off * POINTER_BYTES);
   *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
   stack_off++;
   printf("Native debug\n");
@@ -108,11 +110,14 @@ void hello_fun(void *arg) {
     yield();
   }
 }
+char skip[10] = "--skip";
+char *argv_pal[1];
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
-  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
+  argv_pal[0] = skip;
+  context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   yield();

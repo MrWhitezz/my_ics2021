@@ -11,6 +11,10 @@ void call_main(uintptr_t *args) {
   char **argv = (char **)(u_stack + 1);
   char **envp = (char **)(u_stack + 1 + argc);
   // char *empty[] =  {NULL };
+  printf("argc = %d\n", argc);
+  for (int i = 0; i < argc; ++i){
+    printf("arcv[%d] = %s\n", i, argv[i]);
+  }
   environ = envp;
   assert(0);
   exit(main(argc, argv, envp));
