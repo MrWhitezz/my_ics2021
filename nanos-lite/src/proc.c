@@ -50,7 +50,6 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
 
-  printf("Native debug\n");
 
 
   // assign string
@@ -66,7 +65,6 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     u_stack += strlen(envp[i]) + 1;
   }
   
-  printf("Native debug\n");
   
   // assign argv, envp
   u_stack = (uint8_t *)u_sp_ret + sizeof(int);
@@ -82,12 +80,8 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     *(char **)(u_stack + stack_off * POINTER_BYTES) = u_envp[i]; // wrong
     stack_off++;
   }
-  printf("Native debug\n");
-  printf("stack_off = %d\n", stack_off);
-  printf("u_stack = %p\n", u_stack + stack_off * POINTER_BYTES);
   *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
   stack_off++;
-  printf("Native debug\n");
 
   free(u_argv);
   free(u_envp);
