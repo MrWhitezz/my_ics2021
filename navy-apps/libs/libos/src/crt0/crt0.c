@@ -16,7 +16,6 @@ void call_main(uintptr_t *args) {
     printf("arcv[%d] = %s\n", i, argv[i]);
   }
   environ = envp;
-  assert(0);
   exit(main(argc, argv, envp));
   assert(0);
 }
