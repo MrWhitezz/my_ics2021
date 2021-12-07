@@ -3,14 +3,8 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  if (pf == NULL)
-    pf = (void *)(uintptr_t)heap.end;
-  // wierd bug
-  printf("heap.end = %p\n", heap.end);
-  assert(pf - nr_page * PGSIZE < pf);
-  printf("pf = %p\n", pf);
-  pf -= nr_page * PGSIZE;
-  printf("pf = %p\n", pf);
+  assert(pf + nr_page * PGSIZE < heap.end);
+  pf += nr_page * PGSIZE;
   return pf;
 }
 

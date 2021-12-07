@@ -44,9 +44,9 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     }
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
-  // Need not give space for stack
-  // u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
-  assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
+  // Need give space for stack
+  u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
+  // assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
   printf("Native debug\n");
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
   printf("ustack = %p\n",u_stack);
