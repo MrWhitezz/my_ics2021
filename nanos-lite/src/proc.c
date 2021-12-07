@@ -23,9 +23,6 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
-  c->GPRx = (uintptr_t)heap.end;
-  // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
-  c->GPR4 = (uintptr_t)heap.end; 
 
   char **u_stack = heap.end;
   int argc = 0, envc = 0;
@@ -48,6 +45,9 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   }
   *(u_stack + (++stack_off)) = NULL;
 
+  c->GPRx = (uintptr_t)heap.end;
+  // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
+  c->GPR4 = (uintptr_t)heap.end; 
   printf("heap.end = %p\n", heap.end);
   pcb1->cp = c;
 }
