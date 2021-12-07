@@ -1,6 +1,8 @@
 #include <proc.h>
 
 #define MAX_NR_PROC 4
+#define UNSIPICIED_SZ 256 // 256 < 8 * 4096
+#define POINTER_BYTES 4
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
@@ -24,26 +26,36 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
-  char **u_stack = heap.end;
+  uint8_t *u_stack = heap.end;
   int argc = 0, envc = 0;
+  int str_area_sz = 0;
   if (argv != NULL) 
-    while (argv[argc] != NULL) argc++;
+    while (argv[argc] != NULL) {
+      str_area_sz += strlen(argv[argc]) + 1;
+      argc++;
+    }
   if (envp != NULL)
-    while (envp[envc] != NULL) envc++;
+    while (envp[envc] != NULL) {
+      str_area_sz += strlen(envp[envc]) + 1;
+      envc++;
+    }
+  u_stack -= UNSIPICIED_SZ + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
   int stack_off = 0;
   printf("argc debug\n");
   *(int *)(u_stack + stack_off) = argc;
   printf("argcc debug\n");
+  u_stack += sizeof(int);
   for (int i = 0; i < argc; ++i){
+    *(char **)(u_stack + stack_off * POINTER_BYTES) = argv[i];
     stack_off++;
-    *(u_stack + stack_off) = argv[i];
   }
-  *(u_stack + (++stack_off)) = NULL;
+  *(char **)(u_stack + (stack_off) * POINTER_BYTES) = NULL;
+  stack_off++;
   for (int i = 0; i < envc; ++i){
+    *(char **)(u_stack + stack_off * POINTER_BYTES) = envp[i];
     stack_off++;
-    *(u_stack + stack_off) = envp[i];
   }
-  *(u_stack + (++stack_off)) = NULL;
+  *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
 
   c->GPRx = (uintptr_t)heap.end;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
