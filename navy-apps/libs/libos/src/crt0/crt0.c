@@ -12,6 +12,7 @@ void call_main(uintptr_t *args) {
   char **envp = (char **)(u_stack + 1 + argc);
   // char *empty[] =  {NULL };
   environ = envp;
+  assert(0);
   exit(main(argc, argv, envp));
   assert(0);
 }
