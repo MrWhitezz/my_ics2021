@@ -29,6 +29,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   uint8_t *u_stack = heap.end;
   int argc = 0, envc = 0;
   int str_area_sz = 0;
+  // calculate space for string area and argc,envc
   if (argv != NULL) 
     while (argv[argc] != NULL) {
       str_area_sz += strlen(argv[argc]) + 1;
@@ -39,27 +40,50 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
       str_area_sz += strlen(envp[envc]) + 1;
       envc++;
     }
+  char **u_argv = malloc(argc * sizeof(char *));
+  char **u_envp = malloc(envc * sizeof(char *));
+  // give space for stack
   u_stack -= UNSIPICIED_SZ + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
   int stack_off = 0;
-  printf("argc debug\n");
   *(int *)(u_stack + stack_off) = argc;
-  printf("argcc debug\n");
+  stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
+
+
+  // assign string
+  u_stack += stack_off * POINTER_BYTES;
+  for (int i = 0; i < argc; ++i) {
+    u_argv[i] = (char *)u_stack;
+    strcpy((char *)u_stack, argv[i]);
+    u_stack += strlen(argv[i]) + 1;
+  }
+  for (int i = 0; i < envc; ++i) {
+    u_envp[i] = (char *)u_stack;
+    strcpy((char *)u_stack, envp[i]);
+    u_stack += strlen(envp[i]) + 1;
+  }
+  
+  
+  // assign argv, envp
+  u_stack = (uint8_t *)u_sp_ret + sizeof(int);
+  stack_off = 0;
+
   for (int i = 0; i < argc; ++i){
-    *(char **)(u_stack + stack_off * POINTER_BYTES) = argv[i];
+    *(char **)(u_stack + stack_off * POINTER_BYTES) = u_argv[i]; // wrong
     stack_off++;
   }
   *(char **)(u_stack + (stack_off) * POINTER_BYTES) = NULL;
   stack_off++;
   for (int i = 0; i < envc; ++i){
-    *(char **)(u_stack + stack_off * POINTER_BYTES) = envp[i];
+    *(char **)(u_stack + stack_off * POINTER_BYTES) = u_envp[i]; // wrong
     stack_off++;
   }
   *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
   stack_off++;
-  u_stack += stack_off * POINTER_BYTES;
 
+  free(u_argv);
+  free(u_envp);
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
