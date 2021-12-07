@@ -5,7 +5,7 @@ Context* schedule(Context *prev);
 
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
-    case EVENT_YIELD: printf("Hit the good yield!\n");  return schedule(c); break;
+    case EVENT_YIELD: /*printf("Hit the good yield!\n"); */  return schedule(c); break;
     case EVENT_SYSCALL:  do_syscall(c); break;
     case EVENT_NULL:
     case EVENT_IRQ_IODEV:
