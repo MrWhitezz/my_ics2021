@@ -1,7 +1,7 @@
 #include <proc.h>
 
 #define MAX_NR_PROC 4
-#define UNSIPICIED_SZ 256 // 256 < 8 * 4096
+#define UNSIPICIED_SZ 0 // 256 < 8 * 4096
 #define POINTER_BYTES 4
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
@@ -57,6 +57,8 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     stack_off++;
   }
   *(char **)(u_stack + stack_off * POINTER_BYTES) = NULL;
+  stack_off++;
+  u_stack += stack_off * POINTER_BYTES;
 
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
