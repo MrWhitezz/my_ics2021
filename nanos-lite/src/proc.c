@@ -16,7 +16,19 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 }
 
 int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
-
+  if (envp != NULL) {
+    printf("Enter the loop\n");
+    while (envp[0] != NULL) {
+      printf("QAQ\n");
+      printf("envp: %p\n", envp);
+      printf("envp addr: %p\n", envp[0]);
+      printf("envp first: %s\n", envp[0]);
+      printf("envp[%d] = %s\n", 0, envp[0]);
+      printf("qaq\n");
+      break;
+    }
+  }
+ 
   // uint8_t *u_stack = heap.end;
   uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
@@ -28,9 +40,18 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       str_area_sz += strlen(argv[argc]) + 1;
       argc++;
     }
+  printf("Native debug\n");
   if (envp != NULL) {
+    printf("Enter the loop\n");
     while (envp[envc] != NULL) {
+      printf("QAQ\n");
+      printf("envc = %d\n", envc);
+      printf("envp: %p\n", envp);
+      printf("envp addr: %p\n", envp[0]);
+      printf("envp first: %s\n", envp[0]);
+      printf("envp[%d] = %s\n", envc, envp[envc]);
       str_area_sz += strlen(envp[envc]) + 1;
+      printf("qaq\n");
       envc++;
     }
   }
@@ -39,11 +60,18 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   // Need give space for stack
   u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
   // assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
+  printf("Native debug\n");
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
+  printf("ustack = %p\n",u_stack);
+  printf("heap.end = %p\n", heap.end);
   *(int *)(u_stack) = argc;
+  printf("Native debug\n");
   int stack_off = 0;
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
+
+  printf("Native debug\n");
+
 
   // assign string
   u_stack += stack_off * POINTER_BYTES + UNSIPICIED_SZ;
@@ -88,11 +116,13 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
+
+
+
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
-  printf("success load\n");
   return 0;
 }
 
