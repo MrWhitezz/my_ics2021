@@ -29,16 +29,6 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     }
   }
  
-  // tmp load
-  uintptr_t entry = loader(pcb, fname);
-  if (entry == -1){
-    printf("Fail to context_uload!!!\n");
-    return -1;
-  }
-
-  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
-
   // uint8_t *u_stack = heap.end;
   uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
@@ -65,7 +55,6 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       envc++;
     }
   }
-  printf("Native debug\n");
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
   // Need give space for stack
@@ -117,6 +106,18 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   free(u_argv);
   free(u_envp);
+  // tmp load
+  uintptr_t entry = loader(pcb, fname);
+  if (entry == -1){
+    printf("Fail to context_uload!!!\n");
+    return -1;
+  }
+
+  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+
+
+
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
