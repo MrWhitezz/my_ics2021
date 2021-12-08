@@ -122,7 +122,7 @@ void hello_fun(void *arg) {
   }
 }
 char skip[10] = "--skip";
-char exec_arg[15] = "exec-test";
+char exec_arg[15] = "/bin/exec-test";
 char *argv_pal[1];
 
 void init_proc() {
@@ -132,12 +132,12 @@ void init_proc() {
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   context_uload(&pcb[1], "/bin/exec-test", argv_pal, NULL);
   switch_boot_pcb();
-  // yield();
+  yield();
 
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(&pcb[1], "/bin/exec-test");
+  // naive_uload(&pcb[1], "/bin/exec-test");
 
 }
 
