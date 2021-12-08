@@ -31,18 +31,6 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
  
   // tmp load
   uintptr_t entry = loader(pcb, fname);
-  if (envp != NULL) {
-    printf("Enter the loop\n");
-    while (envp[0] != NULL) {
-      printf("QAQ\n");
-      printf("envp: %p\n", envp);
-      printf("envp addr: %p\n", envp[0]);
-      printf("envp first: %s\n", envp[0]);
-      printf("envp[%d] = %s\n", 0, envp[0]);
-      printf("qaq\n");
-      break;
-    }
-  }
   if (entry == -1){
     printf("Fail to context_uload!!!\n");
     return -1;
@@ -156,7 +144,7 @@ void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = skip;
-  context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
+  // context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
   // yield();
