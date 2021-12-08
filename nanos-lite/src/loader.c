@@ -73,9 +73,11 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
-  uintptr_t entry = loader(pcb, filename);
-  if (entry == -1) return;
-  Log("Jump to entry = %p", entry);
-  ((void(*)())entry) ();
+  // uintptr_t entry = loader(pcb, filename);
+  // if (entry == -1) return;
+  // Log("Jump to entry = %p", entry);
+  // ((void(*)())entry) ();
+  context_uload(pcb, filename, NULL, NULL);
+  yield();
 }
 
