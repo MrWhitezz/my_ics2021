@@ -42,6 +42,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
     while (envp[envc] != NULL) {
       printf("QAQ\n");
       str_area_sz += strlen(envp[envc]) + 1;
+      printf("qaq\n");
       envc++;
     }
   }
