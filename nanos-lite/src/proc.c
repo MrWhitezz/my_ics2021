@@ -39,6 +39,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   printf("Native debug\n");
   if (envp != NULL)
     while (envp[envc] != NULL) {
+      printf("QAQ\n");
       str_area_sz += strlen(envp[envc]) + 1;
       envc++;
     }
