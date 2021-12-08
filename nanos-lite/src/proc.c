@@ -136,7 +136,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(&pcb[1], "/bin/nterm");
+  naive_uload(&pcb[1], "/bin/exec-test");
 
 }
 
