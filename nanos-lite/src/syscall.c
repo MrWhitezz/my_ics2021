@@ -50,7 +50,7 @@ static void sys_brk(Context *c) {
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
   // on success no return value
   // naive_uload(NULL, fname); 
-  context_uload(NULL, fname, argv, envp);
+  context_uload(&pcb[1], fname, argv, envp);
   switch_boot_pcb();
   yield();
   c->GPRx = -1;
