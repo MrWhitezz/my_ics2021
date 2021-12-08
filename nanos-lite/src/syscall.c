@@ -52,6 +52,8 @@ static void sys_execve(Context *c, const char *fname, char * const argv[], char 
   // naive_uload(NULL, fname); 
   context_uload(&pcb[1], fname, argv, envp);
   switch_boot_pcb();
+  printf("eee\n");
+  
   yield();
   c->GPRx = -1;
 }
@@ -123,5 +125,5 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   // STRACE
-  // strace(c, a[0], a[1], a[2], a[3]);
+  strace(c, a[0], a[1], a[2], a[3]);
 }
