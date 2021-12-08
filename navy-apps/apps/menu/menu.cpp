@@ -70,9 +70,7 @@ static void clear_display(void) {
 int main(int argc, char *argv[], char *envp[]) {
   printf("This is NJU menu\n");
   SDL_Init(0);
-  printf("This is NJU menu\n");
   screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
-  printf("This is NJU menu\n");
 
   font = new BDF_Font(font_fname);
   logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");
