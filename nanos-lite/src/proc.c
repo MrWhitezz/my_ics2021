@@ -25,6 +25,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       printf("envp first: %s\n", envp[0]);
       printf("envp[%d] = %s\n", 0, envp[0]);
       printf("qaq\n");
+      break;
     }
   }
  
