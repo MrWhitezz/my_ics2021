@@ -43,7 +43,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     while (envp[envc] != NULL) {
       printf("QAQ\n");
       printf("envc = %d\n", envc);
-      printf("envp: %s\n", envp);
+      printf("envp: %p\n", envp);
       printf("envp addr: %p\n", envp[0]);
       printf("envp first: %s\n", envp[0]);
       printf("envp[%d] = %s\n", envc, envp[envc]);
