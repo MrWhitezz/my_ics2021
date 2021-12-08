@@ -50,13 +50,6 @@ static void sys_brk(Context *c) {
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
   // on success no return value
   // naive_uload(NULL, fname); 
-  if (envp != NULL){
-    printf("envp: %p\n", envp);
-    printf("envp addr: %p\n", envp[0]);
-    printf("envp first char : %p\n", &envp[0][0]);
-    printf("envp stange: %s\n", (char *)envp);
-    printf("envp first: %s\n", envp[0]);
-  }
   int ld = context_uload(&pcb[1], fname, argv, envp);
   if (ld != -1) {
     switch_boot_pcb();
