@@ -37,12 +37,14 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
       argc++;
     }
   printf("Native debug\n");
-  if (envp != NULL)
+  if (envp != NULL) {
+    printf("Enter the loop\n");
     while (envp[envc] != NULL) {
       printf("QAQ\n");
       str_area_sz += strlen(envp[envc]) + 1;
       envc++;
     }
+  }
   printf("Native debug\n");
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
