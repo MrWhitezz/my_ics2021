@@ -54,7 +54,7 @@ static void sys_execve(Context *c, const char *fname, char * const argv[], char 
     printf("envp first: %s\n", envp[0]);
     printf("envp addr: %p\n", envp[0]);
   }
-  int ld = context_uload(&pcb[1], fname, argv, envp);
+  int ld = context_uload(&pcb[1], fname, argv, &envp[0]);
   if (ld != -1) {
     switch_boot_pcb();
     printf("eee\n");
