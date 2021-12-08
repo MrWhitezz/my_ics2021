@@ -17,5 +17,14 @@ typedef union {
 } PCB;
 
 extern PCB *current;
+extern PCB pcb[];
+extern PCB pcb_boot;
+
+void naive_uload(PCB *pcb, const char *filename);
+uintptr_t loader(PCB *pcb, const char *filename);
+
+void context_kload(PCB *pcb1, void(* func)(void *), void *arg);
+void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]);
+void switch_boot_pcb();
 
 #endif

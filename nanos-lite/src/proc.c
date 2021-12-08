@@ -4,11 +4,10 @@
 #define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
 #define POINTER_BYTES 4
 
-static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
-static PCB pcb_boot = {};
+// why should pcb and pcb_boot be static?
+PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
+PCB pcb_boot = {};
 PCB *current = NULL;
-void naive_uload(PCB *pcb, const char *filename);
-uintptr_t loader(PCB *pcb, const char *filename);
 
 void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
@@ -121,7 +120,7 @@ void init_proc() {
   context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
   switch_boot_pcb();
-  yield();
+  // yield();
 
   Log("Initializing processes...");
 

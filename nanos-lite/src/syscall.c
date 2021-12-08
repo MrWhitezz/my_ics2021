@@ -49,7 +49,10 @@ static void sys_brk(Context *c) {
 
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
   // on success no return value
-  naive_uload(NULL, fname); 
+  // naive_uload(NULL, fname); 
+  context_uload(NULL, fname, argv, envp);
+  switch_boot_pcb();
+  yield();
   c->GPRx = -1;
 }
 
@@ -90,6 +93,7 @@ void strace(Context *c, uintptr_t a7, uintptr_t a1, uintptr_t a2, uintptr_t a3){
     case SYS_lseek: printf("System Call: lseek %s offset = %d\n", trace_filename, c->GPRx); break;
     case SYS_brk:   printf("System Call: brk\n");   break;
     case SYS_gettimeofday: printf("System Call: gettimeofday\n"); break;
+    case SYS_execve:printf("System Call: execve %s\n", (char *)a1); break;
     
 
     default: printf("Unknown System Call\n");
