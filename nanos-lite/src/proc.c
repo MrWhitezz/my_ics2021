@@ -16,14 +16,6 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 }
 
 int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
- 
-  // tmp load
-  uintptr_t entry = loader(pcb, fname);
-  if (entry == -1){
-    printf("Fail to context_uload!!!\n");
-    return -1;
-  }
-
   if (envp != NULL) {
     printf("Enter the loop\n");
     while (envp[0] != NULL) {
@@ -36,6 +28,26 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       break;
     }
   }
+ 
+  // tmp load
+  uintptr_t entry = loader(pcb, fname);
+  if (envp != NULL) {
+    printf("Enter the loop\n");
+    while (envp[0] != NULL) {
+      printf("QAQ\n");
+      printf("envp: %p\n", envp);
+      printf("envp addr: %p\n", envp[0]);
+      printf("envp first: %s\n", envp[0]);
+      printf("envp[%d] = %s\n", 0, envp[0]);
+      printf("qaq\n");
+      break;
+    }
+  }
+  if (entry == -1){
+    printf("Fail to context_uload!!!\n");
+    return -1;
+  }
+
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
