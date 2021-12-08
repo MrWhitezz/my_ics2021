@@ -52,6 +52,7 @@ static void sys_execve(Context *c, const char *fname, char * const argv[], char 
   // naive_uload(NULL, fname); 
   if (envp != NULL){
     printf("envp first: %s\n", envp[0]);
+    printf("envp addr: %p\n", envp[0]);
   }
   int ld = context_uload(&pcb[1], fname, argv, envp);
   if (ld != -1) {
