@@ -42,6 +42,8 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     printf("Enter the loop\n");
     while (envp[envc] != NULL) {
       printf("QAQ\n");
+      printf("envc = %d\n", envc);
+      printf("envp first: %s\n", envp[0]);
       printf("envp[%d] = %s\n", envc, envp[envc]);
       str_area_sz += strlen(envp[envc]) + 1;
       printf("qaq\n");
