@@ -13,8 +13,9 @@ static int canvas_w = 0, canvas_h = 0;
 
 static struct timeval tv;
 uint32_t NDL_GetTicks() {
+  printf("to get time\n");
   gettimeofday(&tv, NULL); 
-  // printf("sec = %d, usec = %d\n", tv.tv_sec, tv.tv_usec);
+  printf("sec = %d, usec = %d\n", tv.tv_sec, tv.tv_usec);
   return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
@@ -113,7 +114,11 @@ int NDL_QueryAudio() {
 }
 
 int NDL_Init(uint32_t flags) {
+  
+  printf("gettimeofday?\n");
+  assert(0);
   gettimeofday(&tv, NULL); // Get time for the first time
+  printf("gettimeofday?\n");
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }

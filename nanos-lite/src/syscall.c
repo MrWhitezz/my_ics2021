@@ -53,7 +53,6 @@ static void sys_execve(Context *c, const char *fname, char * const argv[], char 
   int ld = context_uload(&pcb[1], fname, argv, envp);
   if (ld != -1) {
     switch_boot_pcb();
-    printf("eee\n");
     yield();
     c->GPRx = -1;
   }
@@ -71,6 +70,7 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   //after yzh fix this bug, use normal way to get tv_usec
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
+  printf("time ?\n");
  
   c->GPRx = 0;
 }
@@ -127,5 +127,5 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   // STRACE
-  // strace(c, a[0], a[1], a[2], a[3]);
+  strace(c, a[0], a[1], a[2], a[3]);
 }
