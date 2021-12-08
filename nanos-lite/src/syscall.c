@@ -50,12 +50,14 @@ static void sys_brk(Context *c) {
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
   // on success no return value
   // naive_uload(NULL, fname); 
-  context_uload(&pcb[1], fname, argv, envp);
-  switch_boot_pcb();
-  printf("eee\n");
-  
-  yield();
-  c->GPRx = -1;
+  int ld = context_uload(&pcb[1], fname, argv, envp);
+  if (ld != -1) {
+    switch_boot_pcb();
+    printf("eee\n");
+    yield();
+    c->GPRx = -1;
+  }
+    c->GPRx = -2;
 }
 
 static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz){

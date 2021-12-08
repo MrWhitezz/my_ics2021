@@ -15,11 +15,12 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
   pcb1->cp = c;
 }
 
-void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
+int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
   // tmp load
   uintptr_t entry = loader(pcb, fname);
   if (entry == -1){
     printf("Fail to context_uload!!!\n");
+    return -1;
   }
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
@@ -103,6 +104,7 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
+  return 0;
 }
 
 void switch_boot_pcb() {
