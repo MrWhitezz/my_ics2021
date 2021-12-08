@@ -21,7 +21,7 @@ ElfN_Addr vaddr, e_entry;
 Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
 #define bufsz 409600
-char* bufp[bufsz];
+char bufp[bufsz];
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_close(int fd);
