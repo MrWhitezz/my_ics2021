@@ -113,7 +113,9 @@ int NDL_QueryAudio() {
 }
 
 int NDL_Init(uint32_t flags) {
+  printf("dbg\n");
   gettimeofday(&tv, NULL); // Get time for the first time
+  printf("dbg\n");
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }

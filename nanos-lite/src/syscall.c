@@ -70,7 +70,6 @@ static void sys_gettimeofday(Context *c, struct timeval *tv, struct timezone *tz
   //after yzh fix this bug, use normal way to get tv_usec
   tv->tv_sec = us / 1000000ULL;
   tv->tv_usec = us % 1000000ULL;
-  printf("time ?\n");
  
   c->GPRx = 0;
 }
