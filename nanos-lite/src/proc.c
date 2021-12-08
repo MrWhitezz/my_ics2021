@@ -36,11 +36,13 @@ void context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const
       str_area_sz += strlen(argv[argc]) + 1;
       argc++;
     }
+  printf("Native debug\n");
   if (envp != NULL)
     while (envp[envc] != NULL) {
       str_area_sz += strlen(envp[envc]) + 1;
       envc++;
     }
+  printf("Native debug\n");
   char **u_argv = malloc(argc * sizeof(char *));
   char **u_envp = malloc(envc * sizeof(char *));
   // Need give space for stack
