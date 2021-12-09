@@ -76,7 +76,7 @@ void builtin_sh_run() {
   sh_prompt();
 
   printf("environ = %p\n", environ);
-  assert(setenv("PATH", "/bin", 0) == 0);
+  assert(setenv("PATH", "/bin:/usr/bin", 0) == 0);
   // assert(putenv("PATH=/bin") == 0);
   printf("environ = %p\n", environ);
 
