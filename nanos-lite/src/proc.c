@@ -1,7 +1,7 @@
 #include <proc.h>
 
 #define MAX_NR_PROC 4
-#define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
+#define UNSIPICIED_SZ 1024 // 128 + 128 < 8 * 4096
 #define POINTER_BYTES sizeof(char *)
 
 // why should pcb and pcb_boot be static?
@@ -31,17 +31,17 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     }
   }
 
-  // tmp load
-  printf("Native debug\n");
-  uintptr_t entry = loader(pcb, fname);
-  printf("Native debug\n");
-  if (entry == -1){
-    printf("Fail to context_uload!!!\n");
-    return -1;
-  }
+  // // tmp load
+  // printf("Native debug\n");
+  // uintptr_t entry = loader(pcb, fname);
+  // printf("Native debug\n");
+  // if (entry == -1){
+  //   printf("Fail to context_uload!!!\n");
+  //   return -1;
+  // }
 
-  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+  // Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  // Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
  
   // uint8_t *u_stack = heap.end;
   uint8_t *u_stack = new_page(8);
@@ -114,6 +114,17 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   free(u_argv);
   free(u_envp);
 
+  // tmp load
+  printf("Native debug\n");
+  uintptr_t entry = loader(pcb, fname);
+  printf("Native debug\n");
+  if (entry == -1){
+    printf("Fail to context_uload!!!\n");
+    return -1;
+  }
+
+  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
   c->GPRx = u_sp_ret;
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work

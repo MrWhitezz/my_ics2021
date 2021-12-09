@@ -18,6 +18,12 @@ void call_main(uintptr_t *args) {
     printf("arcv[%d] at %p\n", i, argv[i]);
     printf("arcv[%d] = %s\n", i, argv[i]);
   }
+  if (envp != NULL){
+    printf("envp: %p\n", envp);
+    if (envp[0] != NULL){
+      printf("envp[0]: %p\n", envp[0]);
+    }
+  }
   environ = envp;
   exit(main(argc, argv, envp));
   assert(0);

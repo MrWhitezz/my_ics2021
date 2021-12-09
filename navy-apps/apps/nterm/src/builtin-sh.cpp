@@ -50,7 +50,10 @@ void builtin_sh_run() {
   sh_banner();
   sh_prompt();
 
+  printf("environ = %p\n", environ);
   assert(setenv("PATH", "/bin", 0) == 0);
+  // assert(putenv("PATH=/bin") == 0);
+  printf("environ = %p\n", environ);
 
   while (1) {
     SDL_Event ev;
