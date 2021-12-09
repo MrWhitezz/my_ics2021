@@ -53,6 +53,7 @@ static const char* cmd_rm_endl(const char *cmd){
         printf("Too many args!!!\n");
         break;
       }
+      arg_num++;
     }
   }
   return new_cmd;
@@ -64,7 +65,7 @@ static void sh_handle_cmd(const char *cmd) {
   }
   const char *new_cmd = cmd_rm_endl(cmd);
   // execve(new_cmd, NULL, NULL);
-  execvp(new_cmd, NULL);
+  execvp(new_cmd, argv_cmd);
   printf("Fail to execute %s", cmd);
 }
 
