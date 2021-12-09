@@ -16,8 +16,6 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 }
 
 int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
- 
-  // uint8_t *u_stack = heap.end;
   if (envp != NULL){
     printf("envp: %p\n", envp);
     if (envp[0] != NULL){
@@ -25,6 +23,19 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     }
   }
 
+  // tmp load
+  printf("Native debug\n");
+  uintptr_t entry = loader(pcb, fname);
+  printf("Native debug\n");
+  if (entry == -1){
+    printf("Fail to context_uload!!!\n");
+    return -1;
+  }
+
+  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
+  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+ 
+  // uint8_t *u_stack = heap.end;
   uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
   int str_area_sz = 0;
@@ -94,17 +105,6 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   free(u_argv);
   free(u_envp);
-  // tmp load
-  printf("Native debug\n");
-  uintptr_t entry = loader(pcb, fname);
-  printf("Native debug\n");
-  if (entry == -1){
-    printf("Fail to context_uload!!!\n");
-    return -1;
-  }
-
-  Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
 
 
   c->GPRx = u_sp_ret;
