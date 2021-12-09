@@ -21,7 +21,7 @@ ElfN_Addr vaddr, e_entry;
 Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
 #define bufsz 409600
-char bufp[bufsz];
+char bufp[bufsz]; // how fool you are
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_close(int fd);
@@ -61,12 +61,13 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       offp = phdr.p_offset;
       assert(filesz <= memsz && filesz <= bufsz);
       fs_lseek(fd, offp, SEEK_SET);
-      fs_read(fd, bufp, filesz);
+      // fs_read(fd, bufp, filesz);
+      // memcpy((void *)vaddr, bufp, filesz);
+      fs_read(fd, (void *)vaddr, filesz);
       printf("vaddr: %p\n", (void *)vaddr);
       printf("e_entry: %p\n", (void *)e_entry);
-      printf("buf from %p to %p\n", bufp, bufp + bufsz);
+      // printf("buf from %p to %p\n", bufp, bufp + bufsz);
       //ramdisk_read(bufp, offp, filesz);
-      memcpy((void *)vaddr, bufp, filesz);
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
