@@ -2,7 +2,7 @@
 
 #define MAX_NR_PROC 4
 #define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
-#define POINTER_BYTES 4
+#define POINTER_BYTES sizeof(char *)
 
 // why should pcb and pcb_boot be static?
 PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
@@ -145,7 +145,7 @@ void init_proc() {
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = exec_arg;
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
-  context_uload(&pcb[1], "/bin/exec-test", argv_pal, NULL);
+  context_uload(&pcb[1], "/bin/nterm", argv_pal, NULL);
   switch_boot_pcb();
   yield();
 
