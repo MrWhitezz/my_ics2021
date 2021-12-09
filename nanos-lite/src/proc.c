@@ -1,7 +1,7 @@
 #include <proc.h>
 
 #define MAX_NR_PROC 4
-#define UNSIPICIED_SZ 1024 // 128 + 128 < 8 * 4096
+#define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
 #define POINTER_BYTES sizeof(char *)
 #define PROTECT_ENV
 

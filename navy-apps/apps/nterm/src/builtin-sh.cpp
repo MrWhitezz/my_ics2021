@@ -23,17 +23,39 @@ static void sh_prompt() {
 }
 
 const char *cmd_exit = "exit\n";
-char new_cmd[64];
+#define MAX_ARG_NUMS 2
+#define MAX_CMD_LEN 64
+char new_cmd[MAX_CMD_LEN];
+char *argv_cmd[MAX_ARG_NUMS];
 static const char* cmd_rm_endl(const char *cmd){
-  for (int i = 0; i < 64; ++i){
+  int arg_num = 0;
+  bool is_proper_cmd = false;
+  for (int i = 0; i < MAX_CMD_LEN; ++i){
     new_cmd[i] = cmd[i];
     if (cmd[i] == '\n'){
       new_cmd[i] = '\0';
-      return new_cmd;
+      is_proper_cmd = true;
+      break;
     }
   }
-  printf("The Command is TOO LONG!!!\n");
-  return NULL;
+  if (is_proper_cmd == false){
+    printf("The Command is TOO LONG!!!\n");
+    return NULL;
+  }
+  for (int i = 1; i < MAX_CMD_LEN; ++i){
+    if (new_cmd[i] == '\0') break;
+    if (new_cmd[i] == ' '){
+      new_cmd[i] = '\0';
+      if (arg_num < MAX_ARG_NUMS){
+        argv_cmd[arg_num] = new_cmd + (i + 1);
+      }
+      else {
+        printf("Too many args!!!\n");
+        break;
+      }
+    }
+  }
+  return new_cmd;
 }
 
 static void sh_handle_cmd(const char *cmd) {
