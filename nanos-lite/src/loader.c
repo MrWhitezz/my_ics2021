@@ -62,6 +62,9 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       assert(filesz <= memsz && filesz <= bufsz);
       fs_lseek(fd, offp, SEEK_SET);
       fs_read(fd, bufp, filesz);
+      printf("vaddr: %p\n", (void *)vaddr);
+      printf("e_entry: %p\n", (void *)e_entry);
+      printf("buf from %p to %p\n", bufp, bufp + bufsz);
       //ramdisk_read(bufp, offp, filesz);
       memcpy((void *)vaddr, bufp, filesz);
       if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
