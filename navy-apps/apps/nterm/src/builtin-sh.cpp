@@ -48,6 +48,7 @@ static const char* cmd_rm_endl(const char *cmd){
       new_cmd[i] = '\0';
       if (arg_num < MAX_ARG_NUMS){
         argv_cmd[arg_num] = new_cmd + (i + 1);
+        printf("argnum = %d\n", arg_num);
       }
       else {
         printf("Too many args!!!\n");
