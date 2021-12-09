@@ -20,8 +20,8 @@ ElfN_off phoff, offp;
 ElfN_Addr vaddr, e_entry;
 Elfsz filesz, memsz;
 uint16_t phentsize, phnum;
-#define bufsz 409600
-char bufp[bufsz]; // how fool you are
+// #define bufsz 409600
+// char bufp[bufsz]; // how fool you are
 
 int fs_open(const char *pathname, int flags, int mode);
 int fs_close(int fd);
@@ -59,7 +59,8 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       filesz = phdr.p_filesz;
       memsz = phdr.p_memsz;
       offp = phdr.p_offset;
-      assert(filesz <= memsz && filesz <= bufsz);
+      assert(filesz <= memsz);
+      // assert(filesz <= memsz && filesz <= bufsz);
       fs_lseek(fd, offp, SEEK_SET);
       // fs_read(fd, bufp, filesz);
       // memcpy((void *)vaddr, bufp, filesz);
