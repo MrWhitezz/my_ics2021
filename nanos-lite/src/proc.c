@@ -17,20 +17,19 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 }
 
 int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
-  printf("This is context_uload\n");
-  printf("size of char *: %d\n", sizeof(char *));
-  if (envp != NULL){
-    printf("envp: %p\n", envp);
-    if (envp[0] != NULL){
-      printf("envp[0]: %p\n", envp[0]);
-    }
-  }
-  if (argv != NULL){
-    printf("argv: %p\n", argv);
-    if (argv[0] != NULL){
-      printf("argv[0]: %p\n", argv[0]);
-    }
-  }
+  // printf("This is context_uload\n");
+  // if (envp != NULL){
+  //   printf("envp: %p\n", envp);
+  //   if (envp[0] != NULL){
+  //     printf("envp[0]: %p\n", envp[0]);
+  //   }
+  // }
+  // if (argv != NULL){
+  //   printf("argv: %p\n", argv);
+  //   if (argv[0] != NULL){
+  //     printf("argv[0]: %p\n", argv[0]);
+  //   }
+  // }
 
   #ifndef PROTECT_ENV
   // tmp load
@@ -72,8 +71,8 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
   // assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
-  printf("ustack = %p\n",u_stack);
-  printf("heap.end = %p\n", heap.end);
+  // printf("ustack = %p\n",u_stack);
+  // printf("heap.end = %p\n", heap.end);
   *(int *)(u_stack) = argc;
   int stack_off = 0;
   stack_off = envc + 1 + argc + 1;
@@ -135,7 +134,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
-  printf("succss load!\n");
+  // printf("succss load!\n");
   return 0;
 }
 

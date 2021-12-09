@@ -113,7 +113,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
         *(pixels_32 + (r_y + j) * s_w + (r_x + i)) = color;
     }
   }
-  printf("FillRect!\n");
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
