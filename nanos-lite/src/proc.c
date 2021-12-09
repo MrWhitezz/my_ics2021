@@ -22,6 +22,12 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       printf("envp[0]: %p\n", envp[0]);
     }
   }
+  if (argv != NULL){
+    printf("argv: %p\n", argv);
+    if (argv[0] != NULL){
+      printf("argv[0]: %p\n", argv[0]);
+    }
+  }
 
   // tmp load
   printf("Native debug\n");
