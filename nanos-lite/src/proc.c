@@ -18,6 +18,13 @@ void context_kload(PCB *pcb1, void(* func)(void *), void *arg){
 int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const envp[]){
  
   // uint8_t *u_stack = heap.end;
+  if (envp != NULL){
+    printf("envp: %p\n", envp);
+    if (envp[0] != NULL){
+      printf("envp[0]: %p\n", envp[0]);
+    }
+  }
+
   uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
   int str_area_sz = 0;
