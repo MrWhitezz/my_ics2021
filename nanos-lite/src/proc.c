@@ -50,7 +50,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   uint8_t *u_stack = new_page(8);
   int argc = 0, envc = 0;
   int str_area_sz = 0;
-  printf("Native debug\n");
+  // printf("Native debug\n");
 
   // calculate space for string area and argc,envc
   if (argv != NULL) 
@@ -58,7 +58,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       str_area_sz += strlen(argv[argc]) + 1;
       argc++;
     }
-  printf("Native debug\n");
+  // printf("Native debug\n");
 
   if (envp != NULL) {
     while (envp[envc] != NULL) {
@@ -79,7 +79,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
 
-  printf("Native debug\n");
+  // printf("Native debug\n");
 
 
   // assign string
@@ -95,7 +95,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     u_stack += strlen(envp[i]) + 1;
   }
   
-  printf("Native debug\n");
+  // printf("Native debug\n");
   
   // assign argv, envp
   u_stack = (uint8_t *)u_sp_ret + sizeof(int);
@@ -119,9 +119,9 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   #ifdef PROTECT_ENV
   // tmp load
-  printf("Native debug\n");
+  // printf("Native debug\n");
   uintptr_t entry = loader(pcb, fname);
-  printf("Native debug\n");
+  // printf("Native debug\n");
   if (entry == -1){
     printf("Fail to context_uload!!!\n");
     return -1;
@@ -161,7 +161,7 @@ void init_proc() {
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = exec_arg;
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
-  context_uload(&pcb[1], "/bin/nterm", argv_pal, NULL);
+  context_uload(&pcb[1], "/bin/menu", argv_pal, NULL);
   switch_boot_pcb();
   yield();
 
