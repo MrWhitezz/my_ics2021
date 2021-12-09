@@ -23,7 +23,7 @@ static void sh_prompt() {
 }
 
 const char *cmd_exit = "exit\n";
-#define MAX_ARG_NUMS 2
+#define MAX_ARG_NUMS 3
 #define MAX_CMD_LEN 64
 char new_cmd[MAX_CMD_LEN];
 char *argv_cmd[MAX_ARG_NUMS];
@@ -42,6 +42,7 @@ static const char* cmd_rm_endl(const char *cmd){
     printf("The Command is TOO LONG!!!\n");
     return NULL;
   }
+  argv_cmd[arg_num++] = new_cmd;
   for (int i = 1; i < MAX_CMD_LEN; ++i){
     if (new_cmd[i] == '\0') break;
     if (new_cmd[i] == ' '){
