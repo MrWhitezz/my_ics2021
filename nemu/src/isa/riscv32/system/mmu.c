@@ -2,10 +2,9 @@
 #include <memory/paddr.h>
 #include <memory/vaddr.h>
 
-extern char _pmem_start;
 #define PMEM_SIZE (128 * 1024 * 1024)
-#define PMEM_BEG  ((uintptr_t)&_pmem_start)
-#define PMEM_END  ((uintptr_t)&_pmem_start + PMEM_SIZE) // 0x80000000 to 0x88000000
+#define PMEM_BEG  CONFIG_MBASE
+#define PMEM_END  (PMEM_BEG + PMEM_SIZE) // 0x80000000 to 0x88000000
 #define MMIO_BASE 0xa0000000
 #define MMIO_END  (MMIO_BASE + 0x1000)
 #define FB_ADDR   (MMIO_BASE + 0x1000000)
@@ -31,7 +30,7 @@ bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
 int isa_mmu_check(vaddr_t vaddr, int len, int type){
   vaddr_t va_end = vaddr + len;
   if (is_in_pmem(vaddr, va_end) || is_in_mmio(vaddr, va_end) || is_in_FB(vaddr, va_end)){
-    
+
   }
   return MMU_DIRECT;
 }
