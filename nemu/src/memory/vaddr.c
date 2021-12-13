@@ -6,7 +6,7 @@
 word_t vaddr_ifetch(vaddr_t addr, int len) {
   uint32_t satp = cpu.satp;
   if ((satp & mode_mask)){
-    assert(0);
+    
   }
   return paddr_read(addr, len);
 }
@@ -16,7 +16,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
     // printf("__riscv_xlen = %d\n", 32);
   uint32_t satp = cpu.satp;
   if ((satp & mode_mask)){
-    assert(0);
+    
   }
   return paddr_read(addr, len);
 }
@@ -24,7 +24,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, word_t data) {
   uint32_t satp = cpu.satp;
   if ((satp & mode_mask)){
-    assert(0);
+    
   }
   paddr_write(addr, len, data);
 }
