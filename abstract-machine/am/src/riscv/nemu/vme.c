@@ -140,7 +140,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte2.pte_.ppn1 = pa_tmp.paddr_.pa.ppn1;
   pte2.pte_.V    = 1; 
   *pte2_addr = pte2.val;
-  printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
+  // printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
