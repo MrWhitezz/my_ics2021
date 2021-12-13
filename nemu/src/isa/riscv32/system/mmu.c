@@ -30,7 +30,11 @@ bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
 int isa_mmu_check(vaddr_t vaddr, int len, int type){
   vaddr_t va_end = vaddr + len;
   if (is_in_pmem(vaddr, va_end) || is_in_mmio(vaddr, va_end) || is_in_FB(vaddr, va_end)){
-
+    return MMU_DIRECT;
+  }
+  else {
+    printf("translate\n");
+    return MMU_TRANSLATE;
   }
   return MMU_DIRECT;
 }
