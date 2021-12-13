@@ -7,6 +7,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
 
 word_t vaddr_read(vaddr_t addr, int len) {
   // int mm_check = isa_mmu_check(vaddr_t, len, MEM_TYPE_READ);
+    printf("__riscv_xlen = %d\n", 31);
   return paddr_read(addr, len);
 }
 
