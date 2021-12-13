@@ -12,6 +12,7 @@ static Area segments[] = {      // Kernel memory mappings
 };
 
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
+#define exp2(x) (1 << (x))
 
 typedef struct 
 {
@@ -117,8 +118,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   va_tmp.vaddr_.val = (uint32_t)va;
   pa_tmp.paddr_.val = (uint32_t)pa;
   assert(va_tmp.vaddr_.va.page_offset == pa_tmp.paddr_.pa.page_offset);
-  uint32_t satp_addr = (uint32_t)kas.ptr;
-  uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE;
+  uint32_t satp_addr = (uint32_t)as->ptr;
+  uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
   uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
   pte1.val = *pte1_addr;
   if (pte1.pte_.V == 0){
@@ -126,8 +127,16 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     pte_addr_tmp.paddr_.val = pte_ppn_addr; 
     pte1.pte_.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
     pte1.pte_.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
+    assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
+    *pte1_addr = pte1.val;
   }
-
+  assert(*pte1_addr == pte1.val);
+  uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.ppn1 * exp2(10) + pte1.pte_.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
+  pte2.val = *pte2_addr;
+  pte2.pte_.ppn0 = pa_tmp.paddr_.pa.ppn0;
+  pte2.pte_.ppn1 = pa_tmp.paddr_.pa.ppn1;
+  pte2.pte_.V    = 1; 
+  *pte2_addr = pte2.val;
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
