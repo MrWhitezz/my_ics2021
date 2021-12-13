@@ -126,7 +126,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
   uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
-  printf("pte_ppn_addr allocated by OS at %x\n", pte_ppn_addr);
+  // printf("pte_ppn_addr allocated by OS at %x\n", pte_ppn_addr);
   uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
   pte1.pte_.val = *pte1_addr; // not secure
   if (pte1.pte_.pte.V == 0){
@@ -146,7 +146,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte2.pte_.pte.ppn1 = pa_tmp.paddr_.pa.ppn1;
   pte2.pte_.pte.V    = 1; 
   *pte2_addr = pte2.pte_.val;
-  printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
+  // printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
