@@ -28,6 +28,7 @@ static def_DopHelper(csr) {
   // ignore flag
   switch (val){
     case 0x000:                          break;
+    case 0x180: op->preg = &cpu.satp;    break;
     case 0x300: op->preg = &cpu.mstatus; break;
     case 0x302:                          break;
     case 0x305: op->preg = &cpu.mtvec;   break;
