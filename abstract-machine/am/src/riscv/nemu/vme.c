@@ -67,6 +67,7 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  // to fill the page table
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)

@@ -14,6 +14,7 @@ typedef struct {
   rtlreg_t mstatus;
   rtlreg_t mcause;
   rtlreg_t mtvec;// God tm only 3 regs?
+  rtlreg_t satp;
   
 } riscv32_CPU_state;
 
@@ -85,5 +86,8 @@ typedef struct {
 } riscv32_ISADecodeInfo;
 
 #define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
+// int isa_mmu_check(vaddr_t vaddr, int len, int type) {
+
+// }
 
 #endif
