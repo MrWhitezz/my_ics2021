@@ -12,6 +12,7 @@
 
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
+  assert(0);
   return MEM_RET_FAIL;
 }
 
