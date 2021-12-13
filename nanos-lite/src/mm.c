@@ -13,7 +13,7 @@ static void* pg_alloc(int n) {
   assert(pf + n * PGSIZE < heap.end);
   void *old_pf = pf;
   pf += n * PGSIZE;
-  memset(pf, 0, n * PGSIZE);
+  memset(old_pf, 0, n * PGSIZE);
   return old_pf;
 }
 #endif
