@@ -1,6 +1,9 @@
 #include <isa.h>
 #include <memory/paddr.h>
 
+int isa_mmu_check(vaddr_t vaddr, int len, int type){
+  return MMU_DIRECT;
+}
 word_t vaddr_ifetch(vaddr_t addr, int len) {
   return paddr_read(addr, len);
 }
