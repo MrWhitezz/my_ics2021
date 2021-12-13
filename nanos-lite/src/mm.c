@@ -10,7 +10,10 @@ void* new_page(size_t nr_page) {
 
 #ifdef HAS_VME
 static void* pg_alloc(int n) {
-  return NULL;
+  assert(pf + n * PGSIZE < heap.end);
+  void *old_pf = pf;
+  pf += n * PGSIZE;
+  return old_pf;
 }
 #endif
 
