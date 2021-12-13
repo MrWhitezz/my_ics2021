@@ -138,7 +138,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     *pte1_addr = pte1.pte_.val;
     printf("load level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
   }
-  printf("level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
+  // printf("level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
   assert(*pte1_addr == pte1.pte_.val);
   uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.pte.ppn1 * exp2(10) + pte1.pte_.pte.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
   pte2.pte_.val = *pte2_addr;
@@ -146,7 +146,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte2.pte_.pte.ppn1 = pa_tmp.paddr_.pa.ppn1;
   pte2.pte_.pte.V    = 1; 
   *pte2_addr = pte2.pte_.val;
-  // printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
+  printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
