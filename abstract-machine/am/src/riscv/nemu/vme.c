@@ -138,6 +138,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     *pte1_addr = pte1.pte_.val;
     printf("load level 1 page table entry at %p value %x\n", pte1_addr, *pte1_addr);
   }
+  printf("level 1 page table entry at %p value %x\n", pte1_addr, *pte1_addr);
   assert(*pte1_addr == pte1.pte_.val);
   uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.pte.ppn1 * exp2(10) + pte1.pte_.pte.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
   pte2.pte_.val = *pte2_addr;
