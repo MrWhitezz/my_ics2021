@@ -26,6 +26,19 @@ typedef struct
   } vaddr_;
 } vaddr;
 
+typedef struct 
+{
+  union 
+  {
+    struct{
+      uint32_t page_offset : 12;
+      uint32_t ppn0        : 10;
+      uint32_t ppn1        : 10;
+    } pa;
+    uint32_t val;
+  } paddr_;
+} paddr;
+
 
 vaddr va_tmp;
 
