@@ -13,6 +13,22 @@ static Area segments[] = {      // Kernel memory mappings
 
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
 
+typedef struct 
+{
+  union 
+  {
+    struct{
+      uint32_t page_offset : 12;
+      uint32_t vpn0        : 10;
+      uint32_t vpn1        : 10;
+    } va;
+    uint32_t val;
+  } vaddr_;
+} vaddr;
+
+
+vaddr va_tmp;
+
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   printf("__riscv_xlen = %d\n", __riscv_xlen);
@@ -70,6 +86,7 @@ void __am_switch(Context *c) {
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   // to fill the page table
+  va_tmp.vaddr_.val = (uint32_t)va;
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
