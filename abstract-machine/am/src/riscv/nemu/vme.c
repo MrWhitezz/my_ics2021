@@ -118,6 +118,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   va_tmp.vaddr_.val = (uint32_t)va;
   pa_tmp.paddr_.val = (uint32_t)pa;
   assert(va_tmp.vaddr_.va.page_offset == pa_tmp.paddr_.pa.page_offset);
+
+  // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
   uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
   uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
@@ -129,6 +131,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     pte1.pte_.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
     assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
     *pte1_addr = pte1.val;
+    printf("load page table entry at %p value %x\n", pte1_addr, *pte1_addr);
   }
   assert(*pte1_addr == pte1.val);
   uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.ppn1 * exp2(10) + pte1.pte_.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
