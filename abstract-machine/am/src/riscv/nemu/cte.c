@@ -17,6 +17,7 @@ Context* __am_irq_handle(Context *c) {
   // printf("SR[cause] = 0x%x\n", c->mcause);
   // printf("SR[epc] = 0x%x\n", c->mepc);
   // printf("SR[status] = 0x%d\n", c->mstatus);
+    printf("cte happened\n");
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
