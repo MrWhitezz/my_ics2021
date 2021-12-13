@@ -39,6 +39,19 @@ typedef struct
   } paddr_;
 } paddr;
 
+typedef struct 
+{
+  union 
+  {
+    uint32_t V        : 1;
+    uint32_t not_used : 9;
+    uint32_t ppn0     : 10;
+    uint32_t ppn1     : 12;
+  } pte_;
+  uint32_t val;
+} pte;
+
+
 
 vaddr va_tmp;
 
