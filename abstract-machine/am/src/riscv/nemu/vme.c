@@ -44,19 +44,23 @@ typedef struct
 {
   union 
   {
-    uint32_t V        : 1;
-    uint32_t not_used : 9;
-    uint32_t ppn0     : 10;
-    uint32_t ppn1     : 12;
+      struct
+      {
+      uint32_t V        : 1;
+      uint32_t not_used : 9;
+      uint32_t ppn0     : 10;
+      uint32_t ppn1     : 12;
+        /* data */
+      } pte;
+    uint32_t val;
   } pte_;
-  uint32_t val;
 } pte;
 
 
 
 vaddr va_tmp = {.vaddr_.val = 0};
 paddr pa_tmp = {.paddr_.val = 0}, pte_addr_tmp = {.paddr_.val = 0};
-pte pte1 = {.val = 0}, pte2 = {.val = 0};
+pte pte1 = {.pte_.val = 0}, pte2 = {.pte_.val = 0};
 
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
@@ -123,23 +127,23 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   uint32_t satp_addr = (uint32_t)as->ptr;
   uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
   uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
-  pte1.val = *pte1_addr;
-  if (pte1.pte_.V == 0){
-    pte1.pte_.V = 1;
+  pte1.pte_.val = *pte1_addr;
+  if (pte1.pte_.pte.V == 0){
+    pte1.pte_.pte.V = 1;
     pte_addr_tmp.paddr_.val = pte_ppn_addr; 
-    pte1.pte_.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
-    pte1.pte_.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
+    pte1.pte_.pte.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
+    pte1.pte_.pte.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
     assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
-    *pte1_addr = pte1.val;
+    *pte1_addr = pte1.pte_.val;
     printf("load level 1 page table entry at %p value %x\n", pte1_addr, *pte1_addr);
   }
-  assert(*pte1_addr == pte1.val);
-  uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.ppn1 * exp2(10) + pte1.pte_.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
-  pte2.val = *pte2_addr;
-  pte2.pte_.ppn0 = pa_tmp.paddr_.pa.ppn0;
-  pte2.pte_.ppn1 = pa_tmp.paddr_.pa.ppn1;
-  pte2.pte_.V    = 1; 
-  *pte2_addr = pte2.val;
+  assert(*pte1_addr == pte1.pte_.val);
+  uint32_t *pte2_addr = (uint32_t *)((pte1.pte_.pte.ppn1 * exp2(10) + pte1.pte_.pte.ppn0) * PGSIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE);
+  pte2.pte_.val = *pte2_addr;
+  pte2.pte_.pte.ppn0 = pa_tmp.paddr_.pa.ppn0;
+  pte2.pte_.pte.ppn1 = pa_tmp.paddr_.pa.ppn1;
+  pte2.pte_.pte.V    = 1; 
+  *pte2_addr = pte2.pte_.val;
   // printf("load level 2 page table entry at %p value %x\n", pte2_addr, *pte2_addr);
 }
 
