@@ -54,9 +54,9 @@ typedef struct
 
 
 
-vaddr va_tmp;
-paddr pa_tmp, pte_addr_tmp;
-pte pte1, pte2;
+vaddr va_tmp = {};
+paddr pa_tmp = {}, pte_addr_tmp = {};
+pte pte1 = {}, pte2 = {};
 
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
