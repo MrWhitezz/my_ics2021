@@ -26,6 +26,7 @@ Context* __am_irq_handle(Context *c) {
     
 
     c = user_handler(ev, c);
+    printf("cte happened\n");
     assert(c != NULL);
   }
   assert(c != NULL);
