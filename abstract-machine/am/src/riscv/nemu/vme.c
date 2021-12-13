@@ -54,6 +54,8 @@ typedef struct
 
 
 vaddr va_tmp;
+paddr pa_tmp, pte_addr_tmp;
+pte pte1, pte2;
 
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
@@ -72,7 +74,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  kas.ptr = pgalloc_f(PGSIZE);
+  kas.ptr = pgalloc_f(PGSIZE); // need to + 1?
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
@@ -113,6 +115,19 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   // to fill the page table
   va_tmp.vaddr_.val = (uint32_t)va;
+  pa_tmp.paddr_.val = (uint32_t)pa;
+  assert(va_tmp.vaddr_.va.page_offset == pa_tmp.paddr_.pa.page_offset);
+  uint32_t satp_addr = (uint32_t)kas.ptr;
+  uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE;
+  uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
+  pte1.val = *pte1_addr;
+  if (pte1.pte_.V == 0){
+    pte1.pte_.V = 1;
+    pte_addr_tmp.paddr_.val = pte_ppn_addr; 
+    pte1.pte_.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
+    pte1.pte_.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
+  }
+
 }
 
 #define CONTEXT_SIZE  (32 + 3 + 1)
