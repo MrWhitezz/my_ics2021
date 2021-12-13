@@ -6,7 +6,10 @@
 word_t vaddr_ifetch(vaddr_t addr, int len) {
   uint32_t satp = cpu.satp;
   if ((satp & mode_mask)){
-    // int check = isa_mmu_check(addr, len, MEM_TYPE_IFETCH);  
+    int check = isa_mmu_check(addr, len, MEM_TYPE_IFETCH);  
+    if (check == MMU_TRANSLATE){
+      
+    }
   }
   return paddr_read(addr, len);
 }
