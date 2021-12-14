@@ -60,11 +60,12 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       memsz = phdr.p_memsz;
       offp = phdr.p_offset;
       assert(filesz <= memsz);
-      int nr_page = (memsz + PGSIZE - 1) / PGSIZE;
+      int nr_page = ((vaddr + memsz) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
       void *p_page = pg_alloc(nr_page);
+      void *vaddr_load = (void *)ROUNDDOWN(vaddr, PGSIZE);
       assert(pcb != NULL);
       for (int i = 0; i < nr_page; ++i){
-        map(&pcb->as, ((void *)vaddr) + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
+        map(&pcb->as, ((void *)vaddr_load) + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
       }
       // !ATTENSION: textbook say we need to load page by page, but I don't think so!
       fs_lseek(fd, offp, SEEK_SET);
