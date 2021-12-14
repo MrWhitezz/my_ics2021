@@ -130,7 +130,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   }
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
-  Context *c = ucontext(NULL, pcb_stack, (void *)entry); 
+  Context *c = ucontext(&pcb1->as, pcb_stack, (void *)entry); 
   #endif
 
   c->GPRx = u_sp_ret;
