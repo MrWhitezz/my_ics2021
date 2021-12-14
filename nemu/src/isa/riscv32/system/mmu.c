@@ -47,7 +47,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
 
-  if (cnt_trans++ % 10000 == 0 && type == MEM_TYPE_WRITE && !is_in_pmem(vaddr, vaddr))
+  if (cnt_trans++ % 100000 == 0 && type == MEM_TYPE_WRITE && !is_in_pmem(vaddr, vaddr))
     printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
   assert(vaddr == pa);
   return pa;
