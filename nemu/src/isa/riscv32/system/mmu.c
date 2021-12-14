@@ -37,6 +37,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   if (cnt_trans++ % 10000 == 0)
     printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
+  assert(vaddr == pa);
   return pa;
 
   assert(0);
