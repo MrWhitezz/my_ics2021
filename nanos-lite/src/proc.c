@@ -48,7 +48,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   // uint8_t *u_stack = heap.end;
   uint8_t *u_stack = new_page(8);
   // not sure
-  // protect(&pcb1->as); 
+  protect(&pcb1->as); 
 
   int argc = 0, envc = 0;
   int str_area_sz = 0;
