@@ -137,7 +137,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   // for native(GPR4 == rcx, GPRx == rax), I don't know why rax do not work
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
-  // printf("succss load!\n");
+  printf("succss load!\n");
   return 0;
 }
 
