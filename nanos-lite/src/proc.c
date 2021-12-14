@@ -81,6 +81,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   printf("ustack = %p\n",u_stack);
   printf("heap.end = %p\n", heap.end);
   *(int *)(u_stack) = argc;
+  printf("Native debug\n");
   int stack_off = 0;
   stack_off = envc + 1 + argc + 1;
   u_stack += sizeof(int);
