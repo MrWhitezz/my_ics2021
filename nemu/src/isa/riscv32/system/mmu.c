@@ -59,7 +59,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
 
 int isa_mmu_check(vaddr_t vaddr, int len, int type){
-  return MMU_TRANSLATE;
   vaddr_t va_end = vaddr + len;
   if (is_in_pmem(vaddr, va_end) || is_in_mmio(vaddr, va_end) || is_in_FB(vaddr, va_end)){
     return MMU_DIRECT;

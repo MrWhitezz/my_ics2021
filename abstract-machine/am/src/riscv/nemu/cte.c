@@ -2,6 +2,9 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+void __am_get_cur_as(Context *c);
+void __am_switch(Context *c);
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 void ecall_judge(Context *c, Event *e){
@@ -17,18 +20,18 @@ Context* __am_irq_handle(Context *c) {
   // printf("SR[cause] = 0x%x\n", c->mcause);
   // printf("SR[epc] = 0x%x\n", c->mepc);
   // printf("SR[status] = 0x%d\n", c->mstatus);
+  assert(c != NULL);
+  __am_get_cur_as(c); 
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
       case 0xb: ecall_judge(c, &ev);       break;
       default:  ev.event = EVENT_ERROR;    break;
     }
-    
-
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  assert(c != NULL);
+  __am_switch(c);
   return c;
 }
 
