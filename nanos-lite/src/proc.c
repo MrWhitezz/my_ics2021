@@ -122,7 +122,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   #ifdef PROTECT_ENV
   // tmp load
   // printf("Native debug\n");
-  uintptr_t entry = loader(pcb, fname);
+  uintptr_t entry = loader(pcb1, fname);
   // printf("Native debug\n");
   if (entry == -1){
     printf("Fail to context_uload!!!\n");
