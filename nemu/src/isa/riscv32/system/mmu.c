@@ -19,6 +19,8 @@ vaddr va_tmp;
 paddr pa_tmp;
 pte pte1, pte2;
 
+long long cnt_trans = 0;
+
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   uint32_t satp_ppn = cpu.satp & SATP_PPN_MASK;
   assert(cpu.satp & mode_mask);   assert(PAGE_SIZE == 4096);
@@ -33,7 +35,8 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
 
-  // printf("Translate success at pa %x\n", pa);
+  if (cnt_trans % 100 == 0)
+    printf("Translate %lld times success at pa %x\n", cnt_trans++, pa);
   return pa;
 
   assert(0);
