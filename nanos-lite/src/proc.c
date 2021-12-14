@@ -4,6 +4,7 @@
 #define UNSIPICIED_SZ 128 // 128 + 128 < 8 * 4096
 #define POINTER_BYTES sizeof(char *)
 #define PROTECT_ENV
+// #define ARGS_MANAGE
 
 // why should pcb and pcb_boot be static?
 PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
@@ -54,6 +55,8 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
     map(&pcb1->as, u_stack_beg + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
   }
   uint8_t *u_stack = u_stack_end;
+
+  #ifdef ARGS_MANAGE
 
   int argc = 0, envc = 0;
   int str_area_sz = 0;
@@ -123,6 +126,10 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   free(u_argv);
   free(u_envp);
+  #endif
+  #ifndef ARGS_MANAGE
+  uintptr_t u_sp_ret = (uintptr_t)u_stack;
+  #endif
 
   #ifdef PROTECT_ENV
   // tmp load
