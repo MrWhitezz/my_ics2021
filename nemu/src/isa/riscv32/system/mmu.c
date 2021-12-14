@@ -64,7 +64,6 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type){
     return MMU_DIRECT;
   }
   else {
-    printf("translate\n");
     return MMU_TRANSLATE;
   }
   return MMU_DIRECT;
