@@ -31,6 +31,48 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type);
 #endif
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type);
 
+typedef struct 
+{
+  union 
+  {
+    struct{
+      uint32_t page_offset : 12;
+      uint32_t vpn0        : 10;
+      uint32_t vpn1        : 10;
+    } va;
+    uint32_t val;
+  } vaddr_;
+} vaddr;
+
+typedef struct 
+{
+  union 
+  {
+    struct{
+      uint32_t page_offset : 12;
+      uint32_t ppn0        : 10;
+      uint32_t ppn1        : 10;
+    } pa;
+    uint32_t val;
+  } paddr_;
+} paddr;
+
+typedef struct 
+{
+  union 
+  {
+      struct
+      {
+      uint32_t V        : 1;
+      uint32_t not_used : 9;
+      uint32_t ppn0     : 10;
+      uint32_t ppn1     : 12;
+        /* data */
+      } pte;
+    uint32_t val;
+  } pte_;
+} pte;
+
 // interrupt/exception
 vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
 #define INTR_EMPTY ((word_t)-1)
