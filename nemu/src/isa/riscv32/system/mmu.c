@@ -35,7 +35,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
 
-  if (cnt_trans++ % 1000 == 0)
+  if (cnt_trans++ % 10000 == 0)
     printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
   return pa;
 
