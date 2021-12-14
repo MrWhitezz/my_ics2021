@@ -45,6 +45,7 @@ extern "C" {
 
 // ----------------------- TRM: Turing Machine -----------------------
 extern   Area        heap;
+void     light       ();
 void     putch       (char ch);
 void     halt        (int code) __attribute__((__noreturn__));
 

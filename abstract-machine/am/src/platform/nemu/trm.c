@@ -11,6 +11,10 @@ Area heap = RANGE(&_heap_start, PMEM_END);
 #endif
 static const char mainargs[] = MAINARGS;
 
+void light(){
+  outb(LED_PORT, 1);
+}
+
 void putch(char ch) {
   outb(SERIAL_PORT, ch);
 }
