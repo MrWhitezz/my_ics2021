@@ -66,15 +66,12 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       for (int i = 0; i < nr_page; ++i){
         map(&pcb->as, ((void *)vaddr) + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
       }
+      // !ATTENSION: textbook say we need to load page by page, but I don't think so!
       fs_lseek(fd, offp, SEEK_SET);
-      // fs_read(fd, bufp, filesz);
-      // memcpy((void *)vaddr, bufp, filesz);
       fs_read(fd, (void *)vaddr, filesz);
+      if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
       // printf("vaddr: %p\n", (void *)vaddr);
       // printf("e_entry: %p\n", (void *)e_entry);
-      // printf("buf from %p to %p\n", bufp, bufp + bufsz);
-      //ramdisk_read(bufp, offp, filesz);
-      if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
     }
   }
   // printf("e_entry = 0x%08x\n", e_entry);
