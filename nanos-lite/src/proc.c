@@ -77,10 +77,9 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   char **u_envp = malloc(envc * sizeof(char *));
   // Need give space for stack
   u_stack -= UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int);
-  // assert(UNSIPICIED_SZ * 2 + str_area_sz + (envc + 1 + argc + 1) * POINTER_BYTES + sizeof(int) < 8 * PGSIZE);
   uintptr_t u_sp_ret = (uintptr_t)u_stack;
-  // printf("ustack = %p\n",u_stack);
-  // printf("heap.end = %p\n", heap.end);
+  printf("ustack = %p\n",u_stack);
+  printf("heap.end = %p\n", heap.end);
   *(int *)(u_stack) = argc;
   int stack_off = 0;
   stack_off = envc + 1 + argc + 1;
