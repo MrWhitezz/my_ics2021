@@ -126,6 +126,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
   uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
+  printf("va: %x pa: %x\n", va, pa);
   printf("satp_addr = %x\n", satp_addr);
   printf("pte_ppn_addr allocated by OS at %x\n", pte_ppn_addr);
   uint32_t *pte1_addr = (uint32_t *)(satp_addr + va_tmp.vaddr_.va.vpn1 * PTESIZE); // PTESIZE == 4 !!!
