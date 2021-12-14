@@ -60,7 +60,12 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       memsz = phdr.p_memsz;
       offp = phdr.p_offset;
       assert(filesz <= memsz);
-      // assert(filesz <= memsz && filesz <= bufsz);
+      int nr_page = (memsz + PGSIZE - 1) / PGSIZE;
+      void *p_page = pg_alloc(nr_page);
+      assert(pcb != NULL);
+      for (int i = 0; i < nr_page; ++i){
+        map(&pcb->as, ((void *)vaddr) + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
+      }
       fs_lseek(fd, offp, SEEK_SET);
       // fs_read(fd, bufp, filesz);
       // memcpy((void *)vaddr, bufp, filesz);
