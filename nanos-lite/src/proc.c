@@ -57,7 +57,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   int argc = 0, envc = 0;
   int str_area_sz = 0;
-  printf("Native debug\n");
+  // printf("Native debug\n");
 
   // calculate space for string area and argc,envc
   if (argv != NULL) 
@@ -65,7 +65,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
       str_area_sz += strlen(argv[argc]) + 1;
       argc++;
     }
-  // printf("Native debug\n");
+  printf("Native debug\n");
 
   if (envp != NULL) {
     while (envp[envc] != NULL) {
