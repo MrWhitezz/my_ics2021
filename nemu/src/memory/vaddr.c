@@ -30,7 +30,10 @@ word_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, word_t data) {
   uint32_t satp = cpu.satp;
   if ((satp & mode_mask)){
-    
+    int check = isa_mmu_check(addr, len, MEM_TYPE_WRITE);  
+    if (check == MMU_TRANSLATE){
+      return paddr_write(isa_mmu_translate(addr, len, MEM_TYPE_WRITE), len, data);
+    }
   }
   paddr_write(addr, len, data);
 }
