@@ -19,6 +19,18 @@ vaddr va_tmp;
 paddr pa_tmp;
 pte pte1, pte2;
 
+bool is_in_pmem(vaddr_t va_beg, vaddr_t va_end){
+  return (va_beg >= PMEM_BEG && va_end <= PMEM_END);
+}
+
+bool is_in_mmio(vaddr_t va_beg, vaddr_t va_end){
+  return (va_beg >= MMIO_BASE && va_end <= MMIO_END);
+}
+
+bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
+  return (va_beg >= FB_ADDR && va_end <= FB_END);
+}
+
 long long cnt_trans = 0;
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
@@ -35,7 +47,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
 
-  if (cnt_trans++ % 10000 == 0 && type == MEM_TYPE_WRITE)
+  if (cnt_trans++ % 10000 == 0 && type == MEM_TYPE_WRITE && !is_in_pmem(vaddr, vaddr))
     printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
   assert(vaddr == pa);
   return pa;
@@ -44,17 +56,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   return MEM_RET_FAIL;
 }
 
-bool is_in_pmem(vaddr_t va_beg, vaddr_t va_end){
-  return (va_beg >= PMEM_BEG && va_end <= PMEM_END);
-}
 
-bool is_in_mmio(vaddr_t va_beg, vaddr_t va_end){
-  return (va_beg >= MMIO_BASE && va_end <= MMIO_END);
-}
-
-bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
-  return (va_beg >= FB_ADDR && va_end <= FB_END);
-}
 
 int isa_mmu_check(vaddr_t vaddr, int len, int type){
   return MMU_TRANSLATE;
