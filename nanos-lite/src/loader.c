@@ -42,7 +42,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
   int fd = fs_open(filename, 0, 0);
   if (fd == -1) return -1;
   fs_read(fd, &elf, sizeof(elf));
-  //ramdisk_read(&elf, 0, sizeof(elf));
+  // ramdisk_read(&elf, 0, sizeof(elf));
   assert(*(uint32_t *)elf.e_ident == 0x464c457f); // correct ELF MAGIC number
   phoff = elf.e_phoff;
   phentsize = elf.e_phentsize;
