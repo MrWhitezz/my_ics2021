@@ -66,6 +66,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       void *p_page = pg_alloc(nr_page);
       void *vaddr_load = (void *)ROUNDDOWN(vaddr, PGSIZE);
       assert(pcb != NULL);
+
       int has_load = 0;
       for (int i = 0; i < nr_page; ++i){
         map(&pcb->as, ((void *)vaddr_load) + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
@@ -96,14 +97,15 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       }
       // !ATTENSION: textbook say we need to load page by page, but I don't think so!
       // WRONG!
-      fs_lseek(fd, offp, SEEK_SET);
-      fs_read(fd, (void *)vaddr, filesz);
-      if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
+      // fs_lseek(fd, offp, SEEK_SET);
+      // fs_read(fd, (void *)vaddr, filesz);
+      // if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
+
       // printf("vaddr: %p\n", (void *)vaddr);
       // printf("e_entry: %p\n", (void *)e_entry);
     }
   }
-  // printf("e_entry = 0x%08x\n", e_entry);
+  printf("e_entry = 0x%08x\n", e_entry);
   return (uintptr_t)load_tmp;
   // return (uintptr_t)e_entry;
 }
