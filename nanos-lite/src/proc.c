@@ -128,7 +128,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   free(u_envp);
   #endif
   #ifndef ARGS_MANAGE
-  uintptr_t u_sp_ret = (uintptr_t)u_stack;
+  uintptr_t u_sp_ret = (uintptr_t)u_stack - 2 * UNSIPICIED_SZ;
   #endif
 
   #ifdef PROTECT_ENV
