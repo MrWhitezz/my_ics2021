@@ -1,5 +1,6 @@
 #include <memory.h>
 
+extern char _end;
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
@@ -23,6 +24,7 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
+  printf("nanos _end = %x\n", &_end);
   return 0;
 }
 
