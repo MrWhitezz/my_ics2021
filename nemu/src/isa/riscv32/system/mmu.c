@@ -46,6 +46,9 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   assert(pte1.pte_.pte.V == 1);
   paddr_t pte2_addr = (pte1.pte_.pte.ppn1 * exp2(10) + pte1.pte_.pte.ppn0) * PAGE_SIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE;
   pte2.pte_.val = paddr_read(pte2_addr, PTESIZE);
+  if (pte2.pte_.pte.V != 1){
+    printf("Fault at vaddr %x\n", vaddr);
+  }
   assert(pte2.pte_.pte.V == 1);
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
