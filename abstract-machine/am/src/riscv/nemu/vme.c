@@ -89,6 +89,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
+  void *va_extra = (void *)((0x80000000) - PGSIZE);
+  map(&kas, va_extra, va_extra, 0);
 
   set_satp(kas.ptr);
   vme_enable = 1;
