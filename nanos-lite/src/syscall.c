@@ -44,7 +44,7 @@ static void sys_lseek(Context *c, int fd, size_t offset, int whence){
 }
 
 static void sys_brk(Context *c, uintptr_t incr) {
-  c->GPRx = mm_brk(0);
+  c->GPRx = mm_brk(incr);
 }
 
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
