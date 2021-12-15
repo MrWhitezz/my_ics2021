@@ -26,6 +26,7 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
   printf("brk = %x\n", brk);
+  assert(current->max_brk + brk < (uint32_t)current->as.area.end);
   int nr_page = ((current->max_brk + brk - 1) / PGSIZE) - ((current->max_brk - 1) / PGSIZE);
   void *p_page = pg_alloc(nr_page);
   void *v_page = (void *)(ROUNDUP(current->max_brk, PGSIZE));
@@ -36,7 +37,6 @@ int mm_brk(uintptr_t brk) {
     map(&current->as, v_page + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
   }
   current->max_brk += brk;
-  assert(current->max_brk < (uint32_t)current->as.area.end);
   return 0;
 }
 
