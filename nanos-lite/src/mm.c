@@ -1,4 +1,5 @@
 #include <memory.h>
+#include <proc.h>
 
 extern char _end;
 static void *pf = NULL;
@@ -25,6 +26,7 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
   printf("nanos _end = %x\n", &_end);
+  printf("PCB maxbrk = %x\n", pcb[1].max_brk);
   return 0;
 }
 
