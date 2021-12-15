@@ -25,6 +25,7 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
+  printf("brk = %x\n", brk);
   int nr_page = ((current->max_brk + brk) / PGSIZE) - (current->max_brk / PGSIZE);
   void *p_page = pg_alloc(nr_page);
   void *v_page = (void *)(ROUNDUP(current->max_brk, PGSIZE));
