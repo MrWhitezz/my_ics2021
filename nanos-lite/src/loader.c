@@ -83,7 +83,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
           int file_rem = filesz - has_load;
           if (file_rem > 0){
             fs_lseek(fd, offp + has_load, SEEK_SET);
-            fs_read(fd, vaddr_load + i * PGSIZE + load_offset, file_rem);
+            fs_read(fd, p_page + i * PGSIZE + load_offset, file_rem);
             memset(p_page + i * PGSIZE + load_offset + file_rem, 0, MIN(to_load - file_rem, memsz - filesz));
           }
           else{
