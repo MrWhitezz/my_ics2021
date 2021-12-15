@@ -65,9 +65,9 @@ pte pte1 = {.pte_.val = 0}, pte2 = {.pte_.val = 0};
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   // printf("__riscv_xlen = %d\n", __riscv_xlen);
-  printf("set satp as %x\n", (mode | ((uintptr_t)pdir >> 12)));
+  // printf("set satp as %x\n", (mode | ((uintptr_t)pdir >> 12)));
   asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
-  printf("set satp as %x\n", (mode | ((uintptr_t)pdir >> 12)));
+  // printf("set satp as %x\n", (mode | ((uintptr_t)pdir >> 12)));
 }
 
 static inline uintptr_t get_satp() {
@@ -113,11 +113,11 @@ void __am_get_cur_as(Context *c) {
 }
 
 void __am_switch(Context *c) {
-  printf("begin __am_switch\n");
-  printf("vme_enable = %d\n", vme_enable);
-  printf("begin __am_switch\n");
-  printf("c->pdir %p\n", c->pdir);
-  printf("begin __am_switch\n");
+  // printf("begin __am_switch\n");
+  // printf("vme_enable = %d\n", vme_enable);
+  // printf("begin __am_switch\n");
+  // printf("c->pdir %p\n", c->pdir);
+  // printf("begin __am_switch\n");
   if (vme_enable && c->pdir != NULL) {
     set_satp(c->pdir);
   }
