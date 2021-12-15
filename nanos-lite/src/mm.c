@@ -25,13 +25,13 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(intptr_t brk) {
-  printf("brk = %d\n", brk);
   assert(current->program_brk + brk < (uint32_t)current->as.area.end);
   if (brk > 0){
     int nr_page = ((current->program_brk + brk - 1) / PGSIZE) - ((current->max_brk - 1) / PGSIZE);
     if (nr_page > 0){
       void *p_page = pg_alloc(nr_page);
       void *v_page = (void *)(ROUNDUP(current->max_brk, PGSIZE));
+      printf("brk = %d\n", brk);
       printf("v_page + (nrpage - 1) * PGSIZE = %x\n", (uintptr_t)(v_page + (nr_page - 1) * PGSIZE));
       printf("(current->program_brk + brk)) = %x\n", (current->program_brk + brk));
       assert((uintptr_t)(v_page + (nr_page - 1) * PGSIZE) / PGSIZE == (current->program_brk + brk - 1) / PGSIZE);

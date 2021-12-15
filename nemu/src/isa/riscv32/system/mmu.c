@@ -31,7 +31,7 @@ bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
   return (va_beg >= FB_ADDR && va_end <= FB_END);
 }
 
-long long cnt_trans = 0;
+// long long cnt_trans = 0;
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   uint32_t satp_ppn = cpu.satp & SATP_PPN_MASK;
@@ -53,8 +53,8 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t pa = ((pte2.pte_.pte.ppn1 * exp2(10) + pte2.pte_.pte.ppn0) * PAGE_SIZE) + va_tmp.vaddr_.va.page_offset;
 
-  if (cnt_trans++ % 100000 == 0 && type == MEM_TYPE_WRITE && !is_in_pmem(vaddr, vaddr))
-    printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
+  // if (cnt_trans++ % 100000 == 0 && type == MEM_TYPE_WRITE && !is_in_pmem(vaddr, vaddr))
+  //   printf("Translate %lld times success at pa %x\n", cnt_trans, pa);
   // assert(vaddr == pa);
   return pa;
 
