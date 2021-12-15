@@ -193,7 +193,6 @@ Context* schedule(Context *prev) {
   current = &pcb[1];
 
   assert(current->cp != NULL);
-  printf("successful switch!\n");
 
   return current->cp;
 }
