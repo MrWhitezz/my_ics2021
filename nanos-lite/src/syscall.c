@@ -43,8 +43,8 @@ static void sys_lseek(Context *c, int fd, size_t offset, int whence){
   c->GPRx = fs_lseek(fd, offset, whence);
 }
 
-static void sys_brk(Context *c) {
-  c->GPRx = 0;
+static void sys_brk(Context *c, uintptr_t incr) {
+  c->GPRx = mm_brk(0);
 }
 
 static void sys_execve(Context *c, const char *fname, char * const argv[], char *const envp[]){
@@ -124,7 +124,7 @@ void do_syscall(Context *c) {
     case SYS_write: sys_write(c, a[1], (void *)a[2], a[3]); break;
     case SYS_close: sys_close(c, a[1]); break;
     case SYS_lseek: sys_lseek(c, a[1], a[2], a[3]); break;
-    case SYS_brk:   sys_brk(c);   break;
+    case SYS_brk:   sys_brk(c, a[1]);   break;
     case SYS_gettimeofday: sys_gettimeofday(c, (struct timeval *)a[1], (struct timezone *)a[2]); break;
     case SYS_execve:sys_execve(c, (char *)a[1], (char **)a[2], (char **)a[3]); break;
     case -1       : printf("Hit the Strange yield!\n"); break;
