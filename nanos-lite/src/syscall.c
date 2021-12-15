@@ -43,7 +43,7 @@ static void sys_lseek(Context *c, int fd, size_t offset, int whence){
   c->GPRx = fs_lseek(fd, offset, whence);
 }
 
-static void sys_brk(Context *c, uintptr_t incr) {
+static void sys_brk(Context *c, intptr_t incr) {
   c->GPRx = mm_brk(incr);
 }
 
