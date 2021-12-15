@@ -5,6 +5,7 @@ extern char _end;
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
+  printf("pf = %p\n", pf);
   assert(pf + nr_page * PGSIZE < heap.end);
   pf += nr_page * PGSIZE;
   return pf;
@@ -25,7 +26,7 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(intptr_t brk) {
-  assert(current->program_brk + brk < (uint32_t)current->as.area.end);
+  assert(current->program_brk + brk < (uintptr_t)current->as.area.end);
   if (brk > 0){
     int nr_page = ((current->program_brk + brk - 1) / PGSIZE) - ((current->max_brk - 1) / PGSIZE);
     if (nr_page > 0){

@@ -47,7 +47,9 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   #endif
  
   // not sure
+  printf("Native debug\n");
   protect(&pcb1->as); 
+  printf("Native debug\n");
   void *u_stack_end = pcb1->as.area.end;
   void *u_stack_beg = u_stack_end - 8 * PGSIZE;
   void *p_page = pg_alloc(8);
@@ -133,7 +135,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   #ifdef PROTECT_ENV
   // tmp load
-  // printf("Native debug\n");
+  printf("Native debug\n");
   uintptr_t entry = loader(pcb1, fname);
   // printf("Native debug\n");
   if (entry == -1){
@@ -151,7 +153,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
   printf("succss load!\n");
-  printf("load with pdir %p\n", pcb1->cp->pdir);
+  // printf("load with pdir %p\n", pcb1->cp->pdir);
   return 0;
 }
 
@@ -173,6 +175,7 @@ char exec_arg[15] = "/bin/exec-test";
 char *argv_pal[1];
 
 void init_proc() {
+  printf("before proc\n");
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = exec_arg;
@@ -192,7 +195,7 @@ Context* schedule(Context *prev) {
   current->cp = prev;
 
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  printf("schedule!\n");
+  // printf("schedule!\n");
 
   assert(current->cp != NULL);
 
