@@ -25,8 +25,15 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
-  printf("nanos _end = %x\n", &_end);
-  printf("PCB maxbrk = %x\n", pcb[1].max_brk);
+  int nr_page = ((current->max_brk + brk) / PGSIZE) - (current->max_brk / PGSIZE);
+  void *p_page = pg_alloc(nr_page);
+  void *v_page = (void *)(ROUNDUP(current->max_brk, PGSIZE));
+  assert((uintptr_t)(v_page + nr_page * PGSIZE) / PGSIZE == (current->max_brk + brk) / PGSIZE);
+  for (int i = 0; i < nr_page; ++i){
+    map(&current->as, v_page + i * PGSIZE, p_page + i * PGSIZE, MMAP_READ | MMAP_WRITE);
+  }
+  current->max_brk += brk;
+  assert(current->max_brk < (uint32_t)current->as.area.end);
   return 0;
 }
 
