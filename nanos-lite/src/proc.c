@@ -143,6 +143,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   Area pcb_stack = RANGE(pcb1, (void *)pcb1 + sizeof(PCB));
   Context *c = ucontext(&pcb1->as, pcb_stack, (void *)entry); 
+
   #endif
 
   c->GPRx = u_sp_ret;
@@ -150,6 +151,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
   printf("succss load!\n");
+  printf("load with pdir %p\n", pcb->as.ptr);
   return 0;
 }
 
