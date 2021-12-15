@@ -18,7 +18,7 @@ static void sys_yield(Context *c){
 }
 
 static void sys_exit(Context *c){
-  sys_execve(c, fname_menu, NULL, NULL); 
+  // sys_execve(c, fname_menu, NULL, NULL); 
   halt(c->GPR2);
 }
 
