@@ -96,7 +96,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   ENTRY *item_find;
   hsearch_r(item, FIND, &item_find, &vm_head->hash);
   if (item_find == NULL) {
-    pp = pgalloc(__am_pgsize); // this will waste memory, any better idea?
+    // pp = pgalloc(__am_pgsize); // this will waste memory, any better idea?
+    pp = pgalloc(1); // this will waste memory, any better idea?
     snprintf(pp->key, 32, "%x", va);
     item.key = pp->key;
     item.data = pp;
