@@ -75,21 +75,22 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
           load_offset = (uintptr_t)vaddr - (uintptr_t)vaddr_load;
           to_load -= load_offset;
         }
+        // Lots of bugs here!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (has_load + to_load > filesz){
           int file_rem = filesz - has_load;
           if (file_rem > 0){
-            fs_lseek(fd, offp, SEEK_SET);
+            fs_lseek(fd, offp + has_load, SEEK_SET);
             fs_read(fd, vaddr_load + i * PGSIZE + load_offset, file_rem);
-            memset(vaddr_load + i * PGSIZE + load_offset + file_rem, 0, MIN(to_load - file_rem, memsz - filesz));
+            memset(p_page + i * PGSIZE + load_offset + file_rem, 0, MIN(to_load - file_rem, memsz - filesz));
           }
           else{
             assert(load_offset == 0);
-            memset(vaddr_load + i * PGSIZE, 0, MIN(PGSIZE, memsz - has_load));
+            memset(p_page + i * PGSIZE, 0, MIN(PGSIZE, memsz - has_load));
           }
         }
         else{
-          fs_lseek(fd, offp, SEEK_SET);
-          fs_read(fd, vaddr_load + i * PGSIZE + load_offset, to_load); 
+          fs_lseek(fd, offp + has_load, SEEK_SET);
+          fs_read(fd, p_page + i * PGSIZE + load_offset, to_load); 
         }
         has_load += to_load;
       }
