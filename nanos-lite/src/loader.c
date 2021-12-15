@@ -55,14 +55,16 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
   for (int i = 0; i < phnum; ++i){
     fs_lseek(fd, phoff + i * phentsize, SEEK_SET);
     fs_read(fd, &phdr, phentsize);
-    //ramdisk_read(&phdr, phoff + i * phentsize, sizeof(phdr));
     if (phdr.p_type == PT_LOAD){
       vaddr = phdr.p_vaddr;
       filesz = phdr.p_filesz;
       memsz = phdr.p_memsz;
       offp = phdr.p_offset;
       assert(filesz <= memsz);
+
       int nr_page = ((vaddr + memsz) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
+      printf("nr_page = %d\n", nr_page);
+      printf("filesz = %x memsz = %x\n", filesz, memsz);
       void *p_page = pg_alloc(nr_page);
       void *vaddr_load = (void *)ROUNDDOWN(vaddr, PGSIZE);
       assert(pcb != NULL);
