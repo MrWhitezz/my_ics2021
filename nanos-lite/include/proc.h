@@ -6,6 +6,10 @@
 
 #define STACK_SIZE (8 * PGSIZE)
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+
 typedef union {
   uint8_t stack[STACK_SIZE] PG_ALIGN;
   struct {
@@ -13,6 +17,8 @@ typedef union {
     AddrSpace as;
     // we do not free memory, so use `max_brk' to determine when to call _map()
     uintptr_t max_brk;
+    // add new
+    uintptr_t program_brk;
   };
 } PCB;
 

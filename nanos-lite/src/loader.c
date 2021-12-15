@@ -1,8 +1,6 @@
 #include <proc.h>
 #include <elf.h>
 
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -110,6 +108,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       // printf("e_entry: %p\n", (void *)e_entry);
     }
   }
+  pcb->program_brk = pcb->max_brk;
   printf("e_entry = 0x%08x\n", e_entry);
   printf("load brk = %x\n", pcb->max_brk);
   return (uintptr_t)load_tmp;
