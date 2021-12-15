@@ -57,6 +57,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   uint32_t *stack_p = kstack.end;
+  printf("kstack: %x to %x\n", kstack.start, kstack.end);
   // uint32_t *heap_p  = kstack.start;
   stack_p -= CONTEXT_SIZE;
   *(stack_p + OFFSET_EPC) = (uintptr_t)entry - 4;
