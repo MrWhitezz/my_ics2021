@@ -71,7 +71,7 @@ char *program_brk = &_end;
 void *_sbrk(intptr_t increment) {
   char buf[64];
   sprintf(buf, "_end = %x\n", &_end);
-  _write(0, buf, 64);
+  _write(1, buf, 64);
   intptr_t sys_ret = _syscall_(SYS_brk, increment, 0, 0);
   if (sys_ret == 0) {
     char * old_brk = program_brk;
