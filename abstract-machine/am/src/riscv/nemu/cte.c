@@ -31,6 +31,7 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
+  printf("before switch\n");
   __am_switch(c);
   printf("success switch with satp %p\n", c->pdir);
   return c;
