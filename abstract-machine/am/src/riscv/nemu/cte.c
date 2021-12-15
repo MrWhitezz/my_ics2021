@@ -33,7 +33,7 @@ Context* __am_irq_handle(Context *c) {
   }
   printf("before switch\n");
   __am_switch(c);
-  printf("success switch with satp %p\n", c->pdir);
+  printf("tried to switch with satp %p\n", c->pdir);
   return c;
 }
 
