@@ -2,6 +2,7 @@
 #include <elf.h>
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -52,6 +53,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
   e_entry = elf.e_entry;
   assert(phnum >= 0 && phnum <= PN_XNUM);
   assert(phentsize == sizeof(phdr) || phentsize == 0);
+  pcb->max_brk = 0;
   for (int i = 0; i < phnum; ++i){
     fs_lseek(fd, phoff + i * phentsize, SEEK_SET);
     fs_read(fd, &phdr, phentsize);
@@ -62,6 +64,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       offp = phdr.p_offset;
       assert(filesz <= memsz);
 
+      pcb->max_brk = MAX(pcb->max_brk, vaddr + memsz);
       int nr_page = ((vaddr + memsz) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
       printf("nr_page = %d\n", nr_page);
       printf("filesz = %x memsz = %x\n", filesz, memsz);
@@ -108,6 +111,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
     }
   }
   printf("e_entry = 0x%08x\n", e_entry);
+  printf("load brk = %x\n", pcb->max_brk);
   return (uintptr_t)load_tmp;
   // return (uintptr_t)e_entry;
 }
