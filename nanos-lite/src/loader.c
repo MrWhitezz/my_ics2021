@@ -65,7 +65,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
       assert(filesz <= memsz);
 
       pcb->max_brk = MAX(pcb->max_brk, vaddr + memsz);
-      int nr_page = ((vaddr + memsz) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
+      int nr_page = ((vaddr + memsz - 1) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
       printf("nr_page = %d\n", nr_page);
       printf("filesz = %x memsz = %x\n", filesz, memsz);
       void *p_page = pg_alloc(nr_page);
