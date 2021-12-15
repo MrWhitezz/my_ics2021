@@ -151,7 +151,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   c->GPR4 = u_sp_ret;
   pcb1->cp = c;
   printf("succss load!\n");
-  printf("load with pdir %p\n", pcb->as.ptr);
+  printf("load with pdir %p\n", pcb1->cp->pdir);
   return 0;
 }
 
