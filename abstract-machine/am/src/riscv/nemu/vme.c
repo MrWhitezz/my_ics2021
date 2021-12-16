@@ -139,9 +139,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte1.pte_.val = *pte1_addr; // not secure
   if (pte1.pte_.pte.V == 0){
     pte1.pte_.pte.V = 1;
-    void *p_page = pgalloc_usr(1);
+    // void *p_page = pgalloc_usr(1);
     pte_addr_tmp.paddr_.val = pte_ppn_addr; 
-    pte_addr_tmp.paddr_.val = (uint32_t)p_page; 
+    // pte_addr_tmp.paddr_.val = (uint32_t)p_page; 
     pte1.pte_.pte.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
     pte1.pte_.pte.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
     assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
