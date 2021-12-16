@@ -107,8 +107,8 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
   pcb->program_brk = pcb->max_brk;
   // printf("e_entry = 0x%08x\n", e_entry);
   // printf("load brk = %x\n", pcb->max_brk);
-  return (uintptr_t)load_tmp;
-  // return (uintptr_t)e_entry;
+  // return (uintptr_t)load_tmp;
+  return (uintptr_t)e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
