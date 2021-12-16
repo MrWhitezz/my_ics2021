@@ -23,7 +23,7 @@ Context* __am_irq_handle(Context *c) {
   // printf("SR[epc] = 0x%x\n", c->mepc);
   // printf("SR[status] = 0x%d\n", c->mstatus);
   assert(c != NULL);
-  __am_get_cur_as(c); 
+  // __am_get_cur_as(c); 
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
