@@ -80,7 +80,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  kas.ptr = pgalloc_f(PGSIZE); 
+  // kas.ptr = pgalloc_f(PGSIZE); // don't know why so large the space 
+  kas.ptr = pgalloc_f(1); 
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
@@ -97,7 +98,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 }
 
 void protect(AddrSpace *as) {
-  PTE *updir = (PTE*)(pgalloc_usr(PGSIZE));
+  // PTE *updir = (PTE*)(pgalloc_usr(PGSIZE)); // don't know why so large
+  PTE *updir = (PTE*)(pgalloc_usr(1));
   as->ptr = updir;
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
@@ -131,8 +133,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
-  assert(va_tmp.vaddr_.va.vpn1 != 0x3ff);
-  uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
+
+  // assert(va_tmp.vaddr_.va.vpn1 != 0x3ff);
+  // uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
 
   // printf("satp_addr = %x\n", satp_addr);
   // printf("pte_ppn_addr allocated by OS at %x\n", pte_ppn_addr);
@@ -140,9 +143,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte1.pte_.val = *pte1_addr; // not secure
   if (pte1.pte_.pte.V == 0){
     pte1.pte_.pte.V = 1;
-    // void *p_page = pgalloc_usr(1);
-    pte_addr_tmp.paddr_.val = pte_ppn_addr; 
-    // pte_addr_tmp.paddr_.val = (uint32_t)p_page; 
+    void *p_page = pgalloc_usr(1);
+    // pte_addr_tmp.paddr_.val = pte_ppn_addr; 
+    pte_addr_tmp.paddr_.val = (uint32_t)p_page; 
     pte1.pte_.pte.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
     pte1.pte_.pte.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
     assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
