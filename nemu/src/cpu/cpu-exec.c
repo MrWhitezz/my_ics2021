@@ -11,7 +11,7 @@
 #define MAX_INSTR_TO_PRINT 10
 #define MAX_IRING_BUF 100
 
-CPU_state cpu = {.mstatus = 0x1808, .satp = 0};
+CPU_state cpu = {.mstatus = 0xfffff, .satp = 0};
 uint64_t g_nr_guest_instr = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
