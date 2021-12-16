@@ -131,7 +131,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
-  // uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
+  uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
 
   // printf("satp_addr = %x\n", satp_addr);
   // printf("pte_ppn_addr allocated by OS at %x\n", pte_ppn_addr);
@@ -140,7 +140,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   if (pte1.pte_.pte.V == 0){
     pte1.pte_.pte.V = 1;
     void *p_page = pgalloc_usr(1);
-    // pte_addr_tmp.paddr_.val = pte_ppn_addr; 
+    pte_addr_tmp.paddr_.val = pte_ppn_addr; 
     pte_addr_tmp.paddr_.val = (uint32_t)p_page; 
     pte1.pte_.pte.ppn0 = pte_addr_tmp.paddr_.pa.ppn0;
     pte1.pte_.pte.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;

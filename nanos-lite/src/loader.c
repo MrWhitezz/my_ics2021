@@ -31,11 +31,11 @@ size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 #include "fs.h"
 
-void load_tmp(){
-  if (e_entry != 0){
-    ((void(*)())e_entry) ();
-  }
-}
+// void load_tmp(){
+//   if (e_entry != 0){
+//     ((void(*)())e_entry) ();
+//   }
+// }
 
 uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; remove static
   Elf_Ehdr elf;
@@ -108,6 +108,7 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
   // printf("e_entry = 0x%08x\n", e_entry);
   // printf("load brk = %x\n", pcb->max_brk);
   // return (uintptr_t)load_tmp;
+  assert(e_entry != 0);
   return (uintptr_t)e_entry;
 }
 
