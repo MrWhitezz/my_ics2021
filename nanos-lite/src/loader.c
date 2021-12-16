@@ -99,13 +99,9 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
         has_load += to_load;
       }
       // !ATTENSION: textbook say we need to load page by page, but I don't think so!
-      // WRONG!
-      // fs_lseek(fd, offp, SEEK_SET);
-      // fs_read(fd, (void *)vaddr, filesz);
-      // if (filesz < memsz) {memset((void *)vaddr + filesz, 0, memsz - filesz);}
 
-      // printf("vaddr: %p\n", (void *)vaddr);
-      // printf("e_entry: %p\n", (void *)e_entry);
+      printf("vaddr: %p to %p\n", (void *)vaddr, (void *)vaddr + memsz);
+      printf("e_entry: %p\n", (void *)e_entry);
     }
   }
   pcb->program_brk = pcb->max_brk;
