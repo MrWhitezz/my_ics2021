@@ -131,6 +131,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   // not sure about the satp_addr
   uint32_t satp_addr = (uint32_t)as->ptr;
+  assert(va_tmp.vaddr_.va.vpn1 != 0x3ff);
   uint32_t pte_ppn_addr = satp_addr + (1 + va_tmp.vaddr_.va.vpn1) * PGSIZE; // try to give the addr of second-level page table
 
   // printf("satp_addr = %x\n", satp_addr);
