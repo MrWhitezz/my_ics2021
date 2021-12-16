@@ -18,7 +18,8 @@ void ecall_judge(Context *c, Event *e){
   if (c->GPR1 >=0 && c->GPR1 <= 19) {e->event = EVENT_SYSCALL;}
 }
 
-Context* __am_irq_handle(Context *c, uintptr_t old_sp) {
+Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
+  // if old_sp == cp->np
   assert(c != NULL);
   __am_get_cur_as(c); 
   if (user_handler) {
