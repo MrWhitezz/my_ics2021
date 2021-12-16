@@ -7,6 +7,8 @@ void __am_switch(Context *c);
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+#define IRQ_TIMER 0x80000007
+
 void ecall_judge(Context *c, Event *e){
   assert(c->mcause == 0xb);
   switch (c->GPR1){
@@ -25,8 +27,9 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      case 0xb: ecall_judge(c, &ev);       break;
-      default:  ev.event = EVENT_ERROR;    break;
+      case 0xb      : ecall_judge(c, &ev);        break;
+      case IRQ_TIMER: ev.event = EVENT_IRQ_TIMER; break;
+      default       : ev.event = EVENT_ERROR;     break;
     }
     c = user_handler(ev, c);
     assert(c != NULL);
