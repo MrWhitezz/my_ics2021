@@ -47,9 +47,9 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
   #endif
  
   // not sure
-  printf("Native debug\n");
+  // printf("Native debug\n");
   protect(&pcb1->as); 
-  printf("Native debug\n");
+  // printf("Native debug\n");
   void *u_stack_end = pcb1->as.area.end;
   void *u_stack_beg = u_stack_end - 8 * PGSIZE;
   void *p_page = pg_alloc(8);
@@ -135,7 +135,7 @@ int context_uload(PCB *pcb1, const char *fname, char *const argv[], char *const 
 
   #ifdef PROTECT_ENV
   // tmp load
-  printf("Native debug\n");
+  // printf("Native debug\n");
   uintptr_t entry = loader(pcb1, fname);
   // printf("Native debug\n");
   if (entry == -1){

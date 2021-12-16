@@ -64,8 +64,8 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
 
       pcb->max_brk = MAX(pcb->max_brk, vaddr + memsz);
       int nr_page = ((vaddr + memsz - 1) / PGSIZE) - (vaddr / PGSIZE) + 1; // last ppn - first ppn + 1
-      printf("nr_page = %d\n", nr_page);
-      printf("filesz = %x memsz = %x\n", filesz, memsz);
+      // printf("nr_page = %d\n", nr_page);
+      // printf("filesz = %x memsz = %x\n", filesz, memsz);
       void *p_page = pg_alloc(nr_page);
       void *vaddr_load = (void *)ROUNDDOWN(vaddr, PGSIZE);
       assert(pcb != NULL);
@@ -109,8 +109,8 @@ uintptr_t loader(PCB *pcb, const char *filename) { // temporarily ignore pcd; re
     }
   }
   pcb->program_brk = pcb->max_brk;
-  printf("e_entry = 0x%08x\n", e_entry);
-  printf("load brk = %x\n", pcb->max_brk);
+  // printf("e_entry = 0x%08x\n", e_entry);
+  // printf("load brk = %x\n", pcb->max_brk);
   return (uintptr_t)load_tmp;
   // return (uintptr_t)e_entry;
 }
