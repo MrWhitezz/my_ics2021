@@ -15,7 +15,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   uint32_t mie = cpu.mstatus & MASK_MIE; 
   cpu.mstatus = (cpu.mstatus & UNMASK_M) + ((cpu.mstatus & MASK_MIE) != 0) ? MASK_MPIE : 0;
   assert((cpu.mstatus & MASK_MIE) == 0);
-  assert(((cpu.mstatus & MASK_MPIE) == 0) == (mie == 0));
+  assert(((cpu.mstatus & MASK_MPIE) != 0) == (mie != 0));
 
   // return the entry address of interrupt
   return cpu.mtvec;
