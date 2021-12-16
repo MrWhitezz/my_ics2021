@@ -32,6 +32,7 @@ bool is_in_FB(vaddr_t va_beg, vaddr_t va_end){
 }
 
 // long long cnt_trans = 0;
+void iring_trace_print();
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   uint32_t satp_ppn = cpu.satp & SATP_PPN_MASK;
@@ -43,6 +44,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   if (pte1.pte_.pte.V != 1){
     printf("Fault at vaddr %x\n", vaddr);
     printf("Fault at pc %x\n", cpu.pc);
+    iring_trace_print();
   }
   assert(pte1.pte_.pte.V == 1);
   paddr_t pte2_addr = (pte1.pte_.pte.ppn1 * exp2(10) + pte1.pte_.pte.ppn0) * PAGE_SIZE + va_tmp.vaddr_.va.vpn0 * PTESIZE;
