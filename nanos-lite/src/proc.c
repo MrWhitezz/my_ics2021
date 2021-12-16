@@ -175,7 +175,6 @@ char exec_arg[15] = "/bin/exec-test";
 char *argv_pal[1];
 
 void init_proc() {
-  printf("before proc\n");
   context_kload(&pcb[0], hello_fun, (void *)0x1);
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = exec_arg;
