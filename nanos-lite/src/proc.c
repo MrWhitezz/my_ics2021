@@ -179,9 +179,10 @@ void init_proc() {
   // context_uload(&pcb[0], "/bin/hello");
   argv_pal[0] = exec_arg;
   // context_kload(&pcb[1], hello_fun, (void *)0x2);
-  context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
 
   context_uload(&pcb[2], "/bin/bird", argv_pal, NULL);
+
+  context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
   switch_boot_pcb();
   yield();
 

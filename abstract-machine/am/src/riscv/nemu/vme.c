@@ -80,7 +80,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  kas.ptr = pgalloc_f(PGSIZE); // need to + 1?
+  kas.ptr = pgalloc_f(PGSIZE); 
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
@@ -89,8 +89,6 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
-  // void *va_extra = (void *)((0x80000000) - PGSIZE);
-  // map(&kas, va_extra, va_extra, 0);
 
   set_satp(kas.ptr);
   vme_enable = 1;
