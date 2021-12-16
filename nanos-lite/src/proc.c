@@ -196,8 +196,8 @@ Context* schedule(Context *prev) {
   current->cp = prev;
 
   // current = (current == &pcb[1] ? &pcb[0] : &pcb[1]);
+  printf("schedule cnt = %d\n", schedule_cnt);
   if (schedule_cnt++ % 10 == 0){
-    printf("schedule cnt = %d\n", schedule_cnt);
     current = &pcb[0];
   }
   else current = &pcb[1];
