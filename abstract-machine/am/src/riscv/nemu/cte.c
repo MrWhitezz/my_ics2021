@@ -19,6 +19,10 @@ void ecall_judge(Context *c, Event *e){
 }
 
 Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
+  uint32_t new_mscratch = c->gpr[2];
+  if (new_mscratch == 0 || new_sp == 0){
+    assert(new_mscratch == 0);
+  }
   // if old_sp == cp->np
   assert(c != NULL);
   __am_get_cur_as(c); 
