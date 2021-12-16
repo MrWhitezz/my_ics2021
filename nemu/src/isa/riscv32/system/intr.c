@@ -16,7 +16,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   uint32_t mie = cpu.mstatus & MASK_MIE; 
   printf("mie = %x\n", mie);
   printf("cpu.mstatus = %x\n", cpu.mstatus);
-  cpu.mstatus = (cpu.mstatus & UNMASK_M) + ((cpu.mstatus & MASK_MIE) != 0) ? MASK_MPIE : 0;
+  cpu.mstatus = (cpu.mstatus & UNMASK_M) + (((cpu.mstatus & MASK_MIE) != 0) ? MASK_MPIE : 0);
   printf("cpu.mstatus = %x\n", cpu.mstatus);
   assert((cpu.mstatus & MASK_MIE) == 0);
   assert(((cpu.mstatus & MASK_MPIE) == 0) == (mie == 0));
