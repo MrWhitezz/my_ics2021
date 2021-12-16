@@ -27,9 +27,10 @@ Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
   }
   else{
     c->np = USER_MODE;
+    assert(0);
 
   }
-  // if old_sp == cp->np
+
   assert(c != NULL);
   __am_get_cur_as(c); 
   if (user_handler) {
@@ -42,9 +43,7 @@ Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  // printf("before switch\n");
   __am_switch(c);
-  // printf("tried to switch with satp %p\n", c->pdir);
   return c;
 }
 
