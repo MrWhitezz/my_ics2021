@@ -145,8 +145,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     pte1.pte_.pte.ppn1 = pte_addr_tmp.paddr_.pa.ppn1;
     assert(pte_addr_tmp.paddr_.pa.page_offset == 0);
     *pte1_addr = pte1.pte_.val;
-    printf("va: %x pa: %x\n", va, pa);
-    printf("load level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
+    // printf("va: %x pa: %x\n", va, pa);
+    // printf("load level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
   }
   // printf("level 1 page table entry at %p value %x >> 2\n", pte1_addr, *pte1_addr << 2);
   assert(*pte1_addr == pte1.pte_.val);
