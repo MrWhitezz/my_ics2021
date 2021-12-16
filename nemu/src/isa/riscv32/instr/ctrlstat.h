@@ -23,9 +23,11 @@ def_EHelper(ecall) {
 #define UNMASK_M  (~MASK_MIE) & (~MASK_MPIE)
 
 def_EHelper(mret) {
+   uint32_t mpie = cpu.mstatus & MASK_MPIE;
    cpu.mstatus = (cpu.mstatus & UNMASK_M) + MASK_MPIE + 
-                ((cpu.mstatus & MASK_MPIE) != 0) ? MASK_MIE : 0;
-
+               (((cpu.mstatus & MASK_MPIE) != 0) ? MASK_MIE : 0);
+   assert((cpu.mstatus & MASK_MPIE) != 0);
+   assert(((cpu.mstatus & MASK_MIE) == 0) == (mpie == 0));
    // omit some change to mstatus
    rtl_j(s, cpu.mepc);
 
