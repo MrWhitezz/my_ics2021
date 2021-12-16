@@ -164,7 +164,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // printf("load level 2 page table entry at %p value %x >> 2\n", pte2_addr, *pte2_addr << 2);
 }
 
-#define CONTEXT_SIZE  (32 + 3 + 1)
+#define CONTEXT_SIZE  (32 + 3 + 1 + 1)
 #define OFFSET_SP     2 
 #define OFFSET_A0     10
 #define OFFSET_CAUSE  32

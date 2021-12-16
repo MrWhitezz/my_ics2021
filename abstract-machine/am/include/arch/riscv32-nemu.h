@@ -8,6 +8,7 @@ struct Context {
   uintptr_t mstatus;
   uintptr_t mepc;
   void *pdir; // address space ?
+  uintptr_t np;
 };
 
 #define GPR1 gpr[17] // a7

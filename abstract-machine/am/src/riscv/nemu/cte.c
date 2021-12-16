@@ -52,7 +52,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
-#define CONTEXT_SIZE  (32 + 3 + 1)
+#define CONTEXT_SIZE  (32 + 3 + 1 + 1)
 #define OFFSET_SP     2 
 #define OFFSET_A0     10
 #define OFFSET_CAUSE  32
