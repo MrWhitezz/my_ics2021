@@ -142,6 +142,7 @@ void cpu_exec(uint64_t n) {
       printf("INTR with %x!!!!!!!!!!!!\n", intr);
       cpu.pc = isa_raise_intr(intr, cpu.pc);
     }
+    printf("1\n");
   }
 
   uint64_t timer_end = get_time();
