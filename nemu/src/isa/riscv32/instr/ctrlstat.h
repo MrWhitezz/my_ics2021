@@ -18,7 +18,13 @@ def_EHelper(ecall) {
    rtl_j(s, target);
 }
 
+#define MASK_MIE  0x8
+#define MASK_MPIE 0x80
+#define UNMASK_M  (~MASK_MIE) & (~MASK_MPIE)
+
 def_EHelper(mret) {
+   cpu.mstatus = (cpu.mstatus & UNMASK_M) + MASK_MPIE + 
+                ((cpu.mstatus & MASK_MPIE) != 0) ? MASK_MIE : 0;
 
    // omit some change to mstatus
    rtl_j(s, cpu.mepc);
