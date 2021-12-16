@@ -102,7 +102,7 @@ void protect(AddrSpace *as) {
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space, This is level1 page table!!!!
-  memcpy(updir, kas.ptr, PGSIZE);
+  // memcpy(updir, kas.ptr, PGSIZE);
 }
 
 void unprotect(AddrSpace *as) {
