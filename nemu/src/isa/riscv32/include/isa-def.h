@@ -15,8 +15,10 @@ typedef struct {
   rtlreg_t mcause;
   rtlreg_t mtvec;// God tm only 3 regs?
   rtlreg_t satp;
+  rtlreg_t mscratch;
   // interuption
   bool INTR;
+  
   
 } riscv32_CPU_state;
 
