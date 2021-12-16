@@ -190,19 +190,20 @@ void init_proc() {
 
 }
 
-uint32_t schedule_cnt = 0;
+uint32_t schedule_cnt = 1;
 
 Context* schedule(Context *prev) {
+  // ATTENSION: The first process cannot be kernal process!!!
   current->cp = prev;
 
   // current = (current == &pcb[1] ? &pcb[0] : &pcb[1]);
-  // printf("schedule cnt = %d\n", schedule_cnt);
-  // if (schedule_cnt++ % 10 == 0){
-  //   current = &pcb[0];
-  // }
-  // else current = &pcb[1];
+  printf("schedule cnt = %d\n", schedule_cnt);
+  if (schedule_cnt++ % 10 == 0){
+    current = &pcb[0];
+  }
+  else current = &pcb[1];
 
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   assert(current->cp != NULL);
 
   return current->cp;
