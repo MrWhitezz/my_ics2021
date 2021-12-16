@@ -32,6 +32,7 @@ static def_DopHelper(csr) {
     case 0x300: op->preg = &cpu.mstatus; break;
     case 0x302:                          break;
     case 0x305: op->preg = &cpu.mtvec;   break;
+    case 0x340: op->preg = &cpu.mscratch;break;
     case 0x341: op->preg = &cpu.mepc;    break;
     case 0x342: op->preg = &cpu.mcause;  break;
     default: iring_trace_print(); assert(0);//debug
