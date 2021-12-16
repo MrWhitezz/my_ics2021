@@ -13,12 +13,12 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mepc = epc;
   cpu.mcause = NO;
 
-  // uint32_t mie = cpu.mstatus & MASK_MIE; 
-  // if (mie != 0)
+  uint32_t mie = cpu.mstatus & MASK_MIE; 
+  if (mie != 0)
     printf("cpu.mstatus = %x\n", cpu.mstatus);
-  // cpu.mstatus = (cpu.mstatus & UNMASK_M) + (((cpu.mstatus & MASK_MIE) != 0) ? MASK_MPIE : 0);
-  // assert((cpu.mstatus & MASK_MIE) == 0);
-  // assert(((cpu.mstatus & MASK_MPIE) == 0) == (mie == 0));
+  cpu.mstatus = (cpu.mstatus & UNMASK_M) + (((cpu.mstatus & MASK_MIE) != 0) ? MASK_MPIE : 0);
+  assert((cpu.mstatus & MASK_MIE) == 0);
+  assert(((cpu.mstatus & MASK_MPIE) == 0) == (mie == 0));
 
   // return the entry address of interrupt
   return cpu.mtvec;
