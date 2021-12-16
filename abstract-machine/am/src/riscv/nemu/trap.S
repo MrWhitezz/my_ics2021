@@ -54,8 +54,11 @@ save_context:
   or t1, t1, a0
   csrw mstatus, t1
 
+  // put new_mscratch in c->gpr[1]
   csrr t0, mscratch
   STORE t0, OFFSET_SP(sp)
+  li t0, 0
+  csrw mscratch, t0
 
   mv a0, sp
   addi a1, sp, CONTEXT_SIZE
