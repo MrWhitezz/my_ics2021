@@ -171,6 +171,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 #define OFFSET_STATUS 33
 #define OFFSET_EPC    34
 #define OFFSET_PDIR   35
+#define OFFSET_NP     36
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   assert(as != NULL);

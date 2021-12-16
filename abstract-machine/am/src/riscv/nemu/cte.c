@@ -18,10 +18,7 @@ void ecall_judge(Context *c, Event *e){
   if (c->GPR1 >=0 && c->GPR1 <= 19) {e->event = EVENT_SYSCALL;}
 }
 
-Context* __am_irq_handle(Context *c) {
-  // printf("SR[cause] = 0x%x\n", c->mcause);
-  // printf("SR[epc] = 0x%x\n", c->mepc);
-  // printf("SR[status] = 0x%d\n", c->mstatus);
+Context* __am_irq_handle(Context *c, uintptr_t old_sp) {
   assert(c != NULL);
   __am_get_cur_as(c); 
   if (user_handler) {
@@ -59,6 +56,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 #define OFFSET_STATUS 33
 #define OFFSET_EPC    34
 #define OFFSET_PDIR   35
+#define OFFSET_NP     36
 
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
