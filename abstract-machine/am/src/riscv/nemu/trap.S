@@ -49,10 +49,10 @@ save_context:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-  # set mstatus.MPRV to pass difftest
-  li a0, (1 << 17)
-  or t1, t1, a0
-  csrw mstatus, t1
+  # do not set mstatus.MPRV to pass difftest
+  //li a0, (1 << 17)
+  //or t1, t1, a0
+  //csrw mstatus, t1
 
   // put new_mscratch in c->gpr[1]
   csrr t0, mscratch
