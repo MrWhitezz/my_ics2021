@@ -6,6 +6,8 @@
 # define MULTIPROGRAM_YIELD()
 #endif
 
+extern int fg_pcb;
+
 #define NAME(key) \
   [AM_KEY_##key] = #key,
 
