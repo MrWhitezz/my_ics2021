@@ -75,7 +75,7 @@ save_context:
   LOAD t0, OFFSET_SP(sp)
   LOAD t1, OFFSET_NP(sp)
   csrw mscratch, t0
-  bnez t1, switch
+  bnez t1, USER
 
   POP(5)
   POP(6)
