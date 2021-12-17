@@ -185,6 +185,8 @@ void init_proc() {
   context_uload(&pcb[1], "/bin/pal", argv_pal, NULL);
 
   context_uload(&pcb[2], "/bin/bird", argv_pal, NULL);
+
+  context_uload(&pcb[3], "/bin/bird", argv_pal, NULL);
   switch_boot_pcb();
   yield();
 
