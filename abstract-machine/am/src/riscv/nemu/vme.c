@@ -180,7 +180,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   stack_p -= CONTEXT_SIZE;
   *(stack_p + OFFSET_EPC)    = (uintptr_t)entry - 4;
   *(stack_p + OFFSET_SP)     = (uintptr_t)stack_p;
-  *(stack_p + OFFSET_STATUS) = (uintptr_t)0x1808;
+  *(stack_p + OFFSET_STATUS) = (uintptr_t)0x1888;
   *(stack_p + OFFSET_PDIR)   = (uintptr_t)as->ptr;
   *(stack_p + OFFSET_NP)     = (uintptr_t)USER_MODE;
   
