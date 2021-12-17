@@ -7,6 +7,8 @@
 // #define ARGS_MANAGE
 
 // why should pcb and pcb_boot be static?
+int fg_pcb = 1;
+
 PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 PCB pcb_boot = {};
 PCB *current = NULL;
@@ -175,6 +177,7 @@ char exec_arg[15] = "/bin/exec-test";
 char *argv_pal[1];
 
 void init_proc() {
+  fg_pcb = 1;
   // context_kload(&pcb[0], hello_fun, (void *)0x1);
   context_uload(&pcb[0], "/bin/hello", NULL, NULL);
   argv_pal[0] = exec_arg;
@@ -205,7 +208,7 @@ Context* schedule(Context *prev) {
   }
   else {
     // Log("Switch to pal\n");
-    current = &pcb[2];
+    current = &pcb[fg_pcb];
   }
   assert(current->cp != NULL);
 
