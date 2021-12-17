@@ -42,6 +42,8 @@ Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
+  printf("c-> np = %d\n", c->np);
+  printf("c-> mstatus = %x\n", c->mstatus);
   __am_switch(c);
   return c;
 }
