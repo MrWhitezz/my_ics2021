@@ -33,6 +33,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     return 0;
   else{
     if (ev.keydown == true){
+      switch (ev.keycode){
+        case AM_KEY_F1: fg_pcb = 1; break;
+        case AM_KEY_F2: fg_pcb = 2; break;
+        case AM_KEY_F3: fg_pcb = 3; break;
+        default:                    break;
+      }
       return sprintf(buf, "kd %s\n", keyname[ev.keycode]);
     }
     else{
