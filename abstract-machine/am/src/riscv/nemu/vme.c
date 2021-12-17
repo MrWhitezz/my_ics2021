@@ -182,6 +182,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   *(stack_p + OFFSET_SP)     = (uintptr_t)stack_p;
   *(stack_p + OFFSET_STATUS) = (uintptr_t)0x1808;
   *(stack_p + OFFSET_PDIR)   = (uintptr_t)as->ptr;
+  *(stack_p + OFFSET_NP)     = (uintptr_t)KERNAL_MODE;
   
   // Context cp is set in nanos
   // *heap_p = (uintptr_t)stack_p;

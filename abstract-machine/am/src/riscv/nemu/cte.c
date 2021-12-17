@@ -78,6 +78,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   *(stack_p + OFFSET_SP)     = (uintptr_t)stack_p;
   *(stack_p + OFFSET_STATUS) = (uintptr_t)0x1808;
   *(stack_p + OFFSET_PDIR)   = (uintptr_t)0;
+  *(stack_p + OFFSET_NP)     = (uintptr_t)KERNAL_MODE;
   
   // Context cp is set in nanos
   // *heap_p = (uintptr_t)stack_p;
