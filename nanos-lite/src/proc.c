@@ -205,7 +205,7 @@ Context* schedule(Context *prev) {
   }
   else {
     // Log("Switch to pal\n");
-    current = &pcb[1];
+    current = &pcb[2];
   }
   assert(current->cp != NULL);
 
