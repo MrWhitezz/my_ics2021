@@ -28,7 +28,6 @@ Context* __am_irq_handle(Context *c, uintptr_t new_sp) {
   else{
     c->np = USER_MODE;
     assert(0);
-
   }
 
   assert(c != NULL);
