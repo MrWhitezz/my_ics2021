@@ -201,9 +201,12 @@ Context* schedule(Context *prev) {
   // current = (current == &pcb[1] ? &pcb[0] : &pcb[1]);
   if (schedule_cnt++ % 100 == 0){
     current = &pcb[0];
+    Log("Switch to hello\n");
   }
-  else current = &pcb[1];
-
+  else {
+    Log("Switch to pal\n");
+    current = &pcb[1];
+  }
   assert(current->cp != NULL);
 
   return current->cp;
